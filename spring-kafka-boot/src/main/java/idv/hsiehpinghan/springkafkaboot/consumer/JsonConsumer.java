@@ -1,6 +1,5 @@
 package idv.hsiehpinghan.springkafkaboot.consumer;
 
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -11,20 +10,18 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import idv.hsiehpinghan.springkafkaboot.constant.KafkaConstant;
+import idv.hsiehpinghan.springkafkaboot.model.JsonModel;
 
 @Component
-@Profile("batch")
-public class BatchConsumer {
-	private final Logger LOGGER = LoggerFactory.getLogger(BatchConsumer.class);
+@Profile("json")
+public class JsonConsumer {
+	private final Logger LOGGER = LoggerFactory.getLogger(JsonConsumer.class);
 	private CountDownLatch countDownLatch;
 
-	@KafkaListener(topics = KafkaConstant.BATCH_TOPIC, containerFactory = "batchKafkaListenerContainerFactory")
-	public void receive(List<ConsumerRecord<Integer, String>> consumerRecords) {
-		LOGGER.info("receive size({})", consumerRecords.size());
-		for (ConsumerRecord<Integer, String> consumerRecord : consumerRecords) {
-			LOGGER.info("receive consumerRecord({})", consumerRecord);
-			countDownLatch.countDown();
-		}
+	@KafkaListener(topics = KafkaConstant.JSON_TOPIC)
+	public void receive(ConsumerRecord<Integer, JsonModel> consumerRecord) {
+		LOGGER.info("receive consumerRecord({})", consumerRecord);
+		countDownLatch.countDown();
 	}
 
 	public CountDownLatch getCountDownLatch() {

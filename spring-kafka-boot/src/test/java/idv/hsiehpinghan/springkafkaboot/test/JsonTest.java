@@ -12,27 +12,29 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import idv.hsiehpinghan.springkafkaboot.consumer.BatchConsumer;
-import idv.hsiehpinghan.springkafkaboot.producer.BatchProducer;
+import idv.hsiehpinghan.springkafkaboot.consumer.JsonConsumer;
+import idv.hsiehpinghan.springkafkaboot.model.JsonModel;
+import idv.hsiehpinghan.springkafkaboot.producer.JsonProducer;
 
 @SpringBootTest
-@ActiveProfiles("batch")
+@ActiveProfiles("json")
 @RunWith(SpringRunner.class)
-public class BatchTest {
-	private final int SIZE = 20;
+public class JsonTest {
+	private final int SIZE = 3;
 	private final long FIVE_SECONDS = 1000 * 5;
 	@Autowired
-	private BatchProducer batchProducer;
+	private JsonProducer jsonProducer;
 	@Autowired
-	private BatchConsumer batchConsumer;
+	private JsonConsumer jsonConsumer;
 
 	@Test
 	public void sendAndReceive() throws Exception {
-		batchConsumer.setCountDownLatch(new CountDownLatch(SIZE));
+		jsonConsumer.setCountDownLatch(new CountDownLatch(SIZE));
 		for (int i = 0; i < SIZE; ++i) {
-			batchProducer.send(i, "BatchTest");
+			JsonModel jsonModel = new JsonModel("JsonTest");
+			jsonProducer.send(i, jsonModel);
 		}
-		CountDownLatch countDownLatch = batchConsumer.getCountDownLatch();
+		CountDownLatch countDownLatch = jsonConsumer.getCountDownLatch();
 		countDownLatch.await(10, TimeUnit.SECONDS);
 		assertThat(countDownLatch.getCount()).isEqualTo(0);
 		waitKafkaListenerStop();

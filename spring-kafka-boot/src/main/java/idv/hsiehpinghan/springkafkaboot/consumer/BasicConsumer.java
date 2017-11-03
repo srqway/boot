@@ -16,7 +16,7 @@ public class BasicConsumer {
 	private CountDownLatch countDownLatch;
 
 	@KafkaListener(topics = KafkaConstant.BASIC_TOPIC)
-	public void receive(ConsumerRecord<?, ?> consumerRecord) {
+	public void receive(ConsumerRecord<String, String> consumerRecord) {
 		LOGGER.info("receive consumerRecord({})", consumerRecord);
 		countDownLatch.countDown();
 	}

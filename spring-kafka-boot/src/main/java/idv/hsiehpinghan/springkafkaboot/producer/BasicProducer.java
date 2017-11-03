@@ -16,10 +16,10 @@ public class BasicProducer {
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
 
-	public ListenableFuture<SendResult<String, String>> send(String payload) {
-		LOGGER.info("send payload({})", payload);
+	public ListenableFuture<SendResult<String, String>> send(String key, String payload) {
+		LOGGER.info("send key({}) payload({})", key, payload);
 		ListenableFuture<SendResult<String, String>> listenableFuture = kafkaTemplate.send(KafkaConstant.BASIC_TOPIC,
-				payload);
+				key, payload);
 		kafkaTemplate.flush();
 		return listenableFuture;
 	}

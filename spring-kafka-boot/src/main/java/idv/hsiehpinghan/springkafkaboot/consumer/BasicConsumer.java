@@ -12,11 +12,11 @@ import idv.hsiehpinghan.springkafkaboot.constant.KafkaConstant;
 
 @Component
 public class BasicConsumer {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BasicConsumer.class);
+	private final Logger LOGGER = LoggerFactory.getLogger(BasicConsumer.class);
 	private CountDownLatch countDownLatch;
 
 	@KafkaListener(topics = KafkaConstant.BASIC_TOPIC)
-	public void receive(ConsumerRecord<String, String> consumerRecord) {
+	public void receive(ConsumerRecord<Integer, String> consumerRecord) {
 		LOGGER.info("receive consumerRecord({})", consumerRecord);
 		countDownLatch.countDown();
 	}

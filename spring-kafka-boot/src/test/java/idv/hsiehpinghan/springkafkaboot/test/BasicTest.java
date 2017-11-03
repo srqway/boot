@@ -28,7 +28,7 @@ public class BasicTest {
 	public void sendAndReceive() throws Exception {
 		basicConsumer.setCountDownLatch(new CountDownLatch(SIZE));
 		for (int i = 0; i < SIZE; ++i) {
-			basicProducer.send(String.valueOf(i), "BasicTest");
+			basicProducer.send(i, "BasicTest");
 		}
 		CountDownLatch countDownLatch = basicConsumer.getCountDownLatch();
 		countDownLatch.await(10, TimeUnit.SECONDS);

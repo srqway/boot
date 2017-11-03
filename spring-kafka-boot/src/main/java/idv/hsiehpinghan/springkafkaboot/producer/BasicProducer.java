@@ -14,13 +14,12 @@ import idv.hsiehpinghan.springkafkaboot.constant.KafkaConstant;
 public class BasicProducer {
 	private final Logger LOGGER = LoggerFactory.getLogger(BasicProducer.class);
 	@Autowired
-	private KafkaTemplate<String, String> kafkaTemplate;
+	private KafkaTemplate<Integer, String> kafkaTemplate;
 
-	public ListenableFuture<SendResult<String, String>> send(String key, String payload) {
+	public ListenableFuture<SendResult<Integer, String>> send(Integer key, String payload) {
 		LOGGER.info("send key({}) payload({})", key, payload);
-		ListenableFuture<SendResult<String, String>> listenableFuture = kafkaTemplate.send(KafkaConstant.BASIC_TOPIC,
+		ListenableFuture<SendResult<Integer, String>> listenableFuture = kafkaTemplate.send(KafkaConstant.BASIC_TOPIC,
 				key, payload);
-		kafkaTemplate.flush();
 		return listenableFuture;
 	}
 }

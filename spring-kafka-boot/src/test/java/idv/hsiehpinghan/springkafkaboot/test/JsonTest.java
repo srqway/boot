@@ -15,13 +15,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import idv.hsiehpinghan.springkafkaboot.consumer.JsonConsumer;
 import idv.hsiehpinghan.springkafkaboot.model.JsonModel;
 import idv.hsiehpinghan.springkafkaboot.producer.JsonProducer;
+import idv.hsiehpinghan.springkafkaboot.utility.ThreadUtility;
 
 @SpringBootTest
 @ActiveProfiles("json")
 @RunWith(SpringRunner.class)
 public class JsonTest {
 	private final int SIZE = 3;
-	private final long FIVE_SECONDS = 1000 * 5;
 	@Autowired
 	private JsonProducer jsonProducer;
 	@Autowired
@@ -29,6 +29,7 @@ public class JsonTest {
 
 	@Test
 	public void sendAndReceive() throws Exception {
+		ThreadUtility.waitKafkaListenerStart();
 		jsonConsumer.setCountDownLatch(new CountDownLatch(SIZE));
 		for (int i = 0; i < SIZE; ++i) {
 			JsonModel jsonModel = new JsonModel("JsonTest");
@@ -37,10 +38,7 @@ public class JsonTest {
 		CountDownLatch countDownLatch = jsonConsumer.getCountDownLatch();
 		countDownLatch.await(10, TimeUnit.SECONDS);
 		assertThat(countDownLatch.getCount()).isEqualTo(0);
-		waitKafkaListenerStop();
+		ThreadUtility.waitKafkaListenerStop();
 	}
 
-	private void waitKafkaListenerStop() throws InterruptedException {
-		Thread.sleep(FIVE_SECONDS);
-	}
 }

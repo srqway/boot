@@ -14,13 +14,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import idv.hsiehpinghan.springkafkaboot.consumer.BasicConsumer;
 import idv.hsiehpinghan.springkafkaboot.producer.BasicProducer;
+import idv.hsiehpinghan.springkafkaboot.utility.ThreadUtility;
 
 @SpringBootTest
 @ActiveProfiles("basic")
 @RunWith(SpringRunner.class)
 public class BasicTest {
 	private final int SIZE = 3;
-	private final long FIVE_SECONDS = 1000 * 5;
 	@Autowired
 	private BasicProducer basicProducer;
 	@Autowired
@@ -28,6 +28,7 @@ public class BasicTest {
 
 	@Test
 	public void sendAndReceive() throws Exception {
+		ThreadUtility.waitKafkaListenerStart();
 		basicConsumer.setCountDownLatch(new CountDownLatch(SIZE));
 		for (int i = 0; i < SIZE; ++i) {
 			basicProducer.send(i, "BasicTest");
@@ -35,10 +36,7 @@ public class BasicTest {
 		CountDownLatch countDownLatch = basicConsumer.getCountDownLatch();
 		countDownLatch.await(10, TimeUnit.SECONDS);
 		assertThat(countDownLatch.getCount()).isEqualTo(0);
-		waitKafkaListenerStop();
+		ThreadUtility.waitKafkaListenerStop();
 	}
 
-	private void waitKafkaListenerStop() throws InterruptedException {
-		Thread.sleep(FIVE_SECONDS);
-	}
 }

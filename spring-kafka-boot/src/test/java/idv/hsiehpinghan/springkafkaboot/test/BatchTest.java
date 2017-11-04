@@ -14,13 +14,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import idv.hsiehpinghan.springkafkaboot.consumer.BatchConsumer;
 import idv.hsiehpinghan.springkafkaboot.producer.BatchProducer;
+import idv.hsiehpinghan.springkafkaboot.utility.ThreadUtility;
 
 @SpringBootTest
 @ActiveProfiles("batch")
 @RunWith(SpringRunner.class)
 public class BatchTest {
 	private final int SIZE = 20;
-	private final long FIVE_SECONDS = 1000 * 5;
 	@Autowired
 	private BatchProducer batchProducer;
 	@Autowired
@@ -28,6 +28,7 @@ public class BatchTest {
 
 	@Test
 	public void sendAndReceive() throws Exception {
+		ThreadUtility.waitKafkaListenerStart();
 		batchConsumer.setCountDownLatch(new CountDownLatch(SIZE));
 		for (int i = 0; i < SIZE; ++i) {
 			batchProducer.send(i, "BatchTest");
@@ -35,10 +36,7 @@ public class BatchTest {
 		CountDownLatch countDownLatch = batchConsumer.getCountDownLatch();
 		countDownLatch.await(10, TimeUnit.SECONDS);
 		assertThat(countDownLatch.getCount()).isEqualTo(0);
-		waitKafkaListenerStop();
+		ThreadUtility.waitKafkaListenerStop();
 	}
 
-	private void waitKafkaListenerStop() throws InterruptedException {
-		Thread.sleep(FIVE_SECONDS);
-	}
 }

@@ -5,6 +5,6 @@ spring:
     config:
       server:
         native:
-          search-locations: file:///home/hsiehpinghan/Documents/workspace-sts-3.9.1.RELEASE/spring-cloud-config-server-boot/src/test/resources/config
+          search-locations: file:///home/hsiehpinghan/git/boot/spring-cloud-config-server-boot/src/test/resources/spring-cloud-config-client-boot
   profiles:
     active: native

@@ -1,0 +1,4 @@
+# test url
+http://localhost:8080/config/default
+http://localhost:8080/config/prod
+http://localhost:8080/config/test

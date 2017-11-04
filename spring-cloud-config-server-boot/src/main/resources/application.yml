@@ -1,0 +1,10 @@
+server:
+  port: '8080'
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:///home/hsiehpinghan/Documents/workspace-sts-3.9.1.RELEASE/spring-cloud-config-server-boot/src/test/resources/config
+  profiles:
+    active: native

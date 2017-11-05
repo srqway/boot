@@ -6,7 +6,7 @@ spring:
     max-active: '100'
     max-idle: '8'
     min-idle: '8'
-    password: '{cipher}f11b549ff2d53055023bb1dd845501a90fbfe8a33cb388188ce6c0ff2a5a5e7d'
+    password: '{cipher}715260bc79b8beaceb9a2d0422b7ceb719a72e98a3d58fb023a06d403cba31b5'
     url: jdbc:postgresql://localhost:5432/postgres
     username: thank
   jpa:

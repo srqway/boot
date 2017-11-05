@@ -1,6 +1,6 @@
 # build docker image
 su -
-cd /home/hsiehpinghan/git/boot/spring-boot-starter-web-boot
+cd /home/hsiehpinghan/git/boot/spring-cloud-config-server-boot
 ./mvnw install dockerfile:build
 docker login -u <<USERNAME>> -p <<PASSWORD>>
 ./mvnw install dockerfile:push

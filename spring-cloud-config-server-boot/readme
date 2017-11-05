@@ -6,13 +6,13 @@ docker login -u <<USERNAME>> -p <<PASSWORD>>
 ./mvnw install dockerfile:push
 
 # run in docker
-docker run -e "SPRING_PROFILES_ACTIVE=prod" --net="host" -p 8080:8080 -t hsiehpinghan/spring-cloud-config-server-boot
+docker run -e "SPRING_PROFILES_ACTIVE=prod" --net="host" -p 8888:8888 -t hsiehpinghan/spring-cloud-config-server-boot
 
 # setting encrypted password
-1. go to http://localhost:8080/ generate encrypted password
+1. go to http://localhost:8888/ generate encrypted password
 2. modify passwrod of spring-cloud-config-client-boot-prod.yml
 
 # test url
-http://localhost:8080/spring-cloud-config-client-boot/default
-http://localhost:8080/spring-cloud-config-client-boot/prod
-http://localhost:8080/spring-cloud-config-client-boot/test
+http://localhost:8888/spring-cloud-config-client-boot/default
+http://localhost:8888/spring-cloud-config-client-boot/prod
+http://localhost:8888/spring-cloud-config-client-boot/test

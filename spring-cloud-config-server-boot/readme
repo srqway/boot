@@ -1,3 +1,6 @@
+# run in docker
+docker run -e "SPRING_PROFILES_ACTIVE=prod" --net="host" -p 8080:8080 -t hsiehpinghan/spring-cloud-config-server-boot
+
 # test url
 http://localhost:8080/spring-cloud-config-client-boot/default
 http://localhost:8080/spring-cloud-config-client-boot/prod

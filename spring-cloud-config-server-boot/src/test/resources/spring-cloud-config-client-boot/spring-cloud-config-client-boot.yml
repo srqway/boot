@@ -2,6 +2,12 @@ configuration:
   property: default configuration property
 server:
   port: '8081'
+management:
+  address: 127.0.0.1
+  context-path: /spring_actuator
+  port: '8081'
+  security:
+    enabled: 'false'
 spring:
   jpa:
     properties:

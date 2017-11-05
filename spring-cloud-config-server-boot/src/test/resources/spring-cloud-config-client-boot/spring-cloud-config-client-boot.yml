@@ -1,5 +1,7 @@
 configuration:
   property: default configuration property
+server:
+  port: '8081'
 spring:
   jpa:
     properties:

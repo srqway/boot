@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>index</title>
+</head>
+<body>
+	<input id="encrypt_value" type="text" value="!)09w5t43w1oJ">
+	<input id="encrypt" type="button" value="encrypt">
+	<br>
+	<input id="decrypt_value" type="text"
+		value="715260bc79b8beaceb9a2d0422b7ceb719a72e98a3d58fb023a06d403cba31b5">
+	<input id="decrypt" type="button" value="decrypt">
+	<br>
+	<div id="result"></div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	crossorigin="anonymous"></script>
+<script type="text/javascript">
+	$(function() {
+		var setting = {
+			traditional : false,
+			ifModified : false,
+			timeout : 10000,
+			complete : function(data) {
+				$('#result').html(JSON.stringify(data));
+			}
+		};
+		$("#encrypt").on("click", function() {
+			localSetting = {
+				url : "encrypt",
+				method : "POST",
+				data : $("#encrypt_value").val()
+			}
+			$.ajax($.extend(true, localSetting, setting));
+		})
+		$("#decrypt").on("click", function() {
+			localSetting = {
+				url : "decrypt",
+				method : "POST",
+				data : $("#decrypt_value").val()
+			}
+			$.ajax($.extend(true, localSetting, setting));
+		})
+	})
+</script>
+</html>

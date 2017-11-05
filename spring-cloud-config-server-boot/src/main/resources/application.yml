@@ -4,7 +4,7 @@ spring:
   cloud:
     config:
       server:
-        native:
-          search-locations: file:///home/hsiehpinghan/git/boot/spring-cloud-config-server-boot/src/test/resources/spring-cloud-config-client-boot
-  profiles:
-    active: native
+        git:
+          uri: https://github.com/hsiehpinghan/boot/tree/master/spring-cloud-config-server-boot/src/test/resources
+          search-paths:
+          - spring-cloud-config-client-boot

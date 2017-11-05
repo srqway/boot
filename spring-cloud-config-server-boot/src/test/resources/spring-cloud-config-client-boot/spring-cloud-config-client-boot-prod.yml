@@ -1,1 +1,15 @@
-name:'prod config'
+configuration:
+  property: prod configuration property
+spring:
+  datasource:
+    initial-size: '10'
+    max-active: '100'
+    max-idle: '8'
+    min-idle: '8'
+    password: '!)09w5t43w1oJ'
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: thank
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect

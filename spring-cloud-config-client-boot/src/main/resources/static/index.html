@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>index</title>
+</head>
+<body>
+	<input id="refresh" type="button" value="refresh">
+	<br>
+	<input id="create" type="button" value="create">
+	<br>
+	<input id="readId" type="button" value="read by id">
+	<br>
+	<input id="read" type="button" value="read">
+	<br>
+	<input id="update" type="button" value="update">
+	<br>
+	<input id="deleteId" type="button" value="delete by id">
+	<br>
+	<div id="result"></div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	crossorigin="anonymous"></script>
+<script type="text/javascript">
+	$(function() {
+		var setting = {
+			traditional : false,
+			contentType : 'application/json; charset=UTF-8',
+			ifModified : false,
+			timeout : 10000,
+			complete : function(data) {
+				$('#result').html(JSON.stringify(data));
+			}
+		};
+		$("#refresh").on("click", function() {
+			localSetting = {
+				url : "spring_actuator/refresh",
+				method : "POST"
+			}
+			$.ajax($.extend(true, localSetting, setting));
+		})
+		$("#create").on("click", function() {
+			localSetting = {
+				url : "crud/create",
+				method : "POST",
+				data : JSON.stringify({
+					"id" : 0,
+					"string" : "string_0"
+				})
+			}
+			$.ajax($.extend(true, localSetting, setting));
+		})
+		$("#readId").on("click", function() {
+			localSetting = {
+				url : "crud/read/0",
+				method : "GET"
+			}
+			$.ajax($.extend(true, localSetting, setting));
+		})
+		$("#read").on("click", function() {
+			localSetting = {
+				url : "crud/read",
+				method : "GET"
+			}
+			$.ajax($.extend(true, localSetting, setting));
+		})
+		$("#update").on("click", function() {
+			localSetting = {
+				url : "crud/update",
+				method : "PUT",
+				data : JSON.stringify({
+					"id" : 0,
+					"string" : "updated_string_0"
+				})
+			}
+			$.ajax($.extend(true, localSetting, setting));
+		})
+		$("#deleteId").on("click", function() {
+			localSetting = {
+				url : "crud/delete/0",
+				method : "DELETE"
+			}
+			$.ajax($.extend(true, localSetting, setting));
+		})
+	})
+</script>
+</html>

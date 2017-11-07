@@ -1,0 +1,13 @@
+# build docker image
+su -
+cd /home/hsiehpinghan/git/boot/spring-cloud-starter-eureka-server-boot
+./mvnw install dockerfile:build
+docker login -u <<USERNAME>> -p <<PASSWORD>>
+./mvnw install dockerfile:push
+
+# run in docker
+docker run -e "SPRING_PROFILES_ACTIVE=prod" --net="host" -p 8761:8761 -t hsiehpinghan/spring-cloud-starter-eureka-server-boot
+
+# test url
+http://localhost:8761/
+

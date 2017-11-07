@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: spring-cloud-starter-eureka-server-boot

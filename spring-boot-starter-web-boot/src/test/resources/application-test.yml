@@ -1,7 +1,6 @@
 logging:
   level:
-    idv:
-      hsiehpinghan: INFO
+    idv.hsiehpinghan: INFO
     root: INFO
 spring:
   datasource:

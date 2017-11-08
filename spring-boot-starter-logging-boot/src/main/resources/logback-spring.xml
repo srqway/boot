@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
+
+	<appender name="RollingFileAppenderFixedWindowRollingPolicy"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>%d %-5level [%thread] %logger{0} %msg%n
+			</pattern>
+		</encoder>
+		<append>true</append>
+		<file>/tmp/spring-boot-starter-logging-boot/RollingFileAppenderFixedWindowRollingPolicy.log
+		</file>
+		<prudent>false</prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>/tmp/spring-boot-starter-logging-boot/RollingFileAppenderFixedWindowRollingPolicy.%i.gz
+			</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>7</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<!-- KB, MB, GB -->
+			<maxFileSize>1KB</maxFileSize>
+		</triggeringPolicy>
+	</appender>
+
+	<!-- TRACE, DEBUG, INFO, WARN, ERROR, OFF -->
+	<root level="INFO">
+		<appender-ref ref="RollingFileAppenderFixedWindowRollingPolicy" />
+	</root>
+
+	<springProfile name="prod">
+		<logger name="idv.hsiehpinghan" level="INFO" additivity="false">
+			<appender-ref ref="RollingFileAppenderFixedWindowRollingPolicy" />
+		</logger>
+	</springProfile>
+	<springProfile name="test">
+		<logger name="idv.hsiehpinghan" level="TRACE" additivity="false">
+			<appender-ref ref="RollingFileAppenderFixedWindowRollingPolicy" />
+		</logger>
+	</springProfile>
+</configuration>

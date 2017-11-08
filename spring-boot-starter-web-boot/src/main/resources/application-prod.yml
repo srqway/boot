@@ -1,8 +1,7 @@
 logging:
   file: /tmp/spring-boot-starter-web-assistant.log
   level:
-    idv:
-      hsiehpinghan: INFO
+    idv.hsiehpinghan: INFO
     root: INFO
 spring:
   datasource:

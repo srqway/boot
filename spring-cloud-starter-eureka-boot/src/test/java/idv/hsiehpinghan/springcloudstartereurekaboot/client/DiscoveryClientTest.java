@@ -26,7 +26,7 @@ public class DiscoveryClientTest {
 	private DiscoveryClient discoveryClient;
 
 	@Test
-	public void contextLoads() {
+	public void test() {
 		String applicationName = env.getRequiredProperty("spring.application.name");
 		List<ServiceInstance> serviceInstances = discoveryClient.getInstances(applicationName);
 		String serviceUri = String.format("%s/v1/basic/read/%d", serviceInstances.get(0).getUri().toString(), ID);

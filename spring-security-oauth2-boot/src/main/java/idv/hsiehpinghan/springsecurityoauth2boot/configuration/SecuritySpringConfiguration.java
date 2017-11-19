@@ -1,0 +1,75 @@
+package idv.hsiehpinghan.springsecurityoauth2boot.configuration;
+
+import java.util.Arrays;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import idv.hsiehpinghan.springsecurityoauth2boot.entity.RoleEntity;
+import idv.hsiehpinghan.springsecurityoauth2boot.entity.UserEntity;
+import idv.hsiehpinghan.springsecurityoauth2boot.service.UserService;
+
+@Configuration
+@EnableWebSecurity
+public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
+	@Autowired
+	private UserDetailsService userDetailsService;
+	@Autowired
+	private UserService userService;
+
+	@Override
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
+		// for restful service
+		httpSecurity.csrf().disable();
+
+		httpSecurity.authorizeRequests().antMatchers("/oauth/*").permitAll();
+	}
+
+	@PostConstruct
+	public void postConstruct() {
+		if (userService.findOne("user") == null) {
+			UserEntity user = new UserEntity("user", "user", true, true, true, true,
+					Arrays.asList(new RoleEntity("ROLE_USER", "user role name", null)));
+			userService.save(user);
+		}
+		if (userService.findOne("admin") == null) {
+			UserEntity admin = new UserEntity("admin", "admin", true, true, true, true,
+					Arrays.asList(new RoleEntity("ROLE_ADMIN", "admin role name", null)));
+			userService.save(admin);
+		}
+	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+		authenticationManagerBuilder.userDetailsService(userDetailsService);
+	}
+
+//	@Bean
+//	@Override
+//	protected UserDetailsService userDetailsService() {
+//		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+//		manager.createUser(User.withUsername("user_1").password("123456").authorities("USER").build());
+//		manager.createUser(User.withUsername("user_2").password("123456").authorities("USER").build());
+//		return manager;
+//	}
+//
+//	@Override
+//	protected void configure(HttpSecurity httpSecurity) throws Exception {
+//		// for restful service
+//		httpSecurity.csrf().disable();
+//		httpSecurity.authorizeRequests().antMatchers("/oauth/*").permitAll();
+//
+//		// httpSecurity.requestMatchers().anyRequest()
+//		// .and().authorizeRequests().antMatchers("/oauth/*").permitAll();
+//	}
+}

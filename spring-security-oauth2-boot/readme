@@ -1,0 +1,19 @@
+# install
+tar xvfz redis-3.2.11.tar.gz
+make / make MALLOC=libc
+make test / make test MALLOC=libc
+
+# start redis server
+redis-server --port 6379
+
+# shutdown redis server
+redis-cli SHUTDOWN
+
+# start redis client
+redis-cli -h 127.0.0.1 -p 6379
+
+# change database (0 ~ 16)
+SELECT 0
+
+# list all keys
+SET key *

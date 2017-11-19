@@ -56,15 +56,15 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		}
 	}
 
-	// @Autowired
-	// public void configureGlobal(AuthenticationManagerBuilder
+	// @Override
+	// public void configure(AuthenticationManagerBuilder
 	// authenticationManagerBuilder) throws Exception {
 	// authenticationManagerBuilder.inMemoryAuthentication().withUser("user").password("user").roles("USER");
 	// authenticationManagerBuilder.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
 	// }
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+	@Override
+	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 		authenticationManagerBuilder.userDetailsService(userDetailsService);
 	}
 }

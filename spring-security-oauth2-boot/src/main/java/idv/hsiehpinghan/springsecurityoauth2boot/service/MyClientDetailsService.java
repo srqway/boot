@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import idv.hsiehpinghan.springsecurityoauth2boot.entity.ClientEntity;
 import idv.hsiehpinghan.springsecurityoauth2boot.utility.ConvertUtility;
 
-@Service
-@Transactional
+//@Service
+//@Transactional
 public class MyClientDetailsService implements ClientDetailsService {
 	@Autowired
 	private ClientService clientService;

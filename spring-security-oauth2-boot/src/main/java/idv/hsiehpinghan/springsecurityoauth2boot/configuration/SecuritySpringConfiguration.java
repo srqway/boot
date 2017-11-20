@@ -16,6 +16,29 @@ import idv.hsiehpinghan.springsecurityoauth2boot.entity.RoleEntity;
 import idv.hsiehpinghan.springsecurityoauth2boot.entity.UserEntity;
 import idv.hsiehpinghan.springsecurityoauth2boot.service.UserService;
 
+//@Configuration
+//@EnableWebSecurity
+//public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
+//    @Bean
+//    @Override
+//    protected UserDetailsService userDetailsService(){
+//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+//        manager.createUser(User.withUsername("user_1").password("123456").authorities("USER").build());
+//        manager.createUser(User.withUsername("user_2").password("123456").authorities("USER").build());
+//        return manager;
+//    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        // @formatter:off
+//        http
+//            .requestMatchers().anyRequest()
+//            .and()
+//                .authorizeRequests()
+//                .antMatchers("/oauth/*").permitAll();
+//        // @formatter:on
+//    }
+//}
+
 @Configuration
 @EnableWebSecurity
 public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
@@ -49,5 +72,4 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 		authenticationManagerBuilder.userDetailsService(userDetailsService);
 	}
-
 }

@@ -28,17 +28,39 @@ public class ConvertUtility {
 		Collection<String> resourceIds = clientEntity.getResourceIds();
 		Collection<String> scope = clientEntity.getScope();
 		BaseClientDetails baseClientDetails = new BaseClientDetails();
-		baseClientDetails.setAccessTokenValiditySeconds(accessTokenValiditySeconds);
-		baseClientDetails.setAdditionalInformation(additionalInformation);
-		baseClientDetails.setAuthorities(authorities);
-		baseClientDetails.setAuthorizedGrantTypes(authorizedGrantTypes);
-		baseClientDetails.setAutoApproveScopes(autoApproveScopes);
-		baseClientDetails.setClientId(clientId);
-		baseClientDetails.setClientSecret(clientSecret);
-		baseClientDetails.setRefreshTokenValiditySeconds(refreshTokenValiditySeconds);
-		baseClientDetails.setRegisteredRedirectUri(registeredRedirectUris);
-		baseClientDetails.setResourceIds(resourceIds);
-		baseClientDetails.setScope(scope);
+		if (accessTokenValiditySeconds != null) {
+			baseClientDetails.setAccessTokenValiditySeconds(accessTokenValiditySeconds);
+		}
+		if (additionalInformation != null) {
+			baseClientDetails.setAdditionalInformation(additionalInformation);
+		}
+		if (authorities != null) {
+			baseClientDetails.setAuthorities(authorities);
+		}
+		if (authorizedGrantTypes != null) {
+			baseClientDetails.setAuthorizedGrantTypes(authorizedGrantTypes);
+		}
+		if (autoApproveScopes != null) {
+			baseClientDetails.setAutoApproveScopes(autoApproveScopes);
+		}
+		if (clientId != null) {
+			baseClientDetails.setClientId(clientId);
+		}
+		if (clientSecret != null) {
+			baseClientDetails.setClientSecret(clientSecret);
+		}
+		if (refreshTokenValiditySeconds != null) {
+			baseClientDetails.setRefreshTokenValiditySeconds(refreshTokenValiditySeconds);
+		}
+		if (registeredRedirectUris != null) {
+			baseClientDetails.setRegisteredRedirectUri(registeredRedirectUris);
+		}
+		if (resourceIds != null) {
+			baseClientDetails.setResourceIds(resourceIds);
+		}
+		if (scope != null) {
+			baseClientDetails.setScope(scope);
+		}
 		return baseClientDetails;
 	}
 

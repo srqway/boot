@@ -1,3 +1,7 @@
+security:
+  oauth2:
+    resource:
+      id: resource_id
 spring:
   redis:
     host: localhost

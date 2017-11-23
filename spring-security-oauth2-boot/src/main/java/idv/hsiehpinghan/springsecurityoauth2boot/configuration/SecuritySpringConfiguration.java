@@ -25,6 +25,7 @@ import idv.hsiehpinghan.springsecurityoauth2boot.service.UserService;
 @Configuration
 @EnableWebSecurity( debug = true )
 @Profile(Constant.AUTHORIZATION_SERVER_PROFILE)
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserService userService;

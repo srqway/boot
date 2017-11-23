@@ -40,6 +40,11 @@
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
 		</dependency>
+		<!-- spring-security-jwt -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-jwt</artifactId>
+		</dependency>
 		<!-- spring-boot-starter-data-redis -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -61,8 +66,8 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
-	   
-	   
+
+
 		<!-- spring-boot-starter-test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -75,6 +80,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>

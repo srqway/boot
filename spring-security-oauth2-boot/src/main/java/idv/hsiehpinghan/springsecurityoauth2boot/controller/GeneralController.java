@@ -2,11 +2,15 @@ package idv.hsiehpinghan.springsecurityoauth2boot.controller;
 
 import java.security.Principal;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
+
 @RestController
+@Profile(Constant.AUTHORIZATION_SERVER_PROFILE)
 public class GeneralController {
 	@GetMapping("/")
 	public RestMsg hello() {

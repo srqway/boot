@@ -7,7 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import org.springframework.context.annotation.Profile;
+
+import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
+
 @Entity
+//@Profile(Constant.AUTHORIZATION_SERVER_PROFILE)
 public class RoleEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 

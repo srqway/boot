@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -12,14 +13,18 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
+import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
+
 @Configuration
 @EnableAuthorizationServer
+@Profile(Constant.AUTHORIZATION_SERVER_PROFILE)
 public class AuthorizationServerSpringConfiguration extends AuthorizationServerConfigurerAdapter {
 
     private int accessTokenValiditySeconds = 10000;
@@ -27,7 +32,6 @@ public class AuthorizationServerSpringConfiguration extends AuthorizationServerC
 
     @Value("${security.oauth2.resource.id}")
     private String resourceId;
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -56,7 +60,8 @@ public class AuthorizationServerSpringConfiguration extends AuthorizationServerC
     	authorizationServerSecurityConfigurer
                 // we're allowing access to the token only for clients with 'ROLE_TRUSTED_CLIENT' authority
                 .tokenKeyAccess("hasAuthority('ROLE_TRUSTED_CLIENT')")
-                .checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')");
+                .checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')")
+                .allowFormAuthenticationForClients();;
     }
 
     /**
@@ -108,6 +113,7 @@ public class AuthorizationServerSpringConfiguration extends AuthorizationServerC
         converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mykeys"));
         return converter;
     }
+
 }
 
 //@Configuration

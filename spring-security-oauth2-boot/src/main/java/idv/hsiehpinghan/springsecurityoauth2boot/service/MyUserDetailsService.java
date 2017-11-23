@@ -16,8 +16,8 @@ import idv.hsiehpinghan.springsecurityoauth2boot.entity.UserEntity;
 import idv.hsiehpinghan.springsecurityoauth2boot.repository.UserRepository;
 import idv.hsiehpinghan.springsecurityoauth2boot.utility.ConvertUtility;
 
-//@Service
-//@Transactional
+@Service
+@Transactional
 public class MyUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository;

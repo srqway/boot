@@ -16,7 +16,7 @@ import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
 @Configuration
 @EnableResourceServer
 @Profile(Constant.JWT_TOKEN_STORE_RESOURCE_SERVER_PROFILE)
-public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+public class ResourceServerSpringConfiguration extends ResourceServerConfigurerAdapter {
 	@Value("${security.oauth2.resource.id}")
 	private String resourceId;
 

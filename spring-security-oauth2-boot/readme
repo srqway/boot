@@ -3,6 +3,7 @@ su -
 cd /home/hsiehpinghan/git/boot/spring-security-oauth2-boot
 ./mvnw install dockerfile:build
 
+
 # run and test (jwt token store)
 systemctl start docker
 docker run -e "SPRING_PROFILES_ACTIVE=jwt_token_store_authorization_server" --net="host" -p 8080:8080 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
@@ -20,11 +21,30 @@ curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/other
 curl http://localhost:8080/oauth/token -d "grant_type=client_credentials&client_id=trusted-app&client_secret=secret"
 curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/otherMethod
 
+
+# run and test (redis token store)
+systemctl start docker
+docker pull redis
+docker run --net="host" -p 6379:6379 -itd redis
+
+docker run -e "SPRING_PROFILES_ACTIVE=redis_token_store_authorization_server" --net="host" -p 8080:8082 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
+docker run -e "SPRING_PROFILES_ACTIVE=redis_token_store_resource_server" --net="host" -p 8081:8083 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
+
+curl http://localhost:8082/oauth/token -d "grant_type=password&username=user&password=user&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8083/api/userMethod
+
+curl http://localhost:8082/oauth/token -d "grant_type=password&username=admin&password=admin&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8083/api/adminMethod
+
+curl http://localhost:8082/oauth/token -d "grant_type=password&username=other&password=other&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8083/api/otherMethod
+
+curl http://localhost:8082/oauth/token -d "grant_type=client_credentials&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8083/api/otherMethod
+
+
 # generate jwt key store file
 keytool -genkeypair -alias my_keypair -keyalg RSA -keypass my_pass -keystore my_keystore.jks -storepass my_pass
-
-
-
 
 
 # install redis
@@ -45,4 +65,4 @@ redis-cli -h 127.0.0.1 -p 6379
 SELECT 0
 
 # list all keys
-SET key *
+KEYS *

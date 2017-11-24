@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Profile;
 import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
 
 @Entity
-//@Profile(Constant.AUTHORIZATION_SERVER_PROFILE)
+@Profile(Constant.AUTHORIZATION_SERVER_PROFILE)
 public class UserEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 

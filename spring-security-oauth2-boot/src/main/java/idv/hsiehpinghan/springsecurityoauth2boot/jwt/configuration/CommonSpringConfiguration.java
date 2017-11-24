@@ -37,10 +37,10 @@ public class CommonSpringConfiguration extends AuthorizationServerConfigurerAdap
 	}
 
 	private JwtAccessTokenConverter generateJwtAccessTokenConverter() {
-		ClassPathResource classPathResource = new ClassPathResource("keystore.jks");
-		KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(classPathResource, "mypass".toCharArray());
+		ClassPathResource classPathResource = new ClassPathResource("my_keystore.jks");
+		KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(classPathResource, "my_pass".toCharArray());
 		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-		jwtAccessTokenConverter.setKeyPair(keyStoreKeyFactory.getKeyPair("mykeys"));
+		jwtAccessTokenConverter.setKeyPair(keyStoreKeyFactory.getKeyPair("my_keypair"));
 		return jwtAccessTokenConverter;
 	}
 

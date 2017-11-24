@@ -3,12 +3,19 @@ su -
 cd /home/hsiehpinghan/git/boot/spring-security-oauth2-boot
 ./mvnw install dockerfile:build
 
-# run and test
+# run and test (jwt token store)
 systemctl start docker
 docker run -e "SPRING_PROFILES_ACTIVE=jwt_token_store_authorization_server" --net="host" -p 8080:8080 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
 docker run -e "SPRING_PROFILES_ACTIVE=jwt_token_store_resource_server" --net="host" -p 8081:8081 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
 curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password=user&client_id=trusted-app&client_secret=secret"
 curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/hello
+
+# generate jwt key store file
+keytool -genkeypair -alias my_keypair -keyalg RSA -keypass my_pass -keystore my_keystore.jks -storepass my_pass
+
+
+
+
 
 # install redis
 tar xvfz redis-3.2.11.tar.gz

@@ -1,7 +1,5 @@
 package idv.hsiehpinghan.springsecurityoauth2boot.jwt.configuration;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +10,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
 
@@ -34,9 +31,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 		// @formatter:off
-		RequestMatcher oAuthRequestedMatcher = new OAuthRequestedMatcher();
 		httpSecurity
-			.requestMatcher(oAuthRequestedMatcher)
+			.antMatcher("/api/**")
 				.csrf().disable()
 				.anonymous().disable()
 			.authorizeRequests()
@@ -47,16 +43,4 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 		// @formatter:on
 	}
 
-	private static class OAuthRequestedMatcher implements RequestMatcher {
-		public boolean matches(HttpServletRequest request) {
-			// Determine if the resource called is "/api/**"
-			String path = request.getServletPath();
-			if (path.length() >= 5) {
-				path = path.substring(0, 5);
-				boolean isApi = path.equals("/api/");
-				return isApi;
-			} else
-				return false;
-		}
-	}
 }

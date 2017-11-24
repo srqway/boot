@@ -44,13 +44,23 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 					Arrays.asList(new RoleEntity("ROLE_ADMIN", "admin role name", null)));
 			userService.save(admin);
 		}
+		if (userService.findOne("other") == null) {
+			UserEntity admin = new UserEntity("other", "other", true, true, true, true,
+					Arrays.asList(new RoleEntity("ROLE_OTHER", "other role name", null)));
+			userService.save(admin);
+		}
 	}
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.formLogin().disable() // disable form authentication
-				.anonymous().disable() // disable anonymous user
-				.httpBasic().and().authorizeRequests().anyRequest().denyAll(); // denying all access
+		// @formatter:off
+		httpSecurity
+			.formLogin().disable()
+			.anonymous().disable()
+			.httpBasic()
+			.and()
+			.authorizeRequests().anyRequest().denyAll();
+		// @formatter:on
 	}
 
 	@Override

@@ -7,8 +7,15 @@ cd /home/hsiehpinghan/git/boot/spring-security-oauth2-boot
 systemctl start docker
 docker run -e "SPRING_PROFILES_ACTIVE=jwt_token_store_authorization_server" --net="host" -p 8080:8080 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
 docker run -e "SPRING_PROFILES_ACTIVE=jwt_token_store_resource_server" --net="host" -p 8081:8081 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
+
 curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password=user&client_id=trusted-app&client_secret=secret"
-curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/hello
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/userMethod
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=admin&password=admin&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/adminMethod
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=other&password=other&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/otherMethod
 
 # generate jwt key store file
 keytool -genkeypair -alias my_keypair -keyalg RSA -keypass my_pass -keystore my_keystore.jks -storepass my_pass

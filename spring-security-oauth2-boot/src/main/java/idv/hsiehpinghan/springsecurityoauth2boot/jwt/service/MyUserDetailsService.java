@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.springsecurityoauth2boot.service;
+package idv.hsiehpinghan.springsecurityoauth2boot.jwt.service;
 
 import java.util.Collection;
 
@@ -14,13 +14,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
-import idv.hsiehpinghan.springsecurityoauth2boot.entity.UserEntity;
-import idv.hsiehpinghan.springsecurityoauth2boot.repository.UserRepository;
-import idv.hsiehpinghan.springsecurityoauth2boot.utility.ConvertUtility;
+import idv.hsiehpinghan.springsecurityoauth2boot.jwt.entity.UserEntity;
+import idv.hsiehpinghan.springsecurityoauth2boot.jwt.repository.UserRepository;
+import idv.hsiehpinghan.springsecurityoauth2boot.jwt.utility.ConvertUtility;
 
 @Service
 @Transactional
-@Profile(Constant.AUTHORIZATION_SERVER_PROFILE)
+@Profile(Constant.JWT_TOKEN_STORE_AUTHORIZATION_SERVER_PROFILE)
 public class MyUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository;

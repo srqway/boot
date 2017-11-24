@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.springsecurityoauth2boot.utility;
+package idv.hsiehpinghan.springsecurityoauth2boot.jwt.utility;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -7,7 +7,7 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import idv.hsiehpinghan.springsecurityoauth2boot.entity.RoleEntity;
+import idv.hsiehpinghan.springsecurityoauth2boot.jwt.entity.RoleEntity;
 
 public class ConvertUtility {
 

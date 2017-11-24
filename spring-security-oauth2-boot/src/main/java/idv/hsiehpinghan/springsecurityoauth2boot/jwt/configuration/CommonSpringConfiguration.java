@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.springsecurityoauth2boot.configuration;
+package idv.hsiehpinghan.springsecurityoauth2boot.jwt.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
 
 @Configuration
-@Profile({ Constant.AUTHORIZATION_SERVER_PROFILE, Constant.RESOURCE_SERVER_PROFILE })
+@Profile({ Constant.JWT_TOKEN_STORE_AUTHORIZATION_SERVER_PROFILE, Constant.JWT_TOKEN_STORE_RESOURCE_SERVER_PROFILE })
 public class CommonSpringConfiguration extends AuthorizationServerConfigurerAdapter {
 
 	@Bean
@@ -37,11 +37,11 @@ public class CommonSpringConfiguration extends AuthorizationServerConfigurerAdap
 	}
 
 	private JwtAccessTokenConverter generateJwtAccessTokenConverter() {
-		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 		ClassPathResource classPathResource = new ClassPathResource("keystore.jks");
 		KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(classPathResource, "mypass".toCharArray());
-		converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mykeys"));
-		return converter;
+		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+		jwtAccessTokenConverter.setKeyPair(keyStoreKeyFactory.getKeyPair("mykeys"));
+		return jwtAccessTokenConverter;
 	}
 
 }

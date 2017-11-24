@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.springsecurityoauth2boot.service;
+package idv.hsiehpinghan.springsecurityoauth2boot.jwt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -7,12 +7,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
-import idv.hsiehpinghan.springsecurityoauth2boot.entity.UserEntity;
-import idv.hsiehpinghan.springsecurityoauth2boot.repository.UserRepository;
+import idv.hsiehpinghan.springsecurityoauth2boot.jwt.entity.UserEntity;
+import idv.hsiehpinghan.springsecurityoauth2boot.jwt.repository.UserRepository;
 
 @Service
 @Transactional
-@Profile(Constant.AUTHORIZATION_SERVER_PROFILE)
+@Profile(Constant.JWT_TOKEN_STORE_AUTHORIZATION_SERVER_PROFILE)
 public class UserService {
 	@Autowired
 	private UserRepository repository;

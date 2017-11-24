@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.springsecurityoauth2boot.entity;
+package idv.hsiehpinghan.springsecurityoauth2boot.jwt.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Profile;
 import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
 
 @Entity
-@Profile(Constant.AUTHORIZATION_SERVER_PROFILE)
+@Profile(Constant.JWT_TOKEN_STORE_AUTHORIZATION_SERVER_PROFILE)
 public class UserEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 

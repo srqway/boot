@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.springsecurityoauth2boot.controller;
+package idv.hsiehpinghan.springsecurityoauth2boot.jwt.controller;
 
 import java.security.Principal;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
 
 @RestController
-@Profile(Constant.RESOURCE_SERVER_PROFILE)
+@Profile(Constant.JWT_TOKEN_STORE_RESOURCE_SERVER_PROFILE)
 public class GeneralController {
 	@GetMapping("/")
 	public RestMsg hello() {

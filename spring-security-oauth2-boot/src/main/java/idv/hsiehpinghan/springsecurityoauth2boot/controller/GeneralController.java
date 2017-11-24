@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
 
 @RestController
-@Profile(Constant.AUTHORIZATION_SERVER_PROFILE)
+@Profile(Constant.RESOURCE_SERVER_PROFILE)
 public class GeneralController {
 	@GetMapping("/")
 	public RestMsg hello() {

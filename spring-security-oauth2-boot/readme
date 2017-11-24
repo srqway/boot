@@ -1,3 +1,15 @@
+# generate docker image
+su -
+cd /home/hsiehpinghan/git/boot/spring-security-oauth2-boot
+./mvnw install dockerfile:build
+
+# run and test
+systemctl start docker
+docker run -e "SPRING_PROFILES_ACTIVE=authorization_server" --net="host" -p 8080:8080 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
+docker run -e "SPRING_PROFILES_ACTIVE=resource_server" --net="host" -p 8081:8081 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password=user&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/hello
+
 # install
 tar xvfz redis-3.2.11.tar.gz
 make / make MALLOC=libc

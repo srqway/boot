@@ -29,8 +29,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private DefaultTokenServices tokenServices;
 
     // The TokenStore bean provided at the AuthorizationConfig
-    @Autowired
-    private TokenStore tokenStore;
+//    @Autowired
+//    private TokenStore tokenStore;
 
     // To allow the rResourceServerConfigurerAdapter to understand the token,
     // it must share the same characteristics with AuthorizationServerConfigurerAdapter.
@@ -39,8 +39,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     public void configure(ResourceServerSecurityConfigurer resources) {
         resources
                 .resourceId(resourceId)
-                .tokenServices(tokenServices)
-                .tokenStore(tokenStore);
+                .tokenServices(tokenServices);
+//                .tokenStore(tokenStore);
     }
 	
     @Override

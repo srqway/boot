@@ -34,7 +34,9 @@ public class AuthorizationServerSpringConfiguration extends AuthorizationServerC
     private String resourceId;
     @Autowired
     private AuthenticationManager authenticationManager;
-
+    @Autowired
+    private DefaultTokenServices tokenServices;
+    
 //    @Override
 //    public void configure(AuthorizationServerEndpointsConfigurer authorizationServerEndpointsConfigurer) throws Exception {
 //    	authorizationServerEndpointsConfigurer
@@ -47,9 +49,9 @@ public class AuthorizationServerSpringConfiguration extends AuthorizationServerC
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 .authenticationManager(this.authenticationManager)
-                .tokenServices(tokenServices())
-                .tokenStore(tokenStore())
-                .accessTokenConverter(accessTokenConverter());
+                .tokenServices(tokenServices);
+//                .tokenStore(tokenStore())
+//                .accessTokenConverter(null);
     }
     
     /**
@@ -79,21 +81,20 @@ public class AuthorizationServerSpringConfiguration extends AuthorizationServerC
                     .refreshTokenValiditySeconds(refreshTokenValiditySeconds)
                     .secret("secret");
     }
-    
-    @Bean
-    @Primary
-    public DefaultTokenServices tokenServices() {
-        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(tokenStore());
-        defaultTokenServices.setSupportRefreshToken(true);
-        defaultTokenServices.setTokenEnhancer(accessTokenConverter());
-        return defaultTokenServices;
-    }
-    
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
-    }
+//    
+//    @Bean
+//    @Primary
+//    public DefaultTokenServices tokenServices() {
+//        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+//        defaultTokenServices.setTokenStore(tokenStore());
+//        defaultTokenServices.setSupportRefreshToken(true);
+//        defaultTokenServices.setTokenEnhancer(accessTokenConverter());
+//        return defaultTokenServices;
+//    }
+//    
+//    private TokenStore tokenStore() {
+//        return new JwtTokenStore(accessTokenConverter());
+//    }
     
 //    @Bean
 //    private JwtAccessTokenConverter accessTokenConverter() {
@@ -104,15 +105,15 @@ public class AuthorizationServerSpringConfiguration extends AuthorizationServerC
 //    
 //    
 //    @Bean
-    private JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        KeyStoreKeyFactory keyStoreKeyFactory =
-                new KeyStoreKeyFactory(
-                        new ClassPathResource("keystore.jks"),
-                        "mypass".toCharArray());
-        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mykeys"));
-        return converter;
-    }
+//    private JwtAccessTokenConverter accessTokenConverter() {
+//        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+//        KeyStoreKeyFactory keyStoreKeyFactory =
+//                new KeyStoreKeyFactory(
+//                        new ClassPathResource("keystore.jks"),
+//                        "mypass".toCharArray());
+//        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mykeys"));
+//        return converter;
+//    }
 
 }
 

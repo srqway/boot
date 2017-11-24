@@ -17,6 +17,9 @@ curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/admin
 curl http://localhost:8080/oauth/token -d "grant_type=password&username=other&password=other&client_id=trusted-app&client_secret=secret"
 curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/otherMethod
 
+curl http://localhost:8080/oauth/token -d "grant_type=client_credentials&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/otherMethod
+
 # generate jwt key store file
 keytool -genkeypair -alias my_keypair -keyalg RSA -keypass my_pass -keystore my_keystore.jks -storepass my_pass
 

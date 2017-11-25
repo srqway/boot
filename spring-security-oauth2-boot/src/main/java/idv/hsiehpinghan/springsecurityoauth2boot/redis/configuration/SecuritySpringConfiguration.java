@@ -59,6 +59,8 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 			.anonymous().disable()
 			.httpBasic()
 			.and()
+			.requestMatchers().antMatchers("/auth/user","/oauth/authorize", "/oauth/confirm_access")
+			.and()
 			.authorizeRequests().anyRequest().denyAll();
 		// @formatter:on
 	}

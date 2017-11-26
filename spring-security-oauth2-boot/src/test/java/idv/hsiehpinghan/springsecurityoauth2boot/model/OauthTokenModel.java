@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.springsecurityoauth2boot.redis.model;
+package idv.hsiehpinghan.springsecurityoauth2boot.model;
 
 public class OauthTokenModel {
 	private String access_token;

@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.springsecurityoauth2boot.redis.controller;
+package idv.hsiehpinghan.springsecurityoauth2boot.jwt.controller;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,7 +11,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.MultiValueMap;
@@ -21,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import idv.hsiehpinghan.springsecurityoauth2boot.model.OauthTokenModel;
 
 @RunWith(SpringRunner.class)
-@ActiveProfiles({ "redis_token_store_authorization_server", "redis_token_store_resource_server" })
+@ActiveProfiles({ "jwt_token_store_authorization_server", "jwt_token_store_resource_server" })
 // @SpringBootTest
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SecuredControllerTest {
@@ -29,8 +28,6 @@ public class SecuredControllerTest {
 	private int port;
 	@Autowired
 	private RestTemplate restTemplate;
-	@Autowired
-	private RemoteTokenServices remoteTokenServices;
 
 	@Test
 	public void userMethod() {
@@ -85,14 +82,8 @@ public class SecuredControllerTest {
 		headers.add("content-type", "application/x-www-form-urlencoded");
 		headers.add("Authorization", String.format("Bearer %s", access_token));
 		HttpEntity<String> requestEntity = new HttpEntity<String>(headers);
-		modifySetting();
 		ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
 		return responseEntity;
-	}
-
-	private void modifySetting() {
-		String checkTokenEndpointUrl = String.format("http://localhost:%d/oauth/check_token/", port);
-		remoteTokenServices.setCheckTokenEndpointUrl(checkTokenEndpointUrl);
 	}
 
 	private OauthTokenModel getOauthTokenModel(String username, String password) {

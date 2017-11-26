@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
+
+	<appender name="ConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d %-5level [%thread] %logger{0} %msg%n
+			</pattern>
+		</encoder>
+		<!-- System.out, System.err -->
+		<target>System.out</target>
+		<withJansi>false</withJansi>
+	</appender>
+
+	<!-- TRACE, DEBUG, INFO, WARN, ERROR, OFF -->
+	<root level="INFO">
+		<appender-ref ref="ConsoleAppender" />
+	</root>
+
+	<logger name="idv.hsiehpinghan" level="INFO" additivity="false">
+		<appender-ref ref="ConsoleAppender" />
+	</logger>
+
+</configuration>

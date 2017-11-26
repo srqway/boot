@@ -54,12 +54,8 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		// @formatter:off
-		httpSecurity
-			.formLogin().disable()
-			.anonymous().disable()
-			.httpBasic()
-			.and()
-			.authorizeRequests().anyRequest().denyAll();
+		httpSecurity.formLogin().disable().anonymous().disable().httpBasic().and().authorizeRequests().anyRequest()
+				.denyAll();
 		// @formatter:on
 	}
 
@@ -68,8 +64,8 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 		authenticationManagerBuilder.userDetailsService(userDetailsService);
 	}
 
-	@Override
 	@Bean
+	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}

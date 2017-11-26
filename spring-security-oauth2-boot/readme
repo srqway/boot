@@ -47,6 +47,10 @@ curl -H "Authorization: Bearer <<access_token>>" http://localhost:8083/api/other
 keytool -genkeypair -alias my_keypair -keyalg RSA -keypass my_pass -keystore my_keystore.jks -storepass my_pass
 
 
+# open h2 console
+http://localhost:8081/h2/
+http://localhost:8083/h2/
+
 # install redis
 tar xvfz redis-3.2.11.tar.gz
 make / make MALLOC=libc

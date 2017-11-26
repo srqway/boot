@@ -3,6 +3,7 @@ package idv.hsiehpinghan.springsecurityoauth2boot.redis.configuration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,7 +13,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
-import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
 
@@ -32,9 +32,8 @@ public class ResourceServerSpringConfiguration extends ResourceServerConfigurerA
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 		// @formatter:off
 		httpSecurity
-			.antMatcher("/api/**")
-				.csrf().disable()
-				.anonymous().disable()
+			.antMatcher("/api/**").csrf().disable()
+			.anonymous().disable()
 			.authorizeRequests()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
 				.antMatchers("/api/userMethod").access("hasAnyRole('USER')")
@@ -44,12 +43,10 @@ public class ResourceServerSpringConfiguration extends ResourceServerConfigurerA
 	}
 
 	@Bean
+	@Primary
 	public RemoteTokenServices remoteTokenServices(final @Value("${auth.server.url}") String checkTokenUrl,
 			final @Value("${auth.server.clientId}") String clientId,
 			final @Value("${auth.server.clientsecret}") String clientSecret) {
-		
-		DefaultResponseErrorHandler a;
-		
 		final RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
 		remoteTokenServices.setCheckTokenEndpointUrl(checkTokenUrl);
 		remoteTokenServices.setClientId(clientId);

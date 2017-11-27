@@ -36,8 +36,9 @@ public class ResourceServerSpringConfiguration extends ResourceServerConfigurerA
 			.anonymous().disable()
 			.authorizeRequests()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
-				.antMatchers("/api/userMethod").access("hasAnyRole('USER')")
+				.antMatchers("/api/userMethod").hasAnyRole("USER")
 				.antMatchers("/api/adminMethod").hasRole("ADMIN")
+				.antMatchers("/api/notBannedMethod").not().hasRole("BANNED")
 				.antMatchers("/api/**").authenticated();
 		// @formatter:on
 	}

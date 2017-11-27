@@ -34,6 +34,7 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 
 	@PostConstruct
 	public void postConstruct() {
+		// @formatter:off
 		if (userService.findOne("user") == null) {
 			UserEntity user = new UserEntity("user", "user", true, true, true, true,
 					Arrays.asList(new RoleEntity("ROLE_USER", "user role name", null)));
@@ -49,13 +50,19 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 					Arrays.asList(new RoleEntity("ROLE_OTHER", "other role name", null)));
 			userService.save(admin);
 		}
+		// @formatter:on
 	}
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		// @formatter:off
-		httpSecurity.formLogin().disable().anonymous().disable().httpBasic().and().authorizeRequests().anyRequest()
-				.denyAll();
+		httpSecurity
+			.formLogin().disable()
+			.anonymous().disable()
+			.httpBasic()
+			.and()
+			.authorizeRequests()
+				.anyRequest().denyAll();
 		// @formatter:on
 	}
 

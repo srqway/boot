@@ -49,6 +49,11 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 					Arrays.asList(new RoleEntity("ROLE_OTHER", "other role name", null)));
 			userService.save(admin);
 		}
+		if (userService.findOne("bannable_user") == null) {
+			UserEntity admin = new UserEntity("bannable_user", "bannable_user", true, true, true, true,
+					Arrays.asList(new RoleEntity("ROLE_USER", "user role name", null)));
+			userService.save(admin);
+		}
 	}
 
 	@Override
@@ -59,7 +64,7 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 			.anonymous().disable()
 			.httpBasic()
 			.and()
-			.requestMatchers().antMatchers("/oauth/check_token","/oauth/authorize", "/oauth/confirm_access")
+			.requestMatchers().antMatchers("/oauth/check_token")
 			.and()
 			.authorizeRequests().anyRequest().denyAll();
 		// @formatter:on

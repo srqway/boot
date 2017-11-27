@@ -29,4 +29,8 @@ public class SecuredController {
 		return String.format("%s otherMethod", principal.getName());
 	}
 
+	@GetMapping("/notBannedMethod")
+	public String notBannedMethod(Principal principal) {
+		return String.format("%s notBannedMethod", principal.getName());
+	}
 }

@@ -21,9 +21,14 @@ public class UserService {
 		repository.save(entity);
 	}
 
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public UserEntity findOne(String username) {
-		return repository.findOne(username);
+		UserEntity userEntity = repository.findOne(username);
+		if (userEntity == null) {
+			return null;
+		}
+		userEntity.getRoles().size();
+		return userEntity;
 	}
 
 }

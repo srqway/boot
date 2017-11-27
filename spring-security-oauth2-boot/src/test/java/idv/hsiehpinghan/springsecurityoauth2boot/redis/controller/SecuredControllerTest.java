@@ -1,8 +1,10 @@
 package idv.hsiehpinghan.springsecurityoauth2boot.redis.controller;
 
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,11 +21,14 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import idv.hsiehpinghan.springsecurityoauth2boot.model.OauthTokenModel;
+import idv.hsiehpinghan.springsecurityoauth2boot.redis.entity.RoleEntity;
+import idv.hsiehpinghan.springsecurityoauth2boot.redis.entity.UserEntity;
+import idv.hsiehpinghan.springsecurityoauth2boot.redis.service.UserService;
 
 @RunWith(SpringRunner.class)
-@ActiveProfiles({ "redis_token_store_authorization_server", "redis_token_store_resource_server" })
-// @SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ActiveProfiles({ "redis_token_store_authorization_server", "redis_token_store_resource_server" })
 public class SecuredControllerTest {
 	@LocalServerPort
 	private int port;
@@ -31,9 +36,11 @@ public class SecuredControllerTest {
 	private RestTemplate restTemplate;
 	@Autowired
 	private RemoteTokenServices remoteTokenServices;
+	@Autowired
+	private UserService userService;
 
 	@Test
-	public void userMethod() {
+	public void test00_userMethod() {
 		String username = "user";
 		String password = "user";
 		String method = "userMethod";
@@ -45,7 +52,7 @@ public class SecuredControllerTest {
 	}
 
 	@Test
-	public void adminMethod() {
+	public void test01_adminMethod() {
 		String username = "admin";
 		String password = "admin";
 		String method = "adminMethod";
@@ -57,7 +64,7 @@ public class SecuredControllerTest {
 	}
 
 	@Test
-	public void otherMethod() {
+	public void test02_otherMethod() {
 		String username = "other";
 		String password = "other";
 		String method = "otherMethod";
@@ -68,8 +75,32 @@ public class SecuredControllerTest {
 		Assert.assertEquals("other otherMethod", responseEntity.getBody());
 	}
 
+	@Test
+	public void test03_notBannedMethod_notBanned() {
+		String username = "bannable_user";
+		String password = "bannable_user";
+		String method = "notBannedMethod";
+		OauthTokenModel oauthTokenModel = getOauthTokenModel(username, password);
+		String access_token = oauthTokenModel.getAccess_token();
+		Assert.assertNotNull(access_token);
+		ResponseEntity<String> responseEntity = getResponseEntity(access_token, method);
+		Assert.assertEquals("bannable_user notBannedMethod", responseEntity.getBody());
+	}
+
 	@Test(expected = HttpClientErrorException.class)
-	public void userUsingAdminMethod() {
+	public void test04_notBannedMethod_banned() {
+		String username = "bannable_user";
+		String password = "bannable_user";
+		String method = "notBannedMethod";
+		addBannedRole(username);
+		OauthTokenModel oauthTokenModel = getOauthTokenModel(username, password);
+		String access_token = oauthTokenModel.getAccess_token();
+		Assert.assertNotNull(access_token);
+		getResponseEntity(access_token, method);
+	}
+
+	@Test(expected = HttpClientErrorException.class)
+	public void test05_userUsingAdminMethod() {
 		String username = "user";
 		String password = "user";
 		String method = "adminMethod";
@@ -109,4 +140,9 @@ public class SecuredControllerTest {
 		return oauthTokenModel;
 	}
 
+	private void addBannedRole(String username) {
+		UserEntity userEntity = userService.findOne(username);
+		userEntity.getRoles().add(new RoleEntity("ROLE_BANNED", "banned role name", null));
+		userService.save(userEntity);
+	}
 }

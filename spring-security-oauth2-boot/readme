@@ -48,8 +48,8 @@ keytool -genkeypair -alias my_keypair -keyalg RSA -keypass my_pass -keystore my_
 
 
 # open h2 console
-http://localhost:8081/h2/
-http://localhost:8083/h2/
+http://localhost:8080/h2/
+http://localhost:8082/h2/
 
 # install redis
 tar xvfz redis-3.2.11.tar.gz

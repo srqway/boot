@@ -3,14 +3,17 @@ package idv.hsiehpinghan.springbootstartersecurityboot.configuration;
 import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.Filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import idv.hsiehpinghan.springbootstartersecurityboot.entity.RoleEntity;
 import idv.hsiehpinghan.springbootstartersecurityboot.entity.UserEntity;
@@ -19,7 +22,9 @@ import idv.hsiehpinghan.springbootstartersecurityboot.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
-
+//	@Autowired
+//	@Qualifier("mySecurityInterceptor")
+//	private Filter mySecurityInterceptor;
 	@Autowired
 	private UserDetailsService userDetailsService;
 	@Autowired
@@ -27,38 +32,24 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
+//		httpSecurity.addFilterBefore(mySecurityInterceptor, FilterSecurityInterceptor.class);
 		// @formatter:off
 		httpSecurity
 			.csrf().disable()
 			.authorizeRequests()
 				.antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-			.and()
-			.formLogin()
-				.loginProcessingUrl("/loginProcessingUrl")
-				.loginPage("/common/loginPage")
-				.failureUrl("/common/loginFailPage")
-				.usernameParameter("username")
-				.passwordParameter("password")
-			.and()
-			.logout()
-				.logoutUrl("/logoutUrl")
-				.logoutSuccessUrl("/common/logoutPage").permitAll();
+				.and()
+				.formLogin()
+					.loginProcessingUrl("/loginProcessingUrl")
+					.loginPage("/common/loginPage")
+					.failureUrl("/common/loginFailPage")
+					.usernameParameter("username")
+					.passwordParameter("password")
+				.and()
+				.logout()
+					.logoutUrl("/logoutUrl")
+					.logoutSuccessUrl("/common/logoutPage").permitAll();
 		// @formatter:on
-
-		
-		// for restful service
-//		httpSecurity.csrf().disable();
-//		
-//		httpSecurity.authorizeRequests()
-//		.antMatchers("/common/**").permitAll()
-//		.antMatchers("/crud/**").permitAll()
-//		.antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-//		.antMatchers("/admin/**").hasRole("ADMIN")
-//		.antMatchers("/actuator/**").hasRole("ADMIN")
-//		.and().formLogin().loginProcessingUrl("/loginProcessingUrl")
-//				.loginPage("/common/loginPage").failureUrl("/common/loginFailPage").usernameParameter("username")
-//				.passwordParameter("password").and().logout().logoutUrl("/logoutUrl")
-//				.logoutSuccessUrl("/common/logoutPage").permitAll();
 	}
 
 	@PostConstruct

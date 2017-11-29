@@ -20,7 +20,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 //	private final Map<RequestMatcher, Collection<ConfigAttribute>> requestMap;
 
@@ -83,7 +83,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 		while (ite.hasNext()) {
 			String resURL = ite.next();
 			 if (resURL.equals(url) == true) {
-//				 return resourceMap.get(resURL);
+				 return resourceMap.get(resURL);
 			 }
 		}
 		

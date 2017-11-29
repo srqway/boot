@@ -39,8 +39,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		// httpSecurity.addFilterAfter(mySecurityInterceptor,
 		// FilterSecurityInterceptor.class);
-		
-		// @formatter:off
+
 //		httpSecurity
 //			.csrf().disable()
 //			.authorizeRequests()
@@ -71,51 +70,11 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //		httpSecurity.anonymous().disable();
 //		httpSecurity.httpBasic();
 		httpSecurity.csrf().disable();
-		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry expressionInterceptUrlRegistry = httpSecurity.authorizeRequests();
-		expressionInterceptUrlRegistry.antMatchers("/user/**").hasAnyRole("USER", "ADMIN");
-		expressionInterceptUrlRegistry.antMatchers("/**").permitAll();
-		ConfigurationEntity.Id id = null;
-		ConfigurationEntity entity = null;
-		FormLoginConfigurer<HttpSecurity> formLogin = httpSecurity.formLogin();
-		id = new ConfigurationEntity.Id("formLogin", "loginProcessingUrl");
-		entity = configurationService.findOne(id);
-		if (entity != null) {
-			formLogin.loginProcessingUrl(entity.getValue());
-		}
-		id = new ConfigurationEntity.Id("formLogin", "loginPage");
-		entity = configurationService.findOne(id);
-		if (entity != null) {
-			formLogin.loginPage(entity.getValue());
-		}
-		id = new ConfigurationEntity.Id("formLogin", "failureUrl");
-		entity = configurationService.findOne(id);
-		if (entity != null) {
-			formLogin.failureUrl(entity.getValue());
-		}
-		id = new ConfigurationEntity.Id("formLogin", "usernameParameter");
-		entity = configurationService.findOne(id);
-		if (entity != null) {
-			formLogin.usernameParameter(entity.getValue());
-		}
-		id = new ConfigurationEntity.Id("formLogin", "passwordParameter");
-		entity = configurationService.findOne(id);
-		if (entity != null) {
-			formLogin.passwordParameter(entity.getValue());
-		}
-		LogoutConfigurer<HttpSecurity> logout = httpSecurity.logout();
-		id = new ConfigurationEntity.Id("logout", "logoutUrl");
-		entity = configurationService.findOne(id);
-		if (entity != null) {
-			logout.logoutUrl(entity.getValue());
-		}
-		id = new ConfigurationEntity.Id("logout", "logoutSuccessUrl");
-		entity = configurationService.findOne(id);
-		if (entity != null) {
-			logout.logoutSuccessUrl(entity.getValue());
-		}
-		// @formatter:on
+//		configureAuthorizeRequests(httpSecurity);
+		configureFormLogin(httpSecurity);
+		configureLogout(httpSecurity);
 	}
-
+	
 	@PostConstruct
 	public void postConstruct() {
 		generateConfigurationEntity();
@@ -181,4 +140,56 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		}
 	}
 
+
+	private void configureLogout(HttpSecurity httpSecurity) throws Exception {
+		ConfigurationEntity.Id id = null;
+		ConfigurationEntity entity = null;
+		LogoutConfigurer<HttpSecurity> logout = httpSecurity.logout();
+		id = new ConfigurationEntity.Id("logout", "logoutUrl");
+		entity = configurationService.findOne(id);
+		if (entity != null) {
+			logout.logoutUrl(entity.getValue());
+		}
+		id = new ConfigurationEntity.Id("logout", "logoutSuccessUrl");
+		entity = configurationService.findOne(id);
+		if (entity != null) {
+			logout.logoutSuccessUrl(entity.getValue());
+		}
+	}
+	
+	private void configureFormLogin(HttpSecurity httpSecurity) throws Exception {
+		ConfigurationEntity.Id id = null;
+		ConfigurationEntity entity = null;
+		FormLoginConfigurer<HttpSecurity> formLogin = httpSecurity.formLogin();
+		id = new ConfigurationEntity.Id("formLogin", "loginProcessingUrl");
+		entity = configurationService.findOne(id);
+		if (entity != null) {
+			formLogin.loginProcessingUrl(entity.getValue());
+		}
+		id = new ConfigurationEntity.Id("formLogin", "loginPage");
+		entity = configurationService.findOne(id);
+		if (entity != null) {
+			formLogin.loginPage(entity.getValue());
+		}
+		id = new ConfigurationEntity.Id("formLogin", "failureUrl");
+		entity = configurationService.findOne(id);
+		if (entity != null) {
+			formLogin.failureUrl(entity.getValue());
+		}
+		id = new ConfigurationEntity.Id("formLogin", "usernameParameter");
+		entity = configurationService.findOne(id);
+		if (entity != null) {
+			formLogin.usernameParameter(entity.getValue());
+		}
+		id = new ConfigurationEntity.Id("formLogin", "passwordParameter");
+		entity = configurationService.findOne(id);
+		if (entity != null) {
+			formLogin.passwordParameter(entity.getValue());
+		}
+	}
+	private void configureAuthorizeRequests(HttpSecurity httpSecurity) throws Exception {
+		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry expressionInterceptUrlRegistry = httpSecurity.authorizeRequests();
+//		expressionInterceptUrlRegistry.antMatchers("/user/**").hasAnyRole("USER", "ADMIN");
+		expressionInterceptUrlRegistry.antMatchers("/**").permitAll();
+	}
 }

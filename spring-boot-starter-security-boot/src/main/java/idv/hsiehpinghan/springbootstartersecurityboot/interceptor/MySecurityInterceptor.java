@@ -19,7 +19,7 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class MySecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
 	// 配置文件注入

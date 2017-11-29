@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import idv.hsiehpinghan.springbootstartersecurityboot.entity.RoleEntity;
 import idv.hsiehpinghan.springbootstartersecurityboot.entity.UserEntity;
 import idv.hsiehpinghan.springbootstartersecurityboot.repository.UserRepository;
 
@@ -18,9 +19,16 @@ public class UserService {
 		repository.save(entity);
 	}
 
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public UserEntity findOne(String username) {
-		return repository.findOne(username);
+		UserEntity userEntity = repository.findOne(username);
+		if (userEntity == null) {
+			return null;
+		}
+		for (RoleEntity roleEntity : userEntity.getRoles()) {
+			roleEntity.getResources().size();
+		}
+		return userEntity;
 	}
 
 }

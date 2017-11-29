@@ -1,22 +1,24 @@
 package idv.hsiehpinghan.springbootstartersecurityboot.configuration;
 
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer.ExpressionInterceptUrlRegistry;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import idv.hsiehpinghan.springbootstartersecurityboot.entity.ConfigurationEntity;
+import idv.hsiehpinghan.springbootstartersecurityboot.entity.ResourceEntity;
 import idv.hsiehpinghan.springbootstartersecurityboot.entity.RoleEntity;
 import idv.hsiehpinghan.springbootstartersecurityboot.entity.UserEntity;
 import idv.hsiehpinghan.springbootstartersecurityboot.service.ConfigurationService;
@@ -25,10 +27,12 @@ import idv.hsiehpinghan.springbootstartersecurityboot.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
-//	@Autowired
-//	@Qualifier("mySecurityInterceptor")
-//	private Filter mySecurityInterceptor;
+	private final int SIZE = 3;
+	// @Autowired
+	// @Qualifier("mySecurityInterceptor")
+	// private Filter mySecurityInterceptor;
 	@Autowired
+	@Qualifier("myUserDetailsService")
 	private UserDetailsService userDetailsService;
 	@Autowired
 	private UserService userService;
@@ -40,41 +44,40 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		// httpSecurity.addFilterAfter(mySecurityInterceptor,
 		// FilterSecurityInterceptor.class);
 
-//		httpSecurity
-//			.csrf().disable()
-//			.authorizeRequests()
-//				.antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-//				.and()
-//				.formLogin()
-//					.loginProcessingUrl("/loginProcessingUrl")
-//					.loginPage("/common/loginPage")
-//					.failureUrl("/common/loginFailPage")
-//					.usernameParameter("username")
-//					.passwordParameter("password")
-//				.and()
-//				.logout()
-//					.logoutUrl("/logoutUrl")
-//					.logoutSuccessUrl("/common/logoutPage").permitAll();
-	
-		
-//		httpSecurity
-//		.formLogin().disable()
-//		.anonymous().disable()
-//		.httpBasic()
-//		.and()
-//		.requestMatchers().antMatchers("/oauth/check_token")
-//		.and()
-//		.authorizeRequests().anyRequest().denyAll();
-		
-//		httpSecurity.formLogin().disable();
-//		httpSecurity.anonymous().disable();
-//		httpSecurity.httpBasic();
+		// httpSecurity
+		// .csrf().disable()
+		// .authorizeRequests()
+		// .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+		// .and()
+		// .formLogin()
+		// .loginProcessingUrl("/loginProcessingUrl")
+		// .loginPage("/common/loginPage")
+		// .failureUrl("/common/loginFailPage")
+		// .usernameParameter("username")
+		// .passwordParameter("password")
+		// .and()
+		// .logout()
+		// .logoutUrl("/logoutUrl")
+		// .logoutSuccessUrl("/common/logoutPage").permitAll();
+
+		// httpSecurity
+		// .formLogin().disable()
+		// .anonymous().disable()
+		// .httpBasic()
+		// .and()
+		// .requestMatchers().antMatchers("/oauth/check_token")
+		// .and()
+		// .authorizeRequests().anyRequest().denyAll();
+
+		// httpSecurity.formLogin().disable();
+		// httpSecurity.anonymous().disable();
+		// httpSecurity.httpBasic();
 		httpSecurity.csrf().disable();
-//		configureAuthorizeRequests(httpSecurity);
+//		 configureAuthorizeRequests(httpSecurity);
 		configureFormLogin(httpSecurity);
 		configureLogout(httpSecurity);
 	}
-	
+
 	@PostConstruct
 	public void postConstruct() {
 		generateConfigurationEntity();
@@ -129,17 +132,59 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private void generateUserEntity() {
 		if (userService.findOne("user") == null) {
-			UserEntity user = new UserEntity("user", "user", true, true, true, true,
-					Arrays.asList(new RoleEntity("ROLE_USER", "user role name", null)));
+			UserEntity user = generateUserEntity("user", new String[] { "ROLE_USER" });
 			userService.save(user);
 		}
 		if (userService.findOne("admin") == null) {
-			UserEntity admin = new UserEntity("admin", "admin", true, true, true, true,
-					Arrays.asList(new RoleEntity("ROLE_ADMIN", "admin role name", null)));
+			UserEntity admin = generateUserEntity("admin", new String[] { "ROLE_ADMIN" });
 			userService.save(admin);
 		}
 	}
 
+	private UserEntity generateUserEntity(String username, String[] roleIds) {
+		String password = username;
+		Boolean enabled = true;
+		Boolean accountNonExpired = true;
+		Boolean credentialsNonExpired = true;
+		Boolean accountNonLocked = true;
+		Collection<RoleEntity> roles = generateRoleEntities(roleIds);
+		UserEntity entity = new UserEntity(username, password, enabled, accountNonExpired, credentialsNonExpired,
+				accountNonLocked, roles);
+		return entity;
+	}
+
+	private Collection<RoleEntity> generateRoleEntities(String[] roleIds) {
+		Collection<RoleEntity> entities = new HashSet<>(roleIds.length);
+		for (String roleId : roleIds) {
+			RoleEntity entity = generateRoleEntity(roleId);
+			entities.add(entity);
+		}
+		return entities;
+	}
+
+	private RoleEntity generateRoleEntity(String roleId) {
+		String rolename = "role name";
+		Collection<ResourceEntity> resources = generateResourceEntities();
+		RoleEntity entity = new RoleEntity(roleId, rolename, resources);
+		return entity;
+
+	}
+
+	private Collection<ResourceEntity> generateResourceEntities() {
+		Collection<ResourceEntity> entities = new HashSet<>(SIZE);
+		for (int i = 0; i < SIZE; ++i) {
+			Integer order = i;
+			String path = String.format("/user/path_%d", i);
+			ResourceEntity entity = generateResourceEntity(order, path);
+			entities.add(entity);
+		}
+		return entities;
+	}
+
+	private ResourceEntity generateResourceEntity(Integer order, String path) {
+		ResourceEntity entity = new ResourceEntity(order, path);
+		return entity;
+	}
 
 	private void configureLogout(HttpSecurity httpSecurity) throws Exception {
 		ConfigurationEntity.Id id = null;
@@ -156,7 +201,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			logout.logoutSuccessUrl(entity.getValue());
 		}
 	}
-	
+
 	private void configureFormLogin(HttpSecurity httpSecurity) throws Exception {
 		ConfigurationEntity.Id id = null;
 		ConfigurationEntity entity = null;
@@ -187,9 +232,12 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			formLogin.passwordParameter(entity.getValue());
 		}
 	}
+
 	private void configureAuthorizeRequests(HttpSecurity httpSecurity) throws Exception {
-		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry expressionInterceptUrlRegistry = httpSecurity.authorizeRequests();
-//		expressionInterceptUrlRegistry.antMatchers("/user/**").hasAnyRole("USER", "ADMIN");
-		expressionInterceptUrlRegistry.antMatchers("/**").permitAll();
+		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry expressionInterceptUrlRegistry = httpSecurity
+				.authorizeRequests();
+//		 expressionInterceptUrlRegistry.antMatchers("/user/**").hasAnyRole("USER",
+//		 "ADMIN");
+//		expressionInterceptUrlRegistry.antMatchers("/**").permitAll();
 	}
 }

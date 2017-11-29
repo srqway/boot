@@ -2,7 +2,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         connection:
           isolation: '2'
         default_schema: spring_boot_starter_security_boot
@@ -17,9 +17,9 @@ spring:
         show_sql: 'true'
         use_sql_comments: 'true'
   datasource:
-    password: ''
-    url: jdbc:h2:file:/tmp/h2
-    username: sa
+    password: '!)09w5t43w1oJ'
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: thank
   thymeleaf:
     mode: LEGACYHTML5
 logging:

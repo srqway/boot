@@ -19,9 +19,11 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 
 @Component
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+	private AntPathMatcher antPathMatcher = new AntPathMatcher();
 //	private final Map<RequestMatcher, Collection<ConfigAttribute>> requestMap;
 
 	// ~ Constructors
@@ -75,15 +77,16 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 		Collection<ConfigAttribute> attsno = new ArrayList<ConfigAttribute>();
 		attsno.add(new SecurityConfig("ROLE_USER"));
 //		attsno.add(new SecurityConfig("ROLE_ADMIN"));
-		resourceMap.put("/user/index", attsno);
+		resourceMap.put("/user/**", attsno);
 		
+
 		
 		String url = ((FilterInvocation) object).getRequestUrl();
 		Iterator<String> ite = resourceMap.keySet().iterator();
 		while (ite.hasNext()) {
 			String resURL = ite.next();
-			 if (resURL.equals(url) == true) {
-				 return resourceMap.get(resURL);
+			 if (antPathMatcher.match(resURL, url) == true) {
+//				 return resourceMap.get(resURL);
 			 }
 		}
 		

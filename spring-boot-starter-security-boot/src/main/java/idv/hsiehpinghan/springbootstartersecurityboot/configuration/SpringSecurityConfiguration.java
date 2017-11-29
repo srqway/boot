@@ -27,7 +27,7 @@ import idv.hsiehpinghan.springbootstartersecurityboot.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
-	private final int SIZE = 3;
+	private final int SIZE = 10;
 	// @Autowired
 	// @Qualifier("mySecurityInterceptor")
 	// private Filter mySecurityInterceptor;
@@ -172,7 +172,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private Collection<ResourceEntity> generateResourceEntities() {
 		Collection<ResourceEntity> entities = new HashSet<>(SIZE);
-		for (int i = 0; i < SIZE; ++i) {
+		entities.add(generateResourceEntity(0, "/user/index"));
+		for (int i = 1; i < SIZE; ++i) {
 			Integer order = i;
 			String path = String.format("/user/path_%d", i);
 			ResourceEntity entity = generateResourceEntity(order, path);

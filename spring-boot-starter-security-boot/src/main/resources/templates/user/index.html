@@ -9,7 +9,7 @@
 			</tr>
 			<tr th:each="entity : ${resourceEntities}">
 				<td th:text="${entity.order}">order</td>
-				<td th:text="${entity.path}">path</td>
+				<td><a href="#" th:href="@{http://localhost:8080{path}(path=${entity.path})}" th:text="${entity.path}">path</a></td>
 			</tr>
 		</table>
 	</div>

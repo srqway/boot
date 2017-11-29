@@ -1,7 +1,7 @@
 package idv.hsiehpinghan.springbootstartersecurityboot.controller;
 
 import java.security.Principal;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class UserController {
 		if (principal == null) {
 			return mv;
 		}
-		Set<ResourceEntity> resourceEntities = new LinkedHashSet<>();
+		Set<ResourceEntity> resourceEntities = new HashSet<>();
 		String username = principal.getName();
 		UserEntity userEntity = userService.findOne(username);
 		for (RoleEntity roleEntity : userEntity.getRoles()) {
@@ -35,13 +35,52 @@ public class UserController {
 				resourceEntities.add(resourceEntity);
 			}
 		}
-
 		mv.addObject("resourceEntities", resourceEntities);
 		return mv;
 	}
 
-	// @RequestMapping(value = "/index", method = RequestMethod.GET)
-	// public String index() {
-	// return "user/index";
-	// }
+	@RequestMapping(value = "/path_1", method = RequestMethod.GET)
+	public String path_1() {
+		return "user/path_1";
+	}
+
+	@RequestMapping(value = "/path_2", method = RequestMethod.GET)
+	public String path_2() {
+		return "user/path_2";
+	}
+
+	@RequestMapping(value = "/path_3", method = RequestMethod.GET)
+	public String path_3() {
+		return "user/path_3";
+	}
+
+	@RequestMapping(value = "/path_4", method = RequestMethod.GET)
+	public String path_4() {
+		return "user/path_4";
+	}
+
+	@RequestMapping(value = "/path_5", method = RequestMethod.GET)
+	public String path_5() {
+		return "user/path_5";
+	}
+
+	@RequestMapping(value = "/path_6", method = RequestMethod.GET)
+	public String path_6() {
+		return "user/path_6";
+	}
+
+	@RequestMapping(value = "/path_7", method = RequestMethod.GET)
+	public String path_7() {
+		return "user/path_7";
+	}
+
+	@RequestMapping(value = "/path_8", method = RequestMethod.GET)
+	public String path_8() {
+		return "user/path_8";
+	}
+
+	@RequestMapping(value = "/path_9", method = RequestMethod.GET)
+	public String path_9() {
+		return "user/path_9";
+	}
 }

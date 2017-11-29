@@ -86,7 +86,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 		while (ite.hasNext()) {
 			String resURL = ite.next();
 			 if (antPathMatcher.match(resURL, url) == true) {
-//				 return resourceMap.get(resURL);
+				 return resourceMap.get(resURL);
 			 }
 		}
 		

@@ -20,7 +20,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 //	private final Map<RequestMatcher, Collection<ConfigAttribute>> requestMap;
 
@@ -66,6 +66,27 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 //				return entry.getValue();
 //			}
 //		}
+		
+		HashMap<String, Collection<ConfigAttribute>> resourceMap = new LinkedHashMap<String, Collection<ConfigAttribute>>();
+		Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
+//		ConfigAttribute ca = new SecurityConfig("ROLE_USER");
+//		atts.add(ca);
+//		resourceMap.put("/index.jsp", atts);
+		Collection<ConfigAttribute> attsno = new ArrayList<ConfigAttribute>();
+		attsno.add(new SecurityConfig("ROLE_USER"));
+//		attsno.add(new SecurityConfig("ROLE_ADMIN"));
+		resourceMap.put("/user/index", attsno);
+		
+		
+		String url = ((FilterInvocation) object).getRequestUrl();
+		Iterator<String> ite = resourceMap.keySet().iterator();
+		while (ite.hasNext()) {
+			String resURL = ite.next();
+			 if (resURL.equals(url) == true) {
+//				 return resourceMap.get(resURL);
+			 }
+		}
+		
 		return null;
 	}
 

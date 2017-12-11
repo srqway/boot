@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>index</title>
+<link rel="stylesheet" th:href="@{/css/style.css}"></link>
+</head>
+<body>
+	<div th:text="${basicModel.string_}">???</div>
+	<div th:text="${#dates.format(basicModel.date_, 'yyyy/MM/dd')}">???</div>
+	<div th:text="'today is : ' + ${#dates.format(basicModel.date_, 'yyyy/MM/dd')}">???</div>
+	<div th:text="#{property}">???</div>
+	<div th:utext="${basicModel.html_}">???</div>
+	<dl th:each="string : ${basicModel.strings_}">
+		<dd th:text="${stringStat.count} + ' : ' + ${string}">???</dd>
+	</dl>
+	<div th:if="${basicModel.boolean_}">boolean is true</div>
+	<div th:switch="${basicModel.enumeration_.toString()}">
+		<div th:case="'ENUM_0'">this is ENUM_0</div>
+		<div th:case="'ENUM_1'">this is ENUM_1</div>
+		<div th:case="'ENUM_2'">this is ENUM_2</div>
+		<div th:case="*">this is undefined !!!</div>
+	</div>
+	<a href="#" th:href="@{/basic/href(parameter='parameter test')}">View product</a>
+	<form action="not_exist.html" th:action="@{/basic/form}" th:object="${basicModel}" method="post">
+		<label for="string_">parameter : </label> 
+		<input type="text" th:field="*{string_}" value="???" /> <input type="submit" />
+	</form>
+	<div th:inline="text">this is inline. ([[${basicModel.string_}]])</div>
+</body>
+</html>

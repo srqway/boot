@@ -27,5 +27,39 @@
 		<input type="text" th:field="*{string_}" value="???" /> <input type="submit" />
 	</form>
 	<div th:inline="text">this is inline. ([[${basicModel.string_}]])</div>
+	<div id="myFragmentId" th:fragment="myFragment">fragment</div>
+	<div th:include="this :: myFragment">???</div>
+	<div th:include="this :: [//div[@id='myFragmentId']]">???</div>
+	<div th:fragment="myParameterizableFragment(text)" th:remove="all">
+		<span th:text="${text}">???</span>
+	</div>
+	<div th:include="this :: myParameterizableFragment('myParameterizableFragment_1')">???</div>
+	<div th:text="'Hello ' + ${customerName} + '!'"></div>
+	<div th:text="'String concatenation : ' + ${basicModel.string_}">???</div>
+	<div th:text="'Preprocessing : __${basicModel.string_}__'">???</div>
+	<div th:text="|Literal substitution : ${basicModel.string_}|">???</div>
+	<div data-th-text="${basicModel.string_}">???</div>
+	<table>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>string_</th>
+			</tr>
+		</thead>
+		<tbody th:remove="all-but-first">
+			<tr th:each="string : ${basicModel.strings_}">
+				<td th:text="${stringStat.count}">???</td>
+				<td th:text="${string}">???</td>
+			</tr>
+			<tr>
+				<td>???</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>???</td>
+				<td>???</td>
+			</tr>
+		</tbody>
+	</table>
 </body>
 </html>

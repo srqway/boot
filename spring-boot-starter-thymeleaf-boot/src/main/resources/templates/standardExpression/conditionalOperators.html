@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<div th:text="${conditionalOperatorsModel.true_} ? 'TRUE'">???</div>
+	<div th:text="${conditionalOperatorsModel.false_} ? 'TRUE' : 'FALSE'">???</div>
+	<div th:text="${conditionalOperatorsModel.null_} ?: 'NULL'">???</div>
+</body>
+</html>

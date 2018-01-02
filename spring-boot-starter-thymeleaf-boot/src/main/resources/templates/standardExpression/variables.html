@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<div th:text="${varialesModel.variable}">???</div>
+	<div th:text="${varialesModel['variable']}">???</div>
+	<div th:text="${varialesModel.collection[1]}">???</div>
+	<div th:text="${varialesModel['collection'][1]}">???</div>
+	<div th:text="${varialesModel.generateString('my string')}">???</div>
+</body>
+</html>

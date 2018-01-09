@@ -16,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import idv.hsiehpinghan.springbootstarterthymeleafboot.criteria.LinkUrlsCriteria;
 import idv.hsiehpinghan.springbootstarterthymeleafboot.model.ConditionalOperatorsModel;
 import idv.hsiehpinghan.springbootstarterthymeleafboot.model.ExpressionBasicObjectsModel;
+import idv.hsiehpinghan.springbootstarterthymeleafboot.model.ExpressionsOnSelectionsModel;
 import idv.hsiehpinghan.springbootstarterthymeleafboot.model.TextOperationsModel;
 import idv.hsiehpinghan.springbootstarterthymeleafboot.model.VarialesModel;
 
@@ -89,14 +91,43 @@ public class StandardExpressionController {
 		return mv;
 	}
 
+	@RequestMapping(value = "expressionsOnSelections")
+	public ModelAndView expressionsOnSelections() {
+		ModelAndView mv = new ModelAndView("standardExpression/expressionsOnSelections");
+		ExpressionsOnSelectionsModel expressionsOnSelectionsModel = new ExpressionsOnSelectionsModel("name", 3);
+		mv.addObject("expressionsOnSelectionsModel", expressionsOnSelectionsModel);
+		return mv;
+	}
+
+	@RequestMapping(value = "linkUrls")
+	public ModelAndView linkUrls(LinkUrlsCriteria criteria) {
+		ModelAndView mv = new ModelAndView("standardExpression/linkUrls");
+		mv.addObject("criteria", criteria);
+		return mv;
+	}
+
+	@RequestMapping(value = "literals")
+	public ModelAndView literals() {
+		ModelAndView mv = new ModelAndView("standardExpression/literals");
+		mv.addObject("booleanLiterals", true);
+		return mv;
+	}
+
+	@RequestMapping(value = "comparatorsAndEquality")
+	public ModelAndView comparatorsAndEquality() {
+		ModelAndView mv = new ModelAndView("standardExpression/comparatorsAndEquality");
+		mv.addObject("age", 3);
+		return mv;
+	}
+	
 	private int[] genreateIntArray() {
 		int[] array = new int[SIZE];
-		for(int i = 0; i < SIZE; ++i) {
+		for (int i = 0; i < SIZE; ++i) {
 			array[i] = i;
 		}
 		return array;
 	}
-	
+
 	private Map<String, String> generateStringMap() {
 		Map<String, String> map = new HashMap<String, String>();
 		for (int i = 0; i < SIZE; ++i) {

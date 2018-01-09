@@ -1,7 +1,5 @@
-server:
-  port: 8083
 auth:
   server:
-    url: http://172.17.0.1:8082/oauth/check_token/
+    url: http://redis-token-store-authorization-server:8080/oauth/check_token/
     clientId: trusted-app
     clientsecret: secret

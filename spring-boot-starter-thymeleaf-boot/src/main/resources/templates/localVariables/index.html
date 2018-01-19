@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<h1>Local Variables</h1>
+	<div th:with="model_1=${models[1]},model_2=${models[2]}">
+		<div th:text="${model_1.name} + ' : ' + ${model_1.age}">???</div>
+		<div th:text="${model_2.name} + ' : ' + ${model_2.age}">???</div>
+	</div>
+</body>
+</html>

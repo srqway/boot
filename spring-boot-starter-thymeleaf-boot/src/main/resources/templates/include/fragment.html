@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="my_fragment_0">
+		<div th:text="${fragmentText_0}">???</div>
+	</div>
+	<div th:fragment="my_fragment_1">
+		<div th:text="${fragmentText_1}">???</div>
+	</div>
+	<div class="my_class">
+		<div th:text="${classText}">???</div>
+	</div>
+	<div th:fragment="my_parameterizable_fragment (parameter_0, parameter_1)">
+		<div th:text="${parameter_0} + ' : ' + ${parameter_1}">???</div>
+	</div>
+</body>
+</html>

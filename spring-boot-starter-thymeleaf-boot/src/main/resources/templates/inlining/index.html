@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<h1>Text inlining</h1>
+	<div th:inline="text">Hello, [[${model.name}]]!</div>
+	<h1>Script inlining - javascript</h1>
+	<input id="javascript" type="button" value="show">
+	<h1>Script inlining - adding code</h1>
+	<input id="addingCode" type="button" value="show">
+	<h1>Script inlining - removing code</h1>
+	<input id="removingCode" type="button" value="show">
+</body>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	document.getElementById('javascript').addEventListener('click', function() {
+		var model = /*[[${model}]]*/'???';
+		alert(JSON.stringify(model));
+	});
+	/*]]>*/
+</script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	document.getElementById('addingCode').addEventListener('click', function() {
+		var model = /*[[${model.name}]]*/'???';
+		/*[+
+			model = model + ', ' + [[${model.age}]];
+
+		+]*/
+		alert(model);
+	});
+	/*]]>*/
+</script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	document.getElementById('removingCode').addEventListener('click', function() {
+		var model;
+		/*[- */
+			model = /*[[${model.name}]]*/'???';
+		/* -]*/
+		alert(model);
+	});
+	/*]]>*/
+</script>
+</html>

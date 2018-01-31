@@ -1,0 +1,23 @@
+# get api info
+curl -X GET http://localhost:8080
+curl -X GET http://localhost:8080/profile/userEntities
+
+# create data
+curl -i -X POST -H "Content-Type:application/json" -d '{ "name" : "hsiehpinghan_0", "age" : 0 }' http://localhost:8080/userEntities
+curl -i -X POST -H "Content-Type:application/json" -d '{ "name" : "hsiehpinghan_1", "age" : 1 }' http://localhost:8080/userEntities
+curl -i -X POST -H "Content-Type:application/json" -d '{ "name" : "hsiehpinghan_2", "age" : 2 }' http://localhost:8080/userEntities
+
+# receive data
+curl -X GET http://localhost:8080/userEntities
+curl -X GET http://localhost:8080/userEntities/hsiehpinghan_1
+curl -X GET http://localhost:8080/userEntities/search
+curl -X GET http://localhost:8080/userEntities/search/findByAge?age=1
+
+# update
+curl -i -X PUT -H "Content-Type:application/json" -d '{ "age" : 0, "checked" : true }' http://localhost:8080/userEntities/hsiehpinghan_0
+curl -i -X PATCH -H "Content-Type:application/json" -d '{ "checked" : false }' http://localhost:8080/userEntities/hsiehpinghan_0
+
+# delete
+curl -X DELETE http://localhost:8080/userEntities/hsiehpinghan_0
+
+

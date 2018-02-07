@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: spring-boot-admin-server-boot
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: daniel.hsiehpinghan@gmail.com
+    password: ???
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  boot:
+    admin:
+      notify:
+        mail:
+          enabled: true
+          from: daniel.hsiehpinghan@gmail.com
+          to: thank.hsiehpinghan@gmail.com

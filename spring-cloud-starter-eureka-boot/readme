@@ -4,9 +4,11 @@ cd /home/hsiehpinghan/git/boot/spring-cloud-starter-eureka-boot
 ./mvnw install dockerfile:build
 
 # run in docker
-docker run -e --net="host" -p 8080:8080 -t hsiehpinghan/spring-cloud-starter-eureka-boot:1.0.0
+docker run -e "TZ=Asia/Taipei" -e "SPRING_PROFILES_ACTIVE=service_0" --net="host" -p 8080:8080 -t hsiehpinghan/spring-cloud-starter-eureka-boot:1.0.0
+docker run -e "TZ=Asia/Taipei" -e "SPRING_PROFILES_ACTIVE=service_1" --net="host" -p 8081:8081 -t hsiehpinghan/spring-cloud-starter-eureka-boot:1.0.0
 
 # test url (start spring-cloud-starter-eureka-server-book first)
+http://localhost:8761/eureka/apps/spring-cloud-starter-eureka-boot
 run DiscoveryClientTest
 
 

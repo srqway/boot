@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @Profile("client")
 @EnableDiscoveryClient
-public class SpringConfiguration {
+public class ClientSpringConfiguration {
 
 	@Bean
 	@LoadBalanced

@@ -1,0 +1,12 @@
+# build docker image
+su -
+systemctl start docker
+cd /home/hsiehpinghan/git/boot/spring-boot-admin-client-boot
+./mvnw install dockerfile:build
+
+# run in docker
+docker run --net="host" -p 8080:8081 -t hsiehpinghan/spring-boot-admin-client-boot:1.0.0
+
+# test url (start spring-boot-admin-server-boot first)
+http://localhost:8080
+

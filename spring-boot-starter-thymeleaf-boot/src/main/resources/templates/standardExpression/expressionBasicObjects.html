@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<h1>#ctx: the context object.</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.context.IContext
+	 * ======================================================================
+	 */
+	 </pre>
+	<div th:text="${#ctx.locale}">???</div>
+	<div th:text="${#ctx.variables}">???</div>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.context.IWebContext
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#ctx.applicationAttributes}">???</div>
+	<div th:text="${#ctx.httpServletRequest}">???</div>
+	<div th:text="${#ctx.httpServletResponse}">???</div>
+	<div th:text="${#ctx.httpSession}">???</div>
+	<div th:text="${#ctx.requestAttributes}">???</div>
+	<div th:text="${#ctx.requestParameters}">???</div>
+	<div th:text="${#ctx.servletContext}">???</div>
+	<div th:text="${#ctx.sessionAttributes}">???</div>
+	<h1>#locale: the context locale.</h1>
+	<div th:text="${#locale}">???</div>
+	<h1>#vars: the context variables.</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.context.VariablesMap
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#vars.get('expressionBasicObjectsModel')}">???</div>
+	<div th:text="${#vars.containsKey('expressionBasicObjectsModel')}">???</div>
+	<div th:text="${#vars.size()}">???</div>
+	<h1>param</h1>
+	<pre>
+	/*
+	 * ============================================================================
+	 * See javadoc API for class org.thymeleaf.context.WebRequestParamsVariablesMap
+	 * ============================================================================
+	 */
+	</pre>
+	<div th:text="${param.parameter[0]}">???</div>
+	<div th:text="${param.size()}">???</div>
+	<div th:text="${param.isEmpty()}">???</div>
+	<div th:text="${param.containsKey('parameter')}">???</div>
+	<h1>session</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.context.WebSessionVariablesMap
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${session.variable}">???</div>
+	<div th:text="${session.size()}">???</div>
+	<div th:text="${session.isEmpty()}">???</div>
+	<div th:text="${session.containsKey('variable')}">???</div>
+	<h1>application</h1>
+	<pre>
+	/*
+	 * =============================================================================
+	 * See javadoc API for class org.thymeleaf.context.WebServletContextVariablesMap
+	 * =============================================================================
+	 */
+	</pre>
+	<div th:text="${application.variable}">???</div>
+	<div th:text="${application.size()}">???</div>
+	<div th:text="${application.isEmpty()}">???</div>
+	<div th:text="${application.containsKey('variable')}">???</div>
+	<h1>#httpServletRequest</h1>
+	<div th:text="${#httpServletRequest.getParameter('parameter')}">???</div>
+	<h1>#httpSession</h1>
+	<div th:text="${#httpSession.getAttribute('variable')}">???</div>
+	<h1>@beanName</h1>
+	<div th:text="${@standardExpressionController}">???</div>
+</body>
+</html>

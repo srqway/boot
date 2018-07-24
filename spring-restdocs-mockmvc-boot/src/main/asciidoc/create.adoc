@@ -1,0 +1,17 @@
+= CREATE
+
+== create/curl-request:
+
+include::{snippets}/CrudControllerTest/create/curl-request.adoc[]
+
+== create/http-request
+
+include::{snippets}/CrudControllerTest/create/http-request.adoc[]
+
+== create/http-response
+
+include::{snippets}/CrudControllerTest/create/http-response.adoc[]
+
+== create/httpie-request
+
+include::{snippets}/CrudControllerTest/create/httpie-request.adoc[]

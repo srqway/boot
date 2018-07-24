@@ -6,41 +6,41 @@ cd /home/hsiehpinghan/git/boot/spring-security-oauth2-boot
 
 # run and test (jwt token store)
 systemctl start docker
-docker run -e "SPRING_PROFILES_ACTIVE=jwt_token_store_authorization_server" --net="host" -p 8080:8080 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
-docker run -e "SPRING_PROFILES_ACTIVE=jwt_token_store_resource_server" --net="host" -p 8081:8081 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
+docker run -e "SPRING_PROFILES_ACTIVE=jwt_token_store_authorization_server" --name jwt-token-store-authorization-server -p 8081:8080 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
+docker run -e "SPRING_PROFILES_ACTIVE=jwt_token_store_resource_server" --name jwt-token-store-resource-server -p 8082:8080 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
 
-curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password=user&client_id=trusted-app&client_secret=secret"
-curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/userMethod
+curl http://localhost:8081/oauth/token -d "grant_type=password&username=user&password=user&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8082/api/userMethod
 
-curl http://localhost:8080/oauth/token -d "grant_type=password&username=admin&password=admin&client_id=trusted-app&client_secret=secret"
-curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/adminMethod
+curl http://localhost:8081/oauth/token -d "grant_type=password&username=admin&password=admin&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8082/api/adminMethod
 
-curl http://localhost:8080/oauth/token -d "grant_type=password&username=other&password=other&client_id=trusted-app&client_secret=secret"
-curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/otherMethod
+curl http://localhost:8081/oauth/token -d "grant_type=password&username=other&password=other&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8082/api/otherMethod
 
-curl http://localhost:8080/oauth/token -d "grant_type=client_credentials&client_id=trusted-app&client_secret=secret"
-curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/otherMethod
+curl http://localhost:8081/oauth/token -d "grant_type=client_credentials&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8082/api/otherMethod
 
 
 # run and test (redis token store)
 systemctl start docker
 docker pull redis
-docker run --net="host" -p 6379:6379 -itd redis
+docker run --name my_redis -p 6379:6379 -itd redis
 
-docker run -e "SPRING_PROFILES_ACTIVE=redis_token_store_authorization_server" --net="host" -p 8080:8082 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
-docker run -e "SPRING_PROFILES_ACTIVE=redis_token_store_resource_server" --net="host" -p 8081:8083 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
+docker run -e "SPRING_PROFILES_ACTIVE=redis_token_store_authorization_server" --name redis-token-store-authorization-server --link my_redis:my_redis -p 8083:8080 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
+docker run -e "SPRING_PROFILES_ACTIVE=redis_token_store_resource_server" --name redis-token-store-resource-server --link redis-token-store-authorization-server:redis-token-store-authorization-server -p 8084:8080 -t hsiehpinghan/spring-security-oauth2-boot:1.0.0
 
-curl http://localhost:8082/oauth/token -d "grant_type=password&username=user&password=user&client_id=trusted-app&client_secret=secret"
-curl -H "Authorization: Bearer <<access_token>>" http://localhost:8083/api/userMethod
+curl http://localhost:8083/oauth/token -d "grant_type=password&username=user&password=user&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8084/api/userMethod
 
-curl http://localhost:8082/oauth/token -d "grant_type=password&username=admin&password=admin&client_id=trusted-app&client_secret=secret"
-curl -H "Authorization: Bearer <<access_token>>" http://localhost:8083/api/adminMethod
+curl http://localhost:8083/oauth/token -d "grant_type=password&username=admin&password=admin&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8084/api/adminMethod
 
-curl http://localhost:8082/oauth/token -d "grant_type=password&username=other&password=other&client_id=trusted-app&client_secret=secret"
-curl -H "Authorization: Bearer <<access_token>>" http://localhost:8083/api/otherMethod
+curl http://localhost:8083/oauth/token -d "grant_type=password&username=other&password=other&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8084/api/otherMethod
 
-curl http://localhost:8082/oauth/token -d "grant_type=client_credentials&client_id=trusted-app&client_secret=secret"
-curl -H "Authorization: Bearer <<access_token>>" http://localhost:8083/api/otherMethod
+curl http://localhost:8083/oauth/token -d "grant_type=client_credentials&client_id=trusted-app&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8084/api/otherMethod
 
 
 # generate jwt key store file
@@ -48,8 +48,8 @@ keytool -genkeypair -alias my_keypair -keyalg RSA -keypass my_pass -keystore my_
 
 
 # open h2 console
-http://localhost:8080/h2/
-http://localhost:8082/h2/
+http://localhost:8081/h2/
+http://localhost:8083/h2/
 
 # install redis
 tar xvfz redis-3.2.11.tar.gz

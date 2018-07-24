@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<h1>#dates : utility methods for java.util.Date objects:</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Dates
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#dates.format(date)}">???</div>
+	<div th:text="${#dates.format(date, 'dd/MMM/yyyy HH:mm')}">???</div>
+	<div th:text="${#dates.arrayFormat(datesArray)}">???</div>
+	<h1>#calendars : analogous to #dates, but for java.util.Calendar objects:</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Calendars
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#calendars.format(calendar)}">???</div>
+	<div th:text="${#calendars.format(calendar, 'dd/MMM/yyyy HH:mm')}">???</div>
+	<h1>#numbers : utility methods for number objects:</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Numbers
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#numbers.formatInteger(number, 15)}">???</div>
+	<div th:text="${#numbers.formatInteger(number, 15, 'COMMA')}">???</div>
+	<h1>#strings : utility methods for String objects:</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Strings
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#strings.abbreviate(string,10)}">???</div>
+	<h1>#objects : utility methods for objects in general</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Objects
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#objects.nullSafe(notExistObject, 'default value')}">???</div>
+	<h1>#bools : utility methods for boolean evaluation</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Bools
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#bools.arrayOr(booleanArray)}">???</div>
+	<div th:text="${#bools.arrayAnd(booleanArray)}">???</div>
+	<h1>#arrays : utility methods for arrays</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Arrays
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#arrays.contains(booleanArray, true)}">???</div>
+	<h1>#lists : utility methods for lists</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Lists
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#lists.size(booleanArray)}">???</div>
+	<h1>#sets : utility methods for sets</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Sets
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#sets.size(stringSet)}">???</div>
+	<h1>#maps : utility methods for maps</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Maps
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#maps.size(stringMap)}">???</div>
+	<h1>#aggregates : utility methods for creating aggregates on arrays or collections</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Aggregates
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#aggregates.sum(intArray)}">???</div>
+	<h1>#messages : utility methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using #{...} syntax.</h1>
+	<pre>
+	/*
+	 * ======================================================================
+	 * See javadoc API for class org.thymeleaf.expression.Messages
+	 * ======================================================================
+	 */
+	</pre>
+	<div th:text="${#messages.msg('my_property')}">???</div>
+
+</body>
+</html>

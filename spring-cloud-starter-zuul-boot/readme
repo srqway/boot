@@ -1,0 +1,16 @@
+# build docker image
+su -
+cd /home/hsiehpinghan/git/boot/spring-cloud-starter-zuul-boot
+./mvnw install dockerfile:build
+
+# run in docker
+docker run -e "TZ=Asia/Taipei" -e "SPRING_PROFILES_ACTIVE=service_0" --net="host" -p 8090:8090 -t hsiehpinghan/spring-cloud-starter-zuul-boot:1.0.0
+docker run -e "TZ=Asia/Taipei" -e "SPRING_PROFILES_ACTIVE=service_1" --net="host" -p 8091:8091 -t hsiehpinghan/spring-cloud-starter-zuul-boot:1.0.0
+
+# test url (start spring-cloud-starter-eureka-server-boot and spring-cloud-starter-eureka-boot first)
+http://localhost:8090/routes
+http://localhost:8090/api/google/
+http://localhost:8090/api/service/v1/basic/read/0
+http://localhost:8091/api/google/
+http://localhost:8091/api/service/v1/basic/read/1
+

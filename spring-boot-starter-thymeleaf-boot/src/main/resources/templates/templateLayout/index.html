@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<h1>Defining and referencing fragments</h1>
+	<div th:include="include/fragment :: my_fragment_0">???</div>
+	<div th:include="include/fragment :: [//div[@class='my_class']]">???</div>
+	<div th:include="include/fragment :: (${isFragmentText_0} ? my_fragment_0 : my_fragment_1)">???</div>
+	<h1>Parameterizable fragment signatures</h1>
+	<div th:include="include/fragment :: my_parameterizable_fragment ('my_string', 3)">???</div>
+	<div th:include="include/fragment :: my_parameterizable_fragment (parameter_0 = 'my_string', parameter_1 = 3)">???</div>
+</body>
+</html>

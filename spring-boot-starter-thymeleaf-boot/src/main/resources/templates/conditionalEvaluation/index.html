@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<h1>th:if</h1>
+	<div th:if="booleanValue_false">booleanValue : false</div>
+	<div th:if="booleanValue_true">booleanValue : true</div>
+	<div th:if="numberValue_0">numberValue : 0</div>
+	<div th:if="numberValue_1">numberValue : 1</div>
+	<div th:if="characterValue_0">characterValue : 0</div>
+	<div th:if="characterValue_1">characterValue : 1</div>
+	<div th:if="stringValue_false">stringValue : false</div>
+	<div th:if="stringValue_true">stringValue : true</div>
+	<div th:if="stringValue_off">stringValue : off</div>
+	<div th:if="stringValue_on">stringValue : on</div>
+	<div th:if="stringValue_no">stringValue : no</div>
+	<div th:if="stringValue_yes">stringValue : yes</div>
+	<div th:if="nullValue">nullValue</div>
+	<h1>th:switch</h1>
+	<div th:switch="${switchValue}">
+		<div th:case="'zero'">0</div>
+		<div th:case="'one'">1</div>
+		<div th:case="'two'">2</div>
+		<div th:case="*">default</div>
+	</div>
+</body>
+</html>

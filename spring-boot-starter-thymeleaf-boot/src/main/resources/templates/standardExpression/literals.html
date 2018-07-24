@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<h1>Text literals</h1>
+	<div th:text="'this is text literals'">???</div>
+	<h1>Number literals</h1>
+	<div th:text="1 + 2 + 3">???</div>
+	<h1>Boolean literals</h1>
+	<div th:if="${booleanLiterals} == true">booleanLiterals is true</div>
+	<div th:if="${booleanLiterals == true}">booleanLiterals is true</div>
+	<h1>The null literal</h1>
+	<div th:if="${notExist} == null">not exist</div>
+</body>
+</html>

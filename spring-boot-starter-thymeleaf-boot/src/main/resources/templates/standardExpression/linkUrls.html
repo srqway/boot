@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<h1>Absolute URLs</h1>
+	<a href="#"
+		th:href="@{http://localhost:8080/standardExpression/linkUrls(name='Absolute URLs',age=3)}">Absolute
+		URLs</a>
+	<h1>Relative URLs</h1>
+	<a href="#" th:href="@{linkUrls(name='Page-relative',age=3)}">Page-relative</a>
+	<br>
+	<a href="#"
+		th:href="@{/standardExpression/linkUrls(name='Context-relative',age=3)}">Context-relative</a>
+	<br>
+	<a href="#"
+		th:href="@{~/standardExpression/linkUrls(name='Server-relative',age=3)}">Server-relative</a>
+	<br>
+	<a href="#" th:href="@{//code.jquery.com/jquery-2.0.3.min.js}">Protocol-relative
+		URLs</a>
+	<br>
+	<div th:object="${criteria}">
+		<div th:text="*{name}">???</div>
+		<div th:text="*{age}">???</div>
+	</div>
+</body>
+</html>

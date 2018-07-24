@@ -1,0 +1,10 @@
+# build docker image
+su -
+cd /home/hsiehpinghan/git/boot/zipkin-server-boot
+./mvnw install dockerfile:build
+
+# run in docker
+docker run -e "TZ=Asia/Taipei" -p 9411:9411 -t hsiehpinghan/zipkin-server-boot:1.0.0
+
+# test url (start spring-cloud-starter-eureka-server-boot first)
+http://127.0.0.1:9411/

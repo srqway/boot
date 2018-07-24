@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<div th:text="#{my_property}">???</div>
+	<div th:text="#{${textModel.myProperty}}">???</div>
+	<div th:text="${textModel.enumeration}">???</div>
+	<div th:utext="${textModel.html}">???</div>
+</body>
+</html>

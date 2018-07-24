@@ -1,0 +1,10 @@
+= API-DOC
+Doc Writer <thank.hsiehpinghan@gmail.com>
+v1.0.0, 2018-02-02
+:toc:
+:imagesdir: assets/images
+:homepage: http://asciidoctor.org
+
+include::create.adoc[]
+
+'''

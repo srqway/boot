@@ -1,33 +1,20 @@
 package idv.hsiehpinghan.springbootstarterwebboot2.controller;
 
 import java.awt.print.Book;
-import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import idv.hsiehpinghan.springbootstarterwebboot2.criteria.CrudCreateCriteria;
-import idv.hsiehpinghan.springbootstarterwebboot2.criteria.CrudReadCriteria;
-import idv.hsiehpinghan.springbootstarterwebboot2.criteria.CrudUpdateCriteria;
 import idv.hsiehpinghan.springbootstarterwebboot2.entity.CrudEntity;
 import idv.hsiehpinghan.springbootstarterwebboot2.service.CrudService;
 
@@ -58,16 +45,16 @@ public class CrudController {
 	    headers.setLocation(uriComponentsBuilder.path("/api/cruds/{id}").buildAndExpand(id).toUri());
 	    return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
-//
-//	@GetMapping(value = "/{id}")
-//	public ResponseEntity<CrudEntity> readOne(@PathVariable("id") Integer id) {
-//		CrudEntity entity = getOne(id);
-//		if(entity == null) {
-//			new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-//		return new ResponseEntity<>(entity, HttpStatus.OK);
-//	}
-//	
+
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<CrudEntity> read(@PathVariable("id") Integer id) {
+		Optional<CrudEntity> entityOption = crudService.getOne(id);
+		if(entityOption.isPresent() == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(entityOption.get(), HttpStatus.OK);
+	}
+	
 //	@GetMapping(value = "/")
 //	public ResponseEntity<Set<CrudEntity>> readAll(@RequestBody CrudReadCriteria criteria, UriComponentsBuilder uriComponentsBuilder) {
 //		int pageSize = criteria.getPageSize();

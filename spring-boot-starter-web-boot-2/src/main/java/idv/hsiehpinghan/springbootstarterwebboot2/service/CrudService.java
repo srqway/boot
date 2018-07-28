@@ -1,7 +1,8 @@
 package idv.hsiehpinghan.springbootstarterwebboot2.service;
 
-import java.util.List;
 import java.util.Optional;
+
+import javax.swing.text.html.Option;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,10 @@ public class CrudService {
 //		return repository.findAll();
 //	}
 
-//	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-//	public CrudEntity getOne(Integer id) {
-//		return repository.getOne(id);
-//	}
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public Optional<CrudEntity> getOne(Integer id) {
+		return repository.findById(id);
+	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public boolean existsById(Integer id) {

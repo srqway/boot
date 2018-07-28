@@ -42,15 +42,15 @@ public class CrudService {
 		repository.save(entity);
 	}
 
-//	public void update(CrudEntity entity) {
-//		Integer id = entity.getId();
-//		CrudEntity oldEntity = repository.getOne(id);
-//		if (oldEntity == null) {
-//			throw new RuntimeException(String.format("entity(%s) not exists !!!", entity));
-//		}
-//		repository.save(entity);
-//	}
-//
+	public void update(CrudEntity entity) {
+		Integer id = entity.getId();
+		Optional<CrudEntity> oldEntity = repository.findById(id);
+		if (oldEntity.isPresent() == false) {
+			throw new RuntimeException(String.format("entity(%s) not exists !!!", entity));
+		}
+		repository.save(entity);
+	}
+
 //	public void delete(Integer id) {
 //		CrudEntity oldEntity = repository.getOne(id);
 //		if (oldEntity == null) {

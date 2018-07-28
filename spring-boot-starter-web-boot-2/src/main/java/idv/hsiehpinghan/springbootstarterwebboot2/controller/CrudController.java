@@ -56,46 +56,21 @@ public class CrudController {
 		return new ResponseEntity<>(entityOption.get(), HttpStatus.OK);
 	}
 	
-//	@PutMapping(value = "/{id}")
-//	public ResponseEntity<CrudEntity> update(@PathVariable("id") Integer id, @RequestBody CrudUpdateCriteria criteria) {
-//		Optional<CrudEntity> entityOption = crudService.getOne(id);
-//		if(entityOption.isPresent() == false) {
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-//		String string = criteria.getString();
-//		CrudEntity entity = entityOption.get();
-//		entity.setString(string);
-//		return new ResponseEntity<>(entity, HttpStatus.OK);
-//	}
-	
-//	@PutMapping("/{isbn}")
-//
-//	public ResponseEntity<Book> updateBook(@PathVariable("isbn") String isbn, @Valid @RequestBody Book book) {
-//
-//	    return bookRepository.findByIsbn(isbn)
-//
-//	        .map(bookToUpdate -> {
-//
-//	            bookToUpdate.setIsbn(book.getIsbn());
-//
-//	            bookToUpdate.setTitle(book.getTitle());
-//
-//	            bookToUpdate.setDescription(book.getDescription());
-//
-//	            bookToUpdate.setAuthors(book.getAuthors());
-//
-//	            bookToUpdate.setPublisher(book.getPublisher());
-//
-//	            bookRepository.save(bookToUpdate);
-//
-//	            return new ResponseEntity<>(bookToUpdate, HttpStatus.OK);
-//
-//	    })
-//
-//	    .orElseThrow(() -> new BookNotFoundException(isbn));
-//
-//	}
-	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<CrudEntity> update(@PathVariable("id") Integer id, @RequestBody CrudUpdateCriteria criteria, UriComponentsBuilder uriComponentsBuilder) {
+		Optional<CrudEntity> entityOption = crudService.getOne(id);
+		if(entityOption.isPresent() == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		String string = criteria.getString();
+		CrudEntity entity = entityOption.get();
+		entity.setString(string);
+		crudService.update(entity);
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setLocation(uriComponentsBuilder.path("/api/cruds/{id}").buildAndExpand(id).toUri());
+		return new ResponseEntity<>(entity, headers, HttpStatus.OK);
+	}
+
 //	@GetMapping(value = "/")
 //	public ResponseEntity<Set<CrudEntity>> readAll(@RequestBody CrudReadCriteria criteria, UriComponentsBuilder uriComponentsBuilder) {
 //		int pageSize = criteria.getPageSize();

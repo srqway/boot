@@ -3,6 +3,15 @@ package idv.hsiehpinghan.springbootstarterwebboot2.criteria;
 public class CrudUpdateCriteria {
 	private String string;
 
+	public CrudUpdateCriteria() {
+		super();
+	}
+
+	public CrudUpdateCriteria(String string) {
+		super();
+		this.string = string;
+	}
+
 	public String getString() {
 		return string;
 	}

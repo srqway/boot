@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import idv.hsiehpinghan.springbootstarterwebboot2.criteria.CrudCreateCriteria;
+import idv.hsiehpinghan.springbootstarterwebboot2.criteria.CrudUpdateCriteria;
 import idv.hsiehpinghan.springbootstarterwebboot2.entity.CrudEntity;
 
 @RunWith(SpringRunner.class)
@@ -45,6 +46,38 @@ public class CrudControllerTest {
 	public void test01_read() throws Exception {
 		read_not_found();
 		read_ok();
+	}
+
+	@Test
+	public void test02_update() throws Exception {
+		update_not_found();
+		update_ok();
+	}
+
+	private void update_not_found() throws IOException, Exception {
+		final Integer NOT_EXIST_ID = Integer.MAX_VALUE;
+		final String NEW_STRING = "new_string";
+		String url = String.format("http://localhost:%d/api/cruds/%d", port, NOT_EXIST_ID);
+		CrudUpdateCriteria criteria = new CrudUpdateCriteria(NEW_STRING);
+		HttpEntity<CrudUpdateCriteria> requestEntity = new HttpEntity<CrudUpdateCriteria>(criteria);
+		@SuppressWarnings("unchecked")
+		ResponseEntity<CrudEntity> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity,
+				CrudEntity.class, Collections.EMPTY_MAP);
+		assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+	}
+
+	private void update_ok() throws IOException, Exception {
+		final String NEW_STRING = "new_string";
+		String url = String.format("http://localhost:%d/api/cruds/%d", port, ID);
+		CrudUpdateCriteria criteria = new CrudUpdateCriteria(NEW_STRING);
+		HttpEntity<CrudUpdateCriteria> requestEntity = new HttpEntity<CrudUpdateCriteria>(criteria);
+		@SuppressWarnings("unchecked")
+		ResponseEntity<CrudEntity> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity,
+				CrudEntity.class, Collections.EMPTY_MAP);
+		assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+		assertThat(responseEntity.getHeaders().get("Location"))
+				.contains(String.format("http://localhost:%d/api/cruds/%d", port, ID));
+		assertThat(responseEntity.getBody()).isEqualToComparingFieldByFieldRecursively(new CrudEntity(ID, NEW_STRING));
 	}
 
 	private void read_not_found() throws IOException, Exception {

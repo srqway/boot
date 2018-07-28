@@ -1,6 +1,5 @@
 package idv.hsiehpinghan.springbootstarterwebboot2.controller;
 
-import java.awt.print.Book;
 import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
@@ -9,12 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import idv.hsiehpinghan.springbootstarterwebboot2.criteria.CrudCreateCriteria;
+import idv.hsiehpinghan.springbootstarterwebboot2.criteria.CrudUpdateCriteria;
 import idv.hsiehpinghan.springbootstarterwebboot2.entity.CrudEntity;
 import idv.hsiehpinghan.springbootstarterwebboot2.service.CrudService;
 
@@ -33,7 +34,7 @@ public class CrudController {
 
 
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody CrudCreateCriteria criteria, UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<CrudEntity> create(@RequestBody CrudCreateCriteria criteria, UriComponentsBuilder uriComponentsBuilder) {
 		Integer id = criteria.getId();
 		String string = criteria.getString();
 		if(crudService.existsById(id) == true) {
@@ -43,7 +44,7 @@ public class CrudController {
 		crudService.save(entity);
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setLocation(uriComponentsBuilder.path("/api/cruds/{id}").buildAndExpand(id).toUri());
-	    return new ResponseEntity<>(headers, HttpStatus.CREATED);
+	    return new ResponseEntity<>(entity, headers, HttpStatus.CREATED);
 	}
 
 	@GetMapping(value = "/{id}")
@@ -54,6 +55,46 @@ public class CrudController {
 		}
 		return new ResponseEntity<>(entityOption.get(), HttpStatus.OK);
 	}
+	
+//	@PutMapping(value = "/{id}")
+//	public ResponseEntity<CrudEntity> update(@PathVariable("id") Integer id, @RequestBody CrudUpdateCriteria criteria) {
+//		Optional<CrudEntity> entityOption = crudService.getOne(id);
+//		if(entityOption.isPresent() == false) {
+//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//		}
+//		String string = criteria.getString();
+//		CrudEntity entity = entityOption.get();
+//		entity.setString(string);
+//		return new ResponseEntity<>(entity, HttpStatus.OK);
+//	}
+	
+//	@PutMapping("/{isbn}")
+//
+//	public ResponseEntity<Book> updateBook(@PathVariable("isbn") String isbn, @Valid @RequestBody Book book) {
+//
+//	    return bookRepository.findByIsbn(isbn)
+//
+//	        .map(bookToUpdate -> {
+//
+//	            bookToUpdate.setIsbn(book.getIsbn());
+//
+//	            bookToUpdate.setTitle(book.getTitle());
+//
+//	            bookToUpdate.setDescription(book.getDescription());
+//
+//	            bookToUpdate.setAuthors(book.getAuthors());
+//
+//	            bookToUpdate.setPublisher(book.getPublisher());
+//
+//	            bookRepository.save(bookToUpdate);
+//
+//	            return new ResponseEntity<>(bookToUpdate, HttpStatus.OK);
+//
+//	    })
+//
+//	    .orElseThrow(() -> new BookNotFoundException(isbn));
+//
+//	}
 	
 //	@GetMapping(value = "/")
 //	public ResponseEntity<Set<CrudEntity>> readAll(@RequestBody CrudReadCriteria criteria, UriComponentsBuilder uriComponentsBuilder) {
@@ -121,16 +162,7 @@ public class CrudController {
 //	    }
 //	}
 //	
-//	@PutMapping(value = "/{id}", consumes = "application/json")
-//	public ResponseEntity<CrudEntity> update(@PathVariable("id") Integer id, @RequestBody CrudUpdateCriteria criteria) {
-//		CrudEntity entity = getOne(id);
-//		if(entity == null) {
-//			new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-//		String string = criteria.getString();
-//		entity.setString(string);
-//		return new ResponseEntity<>(entity, HttpStatus.OK);
-//	}
+
 //
 //	@PatchMapping(value = "/{id}", consumes = "application/json")
 //	public ResponseEntity<CrudEntity> partialUpdate(@PathVariable("id") Integer id, @RequestBody CrudUpdateCriteria criteria) {

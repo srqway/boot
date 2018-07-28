@@ -73,12 +73,12 @@ public class CrudControllerTest {
 		CrudCreateCriteria criteria = new CrudCreateCriteria(ID, STRING);
 		HttpEntity<CrudCreateCriteria> requestEntity = new HttpEntity<CrudCreateCriteria>(criteria);
 		@SuppressWarnings("unchecked")
-		ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class,
-				Collections.EMPTY_MAP);
+		ResponseEntity<CrudEntity> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity,
+				CrudEntity.class, Collections.EMPTY_MAP);
 		assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.CREATED);
 		assertThat(responseEntity.getHeaders().get("Location"))
 				.contains(String.format("http://localhost:%d/api/cruds/%d", port, ID));
-		assertThat(responseEntity.getBody()).isNull();
+		assertThat(responseEntity.getBody()).isEqualToComparingFieldByFieldRecursively(new CrudEntity(ID, STRING));
 	}
 
 	private void create_conflict() {

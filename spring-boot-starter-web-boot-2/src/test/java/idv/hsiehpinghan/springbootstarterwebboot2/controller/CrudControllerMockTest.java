@@ -25,6 +25,8 @@ import idv.hsiehpinghan.springbootstarterwebboot2.service.CrudService;
 @RunWith(SpringRunner.class)
 @WebMvcTest(CrudController.class)
 public class CrudControllerMockTest {
+	private static final Integer ID = 3;
+	private static final String STRING = "string_3";
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
@@ -43,41 +45,36 @@ public class CrudControllerMockTest {
 		read_not_found();
 		read_ok();
 	}
-	
+
 	private void read_not_found() throws IOException, Exception {
-		Integer id = 3;
 		// @formatter:off
 		mockMvc.perform(
-			MockMvcRequestBuilders.get(String.format("/api/cruds/%d", id))
+			MockMvcRequestBuilders.get(String.format("/api/cruds/%d", ID))
 			.contentType(MediaType.APPLICATION_JSON)
 		)
 		.andExpect(MockMvcResultMatchers.status().isNotFound())
 		.andDo(MockMvcResultHandlers.print());
 		// @formatter:on
 	}
-	
+
 	private void read_ok() throws IOException, Exception {
-		Integer id = 3;
-		String string = "string_3";
-		CrudEntity entity = new CrudEntity(id, string);
-		Mockito.when(crudService.getOne(id)).thenReturn(Optional.of(entity));
+		CrudEntity entity = new CrudEntity(ID, STRING);
+		Mockito.when(crudService.getOne(ID)).thenReturn(Optional.of(entity));
 		// @formatter:off
 		mockMvc.perform(
-			MockMvcRequestBuilders.get(String.format("/api/cruds/%d", id))
+			MockMvcRequestBuilders.get(String.format("/api/cruds/%d", ID))
 			.contentType(MediaType.APPLICATION_JSON)
 		)
 		.andExpect(MockMvcResultMatchers.status().isOk())
-		.andExpect(MockMvcResultMatchers.jsonPath("$.id", CoreMatchers.is(id)))
-		.andExpect(MockMvcResultMatchers.jsonPath("$.string", CoreMatchers.is(string)))
+		.andExpect(MockMvcResultMatchers.jsonPath("$.id", CoreMatchers.is(ID)))
+		.andExpect(MockMvcResultMatchers.jsonPath("$.string", CoreMatchers.is(STRING)))
 		.andDo(MockMvcResultHandlers.print());
 		// @formatter:on
 	}
-	
+
 	private void create_created() throws IOException, Exception {
-		Integer id = 3;
-		String string = "string_3";
-		Mockito.when(crudService.existsById(id)).thenReturn(false);
-		CrudEntity entity = new CrudEntity(id, string);
+		Mockito.when(crudService.existsById(ID)).thenReturn(false);
+		CrudEntity entity = new CrudEntity(ID, STRING);
 		// @formatter:off
 		mockMvc.perform(
 			MockMvcRequestBuilders.post("/api/cruds")
@@ -85,17 +82,16 @@ public class CrudControllerMockTest {
 			.content(convertToJson(entity))
 		)
 		.andExpect(MockMvcResultMatchers.status().isCreated())
-		.andExpect(MockMvcResultMatchers.header().string("Location", CoreMatchers.is("http://localhost/api/cruds/3")))
-		.andExpect(MockMvcResultMatchers.content().string(""))
+		.andExpect(MockMvcResultMatchers.header().string("Location", CoreMatchers.is(String.format("http://localhost/api/cruds/%d", ID))))
+		.andExpect(MockMvcResultMatchers.jsonPath("$.id", CoreMatchers.is(ID)))
+		.andExpect(MockMvcResultMatchers.jsonPath("$.string", CoreMatchers.is(STRING)))
 		.andDo(MockMvcResultHandlers.print());
 		// @formatter:on
 	}
 
 	private void create_conflict() throws IOException, Exception {
-		Integer id = 3;
-		String string = "string_3";
-		Mockito.when(crudService.existsById(id)).thenReturn(true);
-		CrudEntity entity = new CrudEntity(id, string);
+		Mockito.when(crudService.existsById(ID)).thenReturn(true);
+		CrudEntity entity = new CrudEntity(ID, STRING);
 		// @formatter:off
 		mockMvc.perform(
 			MockMvcRequestBuilders.post("/api/cruds")

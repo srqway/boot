@@ -51,11 +51,11 @@ public class CrudService {
 		repository.save(entity);
 	}
 
-//	public void delete(Integer id) {
-//		CrudEntity oldEntity = repository.getOne(id);
-//		if (oldEntity == null) {
-//			throw new RuntimeException(String.format("oldEntity(%s) not exists !!!", oldEntity));
-//		}
-//		repository.deleteById(id);
-//	}
+	public void delete(Integer id) {
+		Optional<CrudEntity> oldEntity = repository.findById(id);
+		if (oldEntity.isPresent() == false) {
+			throw new RuntimeException(String.format("oldEntity(%s) not exists !!!", oldEntity));
+		}
+		repository.deleteById(id);
+	}
 }

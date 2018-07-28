@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,7 +71,37 @@ public class CrudController {
 	    headers.setLocation(uriComponentsBuilder.path("/api/cruds/{id}").buildAndExpand(id).toUri());
 		return new ResponseEntity<>(entity, headers, HttpStatus.OK);
 	}
-
+	
+	@DeleteMapping(value = "/delete/{id}")
+	public ResponseEntity<?> deleteId(@PathVariable("id") Integer id) {
+		Optional<CrudEntity> entityOption = crudService.getOne(id);
+		if(entityOption.isPresent() == false) {
+			new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		crudService.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	
+//	@DeleteMapping("/{isbn}")
+//
+//	public ResponseEntity<?> deleteBook(@PathVariable("isbn") String isbn) {
+//
+//	    return bookRepository.findByIsbn(isbn)
+//
+//	        .map(book -> {
+//
+//	            bookRepository.delete(book);
+//
+//	            return new ResponseEntity(HttpStatus.NO_CONTENT);
+//
+//	         })
+//
+//	         .orElseThrow(() -> new BookNotFoundException(isbn));
+//
+//	}
+	
+	
 //	@GetMapping(value = "/")
 //	public ResponseEntity<Set<CrudEntity>> readAll(@RequestBody CrudReadCriteria criteria, UriComponentsBuilder uriComponentsBuilder) {
 //		int pageSize = criteria.getPageSize();
@@ -149,17 +180,7 @@ public class CrudController {
 //		entity.setString(string);
 //		return new ResponseEntity<>(entity, HttpStatus.OK);
 //	}
-//
-//	@DeleteMapping(value = "/delete/{id}")
-//	public ResponseEntity<?> deleteId(@PathVariable("id") Integer id) {
-//		CrudEntity entity = getOne(id);
-//		if(entity == null) {
-//			new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-//		entities.remove(entity);
-//		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//	}
-//	
+
 //	
 //	private CrudEntity getOne(Integer id) {
 //		for(CrudEntity entity : entities) {

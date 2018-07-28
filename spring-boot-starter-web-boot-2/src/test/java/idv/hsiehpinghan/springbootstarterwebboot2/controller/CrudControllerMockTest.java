@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.Optional;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,6 +28,7 @@ import idv.hsiehpinghan.springbootstarterwebboot2.service.CrudService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CrudController.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CrudControllerMockTest {
 	private static final Integer ID = 3;
 	private static final String STRING = "string_3";

@@ -39,13 +39,13 @@ public class CrudControllerMockTest {
 	@MockBean
 	private CrudService crudService;
 
-//	@Test
+	@Test
 	public void test00_create() throws Exception {
 		create_created();
 		create_conflict();
 	}
 
-//	@Test
+	@Test
 	public void test01_read() throws Exception {
 		read_not_found();
 		read_ok();
@@ -55,6 +55,37 @@ public class CrudControllerMockTest {
 	public void test02_update() throws Exception {
 		update_not_found();
 		update_ok();
+	}
+
+	@Test
+	public void test03_delete() throws Exception {
+		delete_not_found();
+		delete_ok();
+	}
+
+	private void delete_not_found() throws IOException, Exception {
+		Mockito.when(crudService.getOne(ID)).thenReturn(Optional.empty());
+		// @formatter:off
+		mockMvc.perform(
+			MockMvcRequestBuilders.delete(String.format("/api/cruds/%d", ID))
+			.contentType(MediaType.APPLICATION_JSON)
+		)
+		.andExpect(MockMvcResultMatchers.status().isNotFound())
+		.andDo(MockMvcResultHandlers.print());
+		// @formatter:on
+	}
+
+	private void delete_ok() throws IOException, Exception {
+		CrudEntity entity = new CrudEntity(ID, STRING);
+		Mockito.when(crudService.getOne(ID)).thenReturn(Optional.of(entity));
+		// @formatter:off
+		mockMvc.perform(
+			MockMvcRequestBuilders.delete(String.format("/api/cruds/%d", ID))
+			.contentType(MediaType.APPLICATION_JSON)
+		)
+		.andExpect(MockMvcResultMatchers.status().isOk())
+		.andDo(MockMvcResultHandlers.print());
+		// @formatter:on
 	}
 
 	private void update_not_found() throws IOException, Exception {
@@ -70,7 +101,7 @@ public class CrudControllerMockTest {
 		.andDo(MockMvcResultHandlers.print());
 		// @formatter:on
 	}
-	
+
 	private void update_ok() throws IOException, Exception {
 		final String NEW_STRING = "new_string";
 		CrudEntity entity = new CrudEntity(ID, STRING);
@@ -89,7 +120,7 @@ public class CrudControllerMockTest {
 		.andDo(MockMvcResultHandlers.print());
 		// @formatter:on
 	}
-	
+
 	private void read_not_found() throws IOException, Exception {
 		// @formatter:off
 		mockMvc.perform(

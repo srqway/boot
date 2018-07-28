@@ -1,10 +1,9 @@
 package idv.hsiehpinghan.springbootstarterwebboot2.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.IOException;
 import java.util.Collections;
 
+import org.assertj.core.api.Assertions;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,6 +53,31 @@ public class CrudControllerTest {
 		update_ok();
 	}
 
+	@Test
+	public void test03_delete() throws Exception {
+		delete_not_found();
+		delete_ok();
+	}
+
+	private void delete_not_found() throws IOException, Exception {
+		final Integer NOT_EXIST_ID = Integer.MAX_VALUE;
+		String url = String.format("http://localhost:%d/api/cruds/%d", port, NOT_EXIST_ID);
+		HttpEntity<?> requestEntity = null;
+		@SuppressWarnings("unchecked")
+		ResponseEntity<Object> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity,
+				Object.class, Collections.EMPTY_MAP);
+		Assertions.assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+	}
+
+	private void delete_ok() throws IOException, Exception {
+		String url = String.format("http://localhost:%d/api/cruds/%d", port, ID);
+		HttpEntity<?> requestEntity = null;
+		@SuppressWarnings("unchecked")
+		ResponseEntity<Object> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity,
+				Object.class, Collections.EMPTY_MAP);
+		Assertions.assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+	}
+
 	private void update_not_found() throws IOException, Exception {
 		final Integer NOT_EXIST_ID = Integer.MAX_VALUE;
 		final String NEW_STRING = "new_string";
@@ -63,7 +87,7 @@ public class CrudControllerTest {
 		@SuppressWarnings("unchecked")
 		ResponseEntity<CrudEntity> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity,
 				CrudEntity.class, Collections.EMPTY_MAP);
-		assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+		Assertions.assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
 	}
 
 	private void update_ok() throws IOException, Exception {
@@ -74,21 +98,22 @@ public class CrudControllerTest {
 		@SuppressWarnings("unchecked")
 		ResponseEntity<CrudEntity> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity,
 				CrudEntity.class, Collections.EMPTY_MAP);
-		assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-		assertThat(responseEntity.getHeaders().get("Location"))
+		Assertions.assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+		Assertions.assertThat(responseEntity.getHeaders().get("Location"))
 				.contains(String.format("http://localhost:%d/api/cruds/%d", port, ID));
-		assertThat(responseEntity.getBody()).isEqualToComparingFieldByFieldRecursively(new CrudEntity(ID, NEW_STRING));
+		Assertions.assertThat(responseEntity.getBody())
+				.isEqualToComparingFieldByFieldRecursively(new CrudEntity(ID, NEW_STRING));
 	}
 
 	private void read_not_found() throws IOException, Exception {
 		final Integer NOT_EXIST_ID = Integer.MAX_VALUE;
 		String url = String.format("http://localhost:%d/api/cruds/%d", port, NOT_EXIST_ID);
-		HttpEntity<Object> requestEntity = null;
+		HttpEntity<?> requestEntity = null;
 		@SuppressWarnings("unchecked")
 		ResponseEntity<CrudEntity> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity,
 				CrudEntity.class, Collections.EMPTY_MAP);
-		assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
-		assertThat(responseEntity.getBody()).isNull();
+		Assertions.assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+		Assertions.assertThat(responseEntity.getBody()).isNull();
 	}
 
 	private void read_ok() throws IOException, Exception {
@@ -97,8 +122,9 @@ public class CrudControllerTest {
 		@SuppressWarnings("unchecked")
 		ResponseEntity<CrudEntity> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity,
 				CrudEntity.class, Collections.EMPTY_MAP);
-		assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-		assertThat(responseEntity.getBody()).isEqualToComparingFieldByFieldRecursively(new CrudEntity(ID, STRING));
+		Assertions.assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+		Assertions.assertThat(responseEntity.getBody())
+				.isEqualToComparingFieldByFieldRecursively(new CrudEntity(ID, STRING));
 	}
 
 	private void create_created() {
@@ -108,10 +134,11 @@ public class CrudControllerTest {
 		@SuppressWarnings("unchecked")
 		ResponseEntity<CrudEntity> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity,
 				CrudEntity.class, Collections.EMPTY_MAP);
-		assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.CREATED);
-		assertThat(responseEntity.getHeaders().get("Location"))
+		Assertions.assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.CREATED);
+		Assertions.assertThat(responseEntity.getHeaders().get("Location"))
 				.contains(String.format("http://localhost:%d/api/cruds/%d", port, ID));
-		assertThat(responseEntity.getBody()).isEqualToComparingFieldByFieldRecursively(new CrudEntity(ID, STRING));
+		Assertions.assertThat(responseEntity.getBody())
+				.isEqualToComparingFieldByFieldRecursively(new CrudEntity(ID, STRING));
 	}
 
 	private void create_conflict() {
@@ -121,8 +148,8 @@ public class CrudControllerTest {
 		@SuppressWarnings("unchecked")
 		ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class,
 				Collections.EMPTY_MAP);
-		assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.CONFLICT);
-		assertThat(responseEntity.getBody()).isNull();
+		Assertions.assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.CONFLICT);
+		Assertions.assertThat(responseEntity.getBody()).isNull();
 	}
 
 }

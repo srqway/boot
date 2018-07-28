@@ -72,11 +72,11 @@ public class CrudController {
 		return new ResponseEntity<>(entity, headers, HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "/delete/{id}")
-	public ResponseEntity<?> deleteId(@PathVariable("id") Integer id) {
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
 		Optional<CrudEntity> entityOption = crudService.getOne(id);
 		if(entityOption.isPresent() == false) {
-			new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		crudService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);

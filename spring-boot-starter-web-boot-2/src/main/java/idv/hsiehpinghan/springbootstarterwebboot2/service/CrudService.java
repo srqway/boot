@@ -2,9 +2,9 @@ package idv.hsiehpinghan.springbootstarterwebboot2.service;
 
 import java.util.Optional;
 
-import javax.swing.text.html.Option;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +17,6 @@ import idv.hsiehpinghan.springbootstarterwebboot2.repository.CrudRepository;
 public class CrudService {
 	@Autowired
 	private CrudRepository repository;
-	
-//	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-//	public List<CrudEntity> findAll() {
-//		return repository.findAll();
-//	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Optional<CrudEntity> getOne(Integer id) {
@@ -32,7 +27,7 @@ public class CrudService {
 	public boolean existsById(Integer id) {
 		return repository.existsById(id);
 	}
-	
+
 	public void save(CrudEntity entity) {
 		Integer id = entity.getId();
 		Optional<CrudEntity> oldEntity = repository.findById(id);
@@ -57,5 +52,10 @@ public class CrudService {
 			throw new RuntimeException(String.format("oldEntity(%s) not exists !!!", oldEntity));
 		}
 		repository.deleteById(id);
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public Page<CrudEntity> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 }

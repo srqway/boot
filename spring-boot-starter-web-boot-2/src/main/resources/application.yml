@@ -20,7 +20,7 @@ spring:
         jdbc:
           batch_size: '5'
           fetch_size: '5'
-        packagesToScan: idv.hsiehpinghan.springbootstarterwebboot.**.entity
+        packagesToScan: idv.hsiehpinghan.springbootstarterwebboot2.**.entity
         show_sql: 'true'
         use_sql_comments: 'true'
   thymeleaf:

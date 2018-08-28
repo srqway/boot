@@ -6,18 +6,20 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import idv.hsiehpinghan.websocketboot.constant.WebsocketbootConstant;
+
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-		stompEndpointRegistry.addEndpoint("/endpoint_0").withSockJS();
+		stompEndpointRegistry.addEndpoint(WebsocketbootConstant.ENDPOINT).withSockJS();
 	}
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry messageBrokerRegistry) {
-		messageBrokerRegistry.enableSimpleBroker("/destination_0");
+		messageBrokerRegistry.enableSimpleBroker(WebsocketbootConstant.TOPIC);
 	}
 
 }

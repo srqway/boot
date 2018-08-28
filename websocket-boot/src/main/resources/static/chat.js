@@ -18,7 +18,7 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/destination_0/getResponse', function (response) {
+        stompClient.subscribe('/topic_0/response', function (response) {
         	console.log(response)
             showConversation(JSON.parse(response.body).responseMessage); //
         });
@@ -39,7 +39,7 @@ function sendName() {
 	var name = $("#name").val()
 	console.log(name);
 	console.log(stompClient);
-    stompClient.send("/messageControl", {}, JSON.stringify({'name': name}));
+    stompClient.send("/message/request", {}, JSON.stringify({'name': name}));
 }
 //顯示接收回來的訊息方法
 function showConversation(responseMessage) {

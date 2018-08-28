@@ -20,7 +20,7 @@ function connect() {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic_0/response', function (response) {
         	console.log(response)
-            showConversation(JSON.parse(response.body).responseMessage); //
+            showConversation(JSON.parse(response.body).messages); //
         });
     });
 }
@@ -42,8 +42,8 @@ function sendName() {
     stompClient.send("/message/request", {}, JSON.stringify({'name': name}));
 }
 //顯示接收回來的訊息方法
-function showConversation(responseMessage) {
-    $("#chatRoom").append("<tr><td>" + responseMessage + "</td></tr>");
+function showConversation(messages) {
+    $("#chatRoom").append("<tr><td>" + messages + "</td></tr>");
 }
 
 $(function () {

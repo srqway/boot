@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import idv.hsiehpinghan.websocketboot.constant.WebsocketbootConstant;
-import idv.hsiehpinghan.websocketboot.model.ServerResponseModel;
+import idv.hsiehpinghan.websocketboot.model.ResponseModel;
 
 @Component
 public class MessageSchedule {
@@ -15,7 +15,7 @@ public class MessageSchedule {
 
 	@Scheduled(fixedDelay = 3000)
 	public void publishUpdates() {
-		ServerResponseModel model = new ServerResponseModel("hah");
+		ResponseModel model = new ResponseModel("This is scheduled message.");
 		template.convertAndSend(WebsocketbootConstant.TOPIC_RESPONSE, model);
 	}
 }

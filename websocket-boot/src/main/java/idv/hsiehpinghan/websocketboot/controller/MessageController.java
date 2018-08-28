@@ -15,7 +15,7 @@ public class MessageController {
 	@MessageMapping("/request")
 	@SendTo(WebsocketbootConstant.TOPIC + "/response")
 	public ResponseModel request(RequestModel requestModel) throws InterruptedException {
-		return new ResponseModel("Hi! " + requestModel.getName() + ".");
+		return new ResponseModel("Your request message : " + requestModel.getMessage());
 	}
 
 }

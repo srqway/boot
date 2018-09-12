@@ -14,7 +14,8 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-		stompEndpointRegistry.addEndpoint(WebsocketbootConstant.ENDPOINT).withSockJS();
+		stompEndpointRegistry.addEndpoint(WebsocketbootConstant.ENDPOINT).withSockJS()
+				.setClientLibraryUrl("/webjars/sockjs-client/1.0.2/sockjs.min.js");
 	}
 
 	@Override

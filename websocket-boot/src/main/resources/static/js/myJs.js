@@ -6,16 +6,25 @@ function setConnected(connected) {
     $("#messages").html("");
 }
 
+function connectCallback(frame) {
+    setConnected(true);
+    stompClient.subscribe('/topic_0/response', function (response) {
+    	var json = JSON.parse(response.body);
+        showConversation(json.messages);
+    });
+}
+
+function errorCallback(any) {
+    console.log('STOMP: ' + any);
+    setTimeout(connect, 10000);
+    console.log('STOMP: Reconecting in 10 seconds');
+}
+
 function connect() {
+    console.log('STOMP: Attempting connection');
     var socket = new SockJS('/endpoint_0');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        setConnected(true);
-        stompClient.subscribe('/topic_0/response', function (response) {
-        	var json = JSON.parse(response.body);
-            showConversation(json.messages);
-        });
-    });
+    stompClient.connect({}, connectCallback, errorCallback);
 }
 
 function disconnect() {
@@ -27,7 +36,7 @@ function disconnect() {
 
 function send() {
 	var message = $("#message").val()
-    stompClient.send("/message/request", {}, JSON.stringify({'message': message}));
+    stompClient.send("/app/message/request", {}, JSON.stringify({'message': message}));
 }
 
 function showConversation(messages) {

@@ -17,5 +17,6 @@ public class MessageSchedule {
 	public void publishUpdates() {
 		ResponseModel model = new ResponseModel("This is scheduled message.");
 		template.convertAndSend(WebsocketbootConstant.TOPIC_RESPONSE, model);
+//		https://blog.csdn.net/haoyuyang/article/details/53364372
 	}
 }

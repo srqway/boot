@@ -14,9 +14,18 @@ public class MessageSchedule {
 	private SimpMessagingTemplate template;
 
 	@Scheduled(fixedDelay = 3000)
-	public void publishUpdates() {
-		ResponseModel model = new ResponseModel("This is scheduled message.");
-		template.convertAndSend(WebsocketbootConstant.TOPIC_RESPONSE, model);
-//		https://blog.csdn.net/haoyuyang/article/details/53364372
+	public void broadcast() {
+		ResponseModel model = new ResponseModel("This is broadcast message.");
+		template.convertAndSend(WebsocketbootConstant.BROADCAST_TOPIC, model);
 	}
+
+	@Scheduled(fixedDelay = 3000)
+	public void user() {
+		ResponseModel model = new ResponseModel("This is user message.");
+		/**
+		 * send to WebsocketbootConstant.USER_TOPIC_PREFIXE + WebsocketbootConstant.USER_0 + WebsocketbootConstant.USER_TOPIC
+		 */
+		template.convertAndSendToUser(WebsocketbootConstant.USER_0, WebsocketbootConstant.USER_TOPIC, model);
+	}
+
 }

@@ -1,6 +1,6 @@
 package idv.hsiehpinghan.websocketboot.model;
 
-public class RequestModel {
+public class MessageModel {
 	private String message;
 
 	public String getMessage() {

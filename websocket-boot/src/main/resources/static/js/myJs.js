@@ -1,3 +1,4 @@
+var user = "user_0";
 var stompClient = null;
 
 function setConnected(connected) {
@@ -8,7 +9,11 @@ function setConnected(connected) {
 
 function connectCallback(frame) {
     setConnected(true);
-    stompClient.subscribe('/topic_0/response', function (response) {
+    stompClient.subscribe('/broadcast/topic', function (response) {
+    	var json = JSON.parse(response.body);
+        showConversation(json.messages);
+    });
+    stompClient.subscribe('/user/' + user + '/topic', function (response) {
     	var json = JSON.parse(response.body);
         showConversation(json.messages);
     });
@@ -36,7 +41,7 @@ function disconnect() {
 
 function send() {
 	var message = $("#message").val()
-    stompClient.send("/app/message/request", {}, JSON.stringify({'message': message}));
+    stompClient.send("/app/message/to_all", {}, JSON.stringify({'message': message}));
 }
 
 function showConversation(messages) {

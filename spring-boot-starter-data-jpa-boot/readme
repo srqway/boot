@@ -1,0 +1,11 @@
+# create postgresql schema
+su - postgres
+psql
+CREATE SCHEMA spring_boot_starter_data_jpa_boot AUTHORIZATION thank;
+
+# create mysql database
+mysql -u root -p
+CREATE DATABASE spring_boot_starter_data_jpa_boot DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+GRANT ALL ON spring_boot_starter_data_jpa_boot.* TO 'thank'@'%' IDENTIFIED BY '%j6w1oW';
+
+

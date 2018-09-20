@@ -39,9 +39,14 @@ function disconnect() {
     setConnected(false);
 }
 
-function send() {
+function sendToAll() {
 	var message = $("#message").val()
     stompClient.send("/app/message/to_all", {}, JSON.stringify({'message': message}));
+}
+
+function sendToUser() {
+	var message = $("#message").val()
+    stompClient.send("/app/message/to_user", {}, JSON.stringify({'message': message}));
 }
 
 function showConversation(messages) {
@@ -54,5 +59,6 @@ $(function () {
     });
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { send(); });
+    $( "#sendToAll" ).click(function() { sendToAll(); });
+    $( "#sendToUser" ).click(function() { sendToUser(); });
 });

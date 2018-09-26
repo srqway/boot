@@ -21,7 +21,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry messageBrokerRegistry) {
 		messageBrokerRegistry.enableSimpleBroker(WebsocketbootConstant.BROADCAST_TOPIC_PREFIXE,
-				WebsocketbootConstant.USER_TOPIC_PREFIXE);
+				WebsocketbootConstant.USER_TOPIC);
 		messageBrokerRegistry.setApplicationDestinationPrefixes(WebsocketbootConstant.APP_TOPIC_PREFIXE);
 		messageBrokerRegistry.setUserDestinationPrefix(WebsocketbootConstant.USER_TOPIC_PREFIXE);
 	}

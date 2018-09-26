@@ -17,6 +17,10 @@ function connectCallback(frame) {
     	var json = JSON.parse(response.body);
         showConversation(json.messages);
     });
+    stompClient.subscribe("/user/topic", function(response) {
+    	var json = JSON.parse(response.body);
+        showConversation(json.messages);
+    });
 }
 
 function errorCallback(any) {

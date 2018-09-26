@@ -1,4 +1,3 @@
-var user = "user_0";
 var stompClient = null;
 
 function setConnected(connected) {
@@ -10,10 +9,6 @@ function setConnected(connected) {
 function connectCallback(frame) {
     setConnected(true);
     stompClient.subscribe('/broadcast/topic', function (response) {
-    	var json = JSON.parse(response.body);
-        showConversation(json.messages);
-    });
-    stompClient.subscribe('/user/' + user + '/topic', function (response) {
     	var json = JSON.parse(response.body);
         showConversation(json.messages);
     });

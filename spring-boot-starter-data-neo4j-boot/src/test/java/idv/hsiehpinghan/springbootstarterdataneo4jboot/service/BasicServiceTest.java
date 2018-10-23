@@ -16,8 +16,10 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -28,10 +30,9 @@ import idv.hsiehpinghan.springbootstarterdataneo4jboot.listener.BasicEventListen
 import idv.hsiehpinghan.springbootstarterdataneo4jboot.node.BasicNode;
 import idv.hsiehpinghan.springbootstarterdataneo4jboot.relationship.BasicRelationship;
 
-//https://docs.spring.io/spring-data/neo4j/docs/5.1.1.RELEASE/reference/html/#ogm-reference-documentation
-//Design Consideration: Session caching
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BasicServiceTest {
 	private Set<String> labels = generateLabels();
 	private boolean primativeBoolean = true;

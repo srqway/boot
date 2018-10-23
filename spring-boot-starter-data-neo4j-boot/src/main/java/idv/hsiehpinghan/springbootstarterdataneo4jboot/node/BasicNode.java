@@ -12,10 +12,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.Labels;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.PostLoad;
 import org.neo4j.ogm.annotation.Properties;
 import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.Transient;
@@ -41,7 +41,9 @@ import idv.hsiehpinghan.springbootstarterdataneo4jboot.relationship.BasicRelatio
 @NodeEntity
 // @CompositeIndex(value = { "string" }, unique = true) // enterprise version
 // only
-public class BasicNode extends BaseNode {
+public class BasicNode {
+	@Id
+	private String id;
 	@Labels
 	private Set<String> labels;
 	@Version
@@ -118,9 +120,6 @@ public class BasicNode extends BaseNode {
 	// transient
 	@Transient
 	private String transientValue;
-	// postLoad
-	@Transient
-	private String postLoadValue;
 	// index
 	@Index(unique = true)
 	private String indexString;
@@ -154,7 +153,7 @@ public class BasicNode extends BaseNode {
 			OffsetDateTime offsetDateTimeString, String transientValue, String indexString, BasicNode outcomeNode,
 			BasicNode incomeNode, Set<BasicRelationship> outcomeRelationships,
 			Set<BasicRelationship> incomeRelationships) {
-		super(id);
+		this.id = id;
 		this.labels = labels;
 		this.primativeBoolean = primativeBoolean;
 		this.wrappedBoolean = wrappedBoolean;
@@ -208,6 +207,14 @@ public class BasicNode extends BaseNode {
 		this.incomeNode = incomeNode;
 		this.outcomeRelationships = outcomeRelationships;
 		this.incomeRelationships = incomeRelationships;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Set<String> getLabels() {
@@ -602,14 +609,6 @@ public class BasicNode extends BaseNode {
 		this.transientValue = transientValue;
 	}
 
-	public String getPostLoadValue() {
-		return postLoadValue;
-	}
-
-	public void setPostLoadValue(String postLoadValue) {
-		this.postLoadValue = postLoadValue;
-	}
-
 	public String getIndexString() {
 		return indexString;
 	}
@@ -648,11 +647,6 @@ public class BasicNode extends BaseNode {
 
 	public void setIncomeRelationships(Set<BasicRelationship> incomeRelationships) {
 		this.incomeRelationships = incomeRelationships;
-	}
-
-	@PostLoad
-	private void postLoad() {
-		postLoadValue = "postLoadValue";
 	}
 
 }

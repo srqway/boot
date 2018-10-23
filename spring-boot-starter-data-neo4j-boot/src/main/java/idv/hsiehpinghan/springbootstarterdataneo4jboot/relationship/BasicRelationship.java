@@ -6,13 +6,13 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.neo4j.ogm.annotation.EndNode;
+import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.Properties;
 import org.neo4j.ogm.annotation.RelationshipEntity;
 import org.neo4j.ogm.annotation.StartNode;
@@ -34,9 +34,11 @@ import idv.hsiehpinghan.springbootstarterdataneo4jboot.enumeration.Enumeration;
 import idv.hsiehpinghan.springbootstarterdataneo4jboot.node.BasicNode;
 
 @RelationshipEntity(type = "basic")
-public class BasicRelationship extends BaseRelationship {
+public class BasicRelationship {
 	@Version
 	private Long version_;
+	@Id
+	private String id;
 	// primative
 	private boolean primativeBoolean;
 	private Boolean wrappedBoolean;
@@ -133,7 +135,7 @@ public class BasicRelationship extends BaseRelationship {
 			Instant instant, Instant instantLong, Instant instantString, LocalDate localDate, LocalDate localDateString,
 			LocalDateTime localDateTime, LocalDateTime localDateTimeString, OffsetDateTime offsetDateTime,
 			OffsetDateTime offsetDateTimeString, String transientValue, BasicNode incomeNode, BasicNode outcomeNode) {
-		super(id);
+		this.id = id;
 		this.primativeBoolean = primativeBoolean;
 		this.wrappedBoolean = wrappedBoolean;
 		this.primativeByte = primativeByte;
@@ -183,6 +185,14 @@ public class BasicRelationship extends BaseRelationship {
 		this.transientValue = transientValue;
 		this.incomeNode = incomeNode;
 		this.outcomeNode = outcomeNode;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Long getVersion_() {
@@ -586,25 +596,28 @@ public class BasicRelationship extends BaseRelationship {
 	}
 
 	@Override
-	public String toString() {
-		return "BasicRelationship [version_=" + version_ + ", primativeBoolean=" + primativeBoolean
-				+ ", wrappedBoolean=" + wrappedBoolean + ", primativeByte=" + primativeByte + ", wrappedByte="
-				+ wrappedByte + ", byteString=" + byteString + ", primativeChar=" + primativeChar + ", wrappedChar="
-				+ wrappedChar + ", primativeDouble=" + primativeDouble + ", wrappedDouble=" + wrappedDouble
-				+ ", doubleString=" + doubleString + ", primativeFloat=" + primativeFloat + ", wrappedFloat="
-				+ wrappedFloat + ", floatString=" + floatString + ", primativeInt=" + primativeInt + ", wrappedInt="
-				+ wrappedInt + ", integerString=" + integerString + ", primativeLong=" + primativeLong
-				+ ", wrappedLong=" + wrappedLong + ", longString=" + longString + ", primativeShort=" + primativeShort
-				+ ", wrappedShort=" + wrappedShort + ", uuid=" + uuid + ", string=" + string + ", bigDecimal="
-				+ bigDecimal + ", bigDecimalString=" + bigDecimalString + ", bigInteger=" + bigInteger
-				+ ", bigIntegerString=" + bigIntegerString + ", enum_=" + enum_ + ", enumString=" + enumString
-				+ ", byteArray=" + Arrays.toString(byteArray) + ", stringArray=" + Arrays.toString(stringArray)
-				+ ", dateList=" + dateList + ", enumList=" + enumList + ", map=" + map + ", date=" + date
-				+ ", dateLong=" + dateLong + ", dateString=" + dateString + ", instant=" + instant + ", instantLong="
-				+ instantLong + ", instantString=" + instantString + ", localDate=" + localDate + ", localDateString="
-				+ localDateString + ", localDateTime=" + localDateTime + ", localDateTimeString=" + localDateTimeString
-				+ ", offsetDateTime=" + offsetDateTime + ", offsetDateTimeString=" + offsetDateTimeString
-				+ ", transientValue=" + transientValue + "]";
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BasicRelationship other = (BasicRelationship) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

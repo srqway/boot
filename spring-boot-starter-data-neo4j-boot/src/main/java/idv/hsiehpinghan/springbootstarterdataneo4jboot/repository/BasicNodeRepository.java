@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import idv.hsiehpinghan.springbootstarterdataneo4jboot.node.BasicNode;
 
-public interface BasicRepository extends Neo4jRepository<BasicNode, String> {
-//	@Query("MATCH (n_0)-[r]->(n_1 {primativeBoolean:{primativeBoolean}}) RETURN n_0, r, n_1")
-//	Collection<BasicNode> query(@Param("primativeBoolean") boolean primativeBoolean);
+public interface BasicNodeRepository extends Neo4jRepository<BasicNode, String> {
+	@Query("MATCH (n_0)-[r]->(n_1 {primativeBoolean:{primativeBoolean}}) RETURN n_0, r, n_1")
+	Collection<BasicNode> query(@Param("primativeBoolean") boolean primativeBoolean);
 }

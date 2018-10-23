@@ -1,6 +1,5 @@
 package idv.hsiehpinghan.springbootstarterdataneo4jboot.service;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +27,6 @@ public class BasicNodeService {
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public Optional<BasicNode> findById(String id) {
 		return repository.findById(id);
-	}
-
-	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-	public Collection<BasicNode> query(boolean primativeBoolean) {
-		return repository.query(primativeBoolean);
 	}
 
 }

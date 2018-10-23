@@ -81,7 +81,6 @@ public class BasicServiceTest {
 	private OffsetDateTime offsetDateTime = OffsetDateTime.now();
 	private OffsetDateTime offsetDateTimeString = OffsetDateTime.now();
 	private String transientValue = "transientValue";
-	private String postLoadValue = "postLoadValue";
 	private String outcomeNodeIndexString = null;
 	private String incomeNodeIndexString = null;
 	private String incomeNodeId = null;
@@ -89,8 +88,6 @@ public class BasicServiceTest {
 
 	@Autowired
 	private BasicNodeService nodeService;
-	@Autowired
-	private BasicRelationshipService relationshipService;
 
 	@Test
 	public void test00_beforeClass() {
@@ -125,119 +122,15 @@ public class BasicServiceTest {
 	}
 
 	@Test
-	public void test02_saveAndLoadBasicRelationship() throws Exception {
-		outcomeNodeIndexString = "indexString_" + generateId();
-		incomeNodeIndexString = "indexString_" + generateId();
-		BasicNode outcomeNode = new BasicNode(generateId(), labels, primativeBoolean, wrappedBoolean, primativeByte,
-				wrappedByte, byteString, primativeChar, wrappedChar, primativeDouble, wrappedDouble, doubleString,
-				primativeFloat, wrappedFloat, floatString, primativeInt, wrappedInt, integerString, primativeLong,
-				wrappedLong, longString, primativeShort, wrappedShort, uuid, string, bigDecimal, bigDecimalString,
-				bigInteger, bigIntegerString, enum_, enumString, byteArray, stringArray, dateList, enumList, map, date,
-				dateLong, dateString, instant, instantLong, instantString, localDate, localDateString, localDateTime,
-				localDateTimeString, offsetDateTime, offsetDateTimeString, transientValue, outcomeNodeIndexString, null,
-				null, null, null);
-		BasicNode incomeNode = new BasicNode(generateId(), labels, primativeBoolean, wrappedBoolean, primativeByte,
-				wrappedByte, byteString, primativeChar, wrappedChar, primativeDouble, wrappedDouble, doubleString,
-				primativeFloat, wrappedFloat, floatString, primativeInt, wrappedInt, integerString, primativeLong,
-				wrappedLong, longString, primativeShort, wrappedShort, uuid, string, bigDecimal, bigDecimalString,
-				bigInteger, bigIntegerString, enum_, enumString, byteArray, stringArray, dateList, enumList, map, date,
-				dateLong, dateString, instant, instantLong, instantString, localDate, localDateString, localDateTime,
-				localDateTimeString, offsetDateTime, offsetDateTimeString, transientValue, incomeNodeIndexString, null,
-				null, null, null);
-		BasicRelationship relationship = new BasicRelationship(generateId(), primativeBoolean, wrappedBoolean,
-				primativeByte, wrappedByte, byteString, primativeChar, wrappedChar, primativeDouble, wrappedDouble,
-				doubleString, primativeFloat, wrappedFloat, floatString, primativeInt, wrappedInt, integerString,
-				primativeLong, wrappedLong, longString, primativeShort, wrappedShort, uuid, string, bigDecimal,
-				bigDecimalString, bigInteger, bigIntegerString, enum_, enumString, byteArray, stringArray, dateList,
-				enumList, map, date, dateLong, dateString, instant, instantLong, instantString, localDate,
-				localDateString, localDateTime, localDateTimeString, offsetDateTime, offsetDateTimeString,
-				transientValue, incomeNode, outcomeNode);
-		relationshipService.save(relationship);
-		incomeNodeId = relationship.getIncomeNode().getId();
-		outcomeNodeId = relationship.getOutcomeNode().getId();
-		BasicNode returnNode = nodeService.findById(incomeNodeId).get();
-		assertRelationshipNode(returnNode);
-	}
-
-	@Test
-	public void test03_query() {
-		int i = 0;
-		for (BasicNode returnNode : nodeService.query(primativeBoolean)) {
-			assertQuery(returnNode);
-			++i;
-		}
-		Assert.assertEquals(i, 4);
-	}
-
-	@Test
-	public void test04_listener() {
+	public void test02_listener() {
 		Assert.assertTrue(BasicEventListener.isOnPreSaveExecute);
 		Assert.assertTrue(BasicEventListener.isOnPostSaveExecute);
 	}
 
 	@Test
-	public void test05_listenerAdapter() {
+	public void test03_listenerAdapter() {
 		Assert.assertTrue(BasicEventListenerAdapter.isOnPreSaveExecute);
 		Assert.assertTrue(BasicEventListenerAdapter.isOnPostSaveExecute);
-	}
-
-	private void assertQuery(BasicNode returnNode) {
-		Assert.assertEquals(returnNode.getLabels(), labels);
-		Assert.assertEquals(returnNode.isPrimativeBoolean(), primativeBoolean);
-		Assert.assertEquals(returnNode.getWrappedBoolean(), wrappedBoolean);
-		Assert.assertEquals(returnNode.getPrimativeByte(), primativeByte);
-		Assert.assertEquals(returnNode.getWrappedByte(), wrappedByte);
-		Assert.assertEquals(returnNode.getByteString(), byteString);
-		Assert.assertEquals(returnNode.getPrimativeChar(), primativeChar);
-		Assert.assertEquals(returnNode.getWrappedChar(), wrappedChar);
-		Assert.assertEquals(returnNode.getPrimativeDouble(), primativeDouble, 0.1);
-		Assert.assertEquals(returnNode.getWrappedDouble(), wrappedDouble);
-		Assert.assertEquals(returnNode.getDoubleString(), doubleString);
-		Assert.assertEquals(returnNode.getPrimativeFloat(), primativeFloat, 0.1);
-		Assert.assertEquals(returnNode.getWrappedFloat(), wrappedFloat);
-		Assert.assertEquals(returnNode.getFloatString(), floatString);
-		Assert.assertEquals(returnNode.getPrimativeInt(), primativeInt);
-		Assert.assertEquals(returnNode.getWrappedInt(), wrappedInt);
-		Assert.assertEquals(returnNode.getIntegerString(), integerString);
-		Assert.assertEquals(returnNode.getPrimativeLong(), primativeLong);
-		Assert.assertEquals(returnNode.getWrappedLong(), wrappedLong);
-		Assert.assertEquals(returnNode.getLongString(), longString);
-		Assert.assertEquals(returnNode.getPrimativeShort(), primativeShort);
-		Assert.assertEquals(returnNode.getWrappedShort(), wrappedShort);
-		Assert.assertEquals(returnNode.getUuid(), uuid);
-		Assert.assertEquals(returnNode.getString(), string);
-		Assert.assertEquals(returnNode.getBigDecimal(), bigDecimal);
-		Assert.assertEquals(returnNode.getBigDecimalString(), bigDecimalString);
-		Assert.assertEquals(returnNode.getBigInteger(), bigInteger);
-		Assert.assertEquals(returnNode.getBigIntegerString(), bigIntegerString);
-		Assert.assertEquals(returnNode.getEnum_(), enum_);
-		Assert.assertEquals(returnNode.getEnumString(), enumString);
-		Assert.assertArrayEquals(returnNode.getByteArray(), byteArray);
-		Assert.assertArrayEquals(returnNode.getStringArray(), stringArray);
-		Assert.assertEquals(returnNode.getDateList(), dateList);
-		Assert.assertEquals(returnNode.getEnumList(), enumList);
-		Assert.assertEquals(returnNode.getMap(), map);
-		Assert.assertEquals(returnNode.getDate(), date);
-		Assert.assertEquals(returnNode.getDateLong(), dateLong);
-		Assert.assertEquals(returnNode.getDateString(), dateString);
-		Assert.assertEquals(returnNode.getInstant(), instant);
-		Assert.assertEquals(returnNode.getInstantLong(), instantLong);
-		Assert.assertEquals(returnNode.getInstantString(), instantString);
-		Assert.assertEquals(returnNode.getLocalDate(), localDate);
-		Assert.assertEquals(returnNode.getLocalDateString(), localDateString);
-		Assert.assertEquals(returnNode.getLocalDateTime(), localDateTime);
-		Assert.assertEquals(returnNode.getLocalDateTimeString(), localDateTimeString);
-		Assert.assertEquals(returnNode.getOffsetDateTime(), offsetDateTime);
-		Assert.assertEquals(returnNode.getOffsetDateTimeString(), offsetDateTimeString);
-		Assert.assertNull(returnNode.getTransientValue());
-		BasicNode outcomeNode = returnNode.getOutcomeNode();
-		if (outcomeNode != null) {
-			assertQuery(outcomeNode);
-		}
-		Set<BasicRelationship> outcomeRelationships = returnNode.getOutcomeRelationships();
-		if (outcomeRelationships != null) {
-			assertQuery(outcomeRelationships.iterator().next().getOutcomeNode());
-		}
 	}
 
 	private void assertNode(BasicNode returnNode) {

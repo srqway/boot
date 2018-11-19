@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.springbootstarterhateoasboot.resource;
+package idv.hsiehpinghan.springbootstarterhateoasboot.model;
 
 public class CrudModel {
 	private Integer id;

@@ -10,11 +10,10 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-import org.springframework.hateoas.Resources;
-
 import idv.hsiehpinghan.springbootstarterhateoasboot.resource.CrudResource;
+import idv.hsiehpinghan.springbootstarterhateoasboot.resources.CrudResources;
 
-public class ResourcesCollector implements Collector<CrudResource, List<CrudResource>, Resources<CrudResource>> {
+public class ResourcesCollector implements Collector<CrudResource, List<CrudResource>, CrudResources> {
 
 	@Override
 	public Supplier<List<CrudResource>> supplier() {
@@ -39,9 +38,9 @@ public class ResourcesCollector implements Collector<CrudResource, List<CrudReso
 	}
 
 	@Override
-	public Function<List<CrudResource>, Resources<CrudResource>> finisher() {
+	public Function<List<CrudResource>, CrudResources> finisher() {
 		return (list) -> {
-			return new Resources<>(list);
+			return new CrudResources(list);
 		};
 	}
 

@@ -31,6 +31,7 @@ import idv.hsiehpinghan.springbootstarterhateoasboot.criteria.CrudReadAllCriteri
 import idv.hsiehpinghan.springbootstarterhateoasboot.criteria.CrudUpdateCriteria;
 import idv.hsiehpinghan.springbootstarterhateoasboot.entity.CrudEntity;
 import idv.hsiehpinghan.springbootstarterhateoasboot.resource.CrudResource;
+import idv.hsiehpinghan.springbootstarterhateoasboot.resources.CrudResources;
 import idv.hsiehpinghan.springbootstarterhateoasboot.service.CrudService;
 import idv.hsiehpinghan.springbootstarterhateoasboot.utility.ConvertUtility;
 
@@ -126,14 +127,12 @@ public class CrudController {
 				if (entities.hasPrevious()) {
 					headers.add("prev", generatePageUri(entities.previousPageable()));
 				}
-				Resources<CrudResource> resources = entities.getContent().stream().map(ConvertUtility::toCrudResource)
+				CrudResources resources = entities.getContent().stream().map(ConvertUtility::toCrudResource)
 						.collect(new ResourcesCollector());
-				ConvertUtility.addLinks(resources);
 				return new ResponseEntity<>(resources, headers, HttpStatus.PARTIAL_CONTENT);
 			} else {
-				Resources<CrudResource> resources = entities.getContent().stream().map(ConvertUtility::toCrudResource)
+				CrudResources resources = entities.getContent().stream().map(ConvertUtility::toCrudResource)
 						.collect(new ResourcesCollector());
-				ConvertUtility.addLinks(resources);
 				return new ResponseEntity<>(resources, headers, HttpStatus.OK);
 			}
 		}

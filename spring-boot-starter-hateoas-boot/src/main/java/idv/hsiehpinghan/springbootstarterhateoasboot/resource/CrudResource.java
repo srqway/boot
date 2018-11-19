@@ -6,6 +6,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import org.springframework.hateoas.ResourceSupport;
 
 import idv.hsiehpinghan.springbootstarterhateoasboot.controller.CrudController;
+import idv.hsiehpinghan.springbootstarterhateoasboot.model.CrudModel;
 
 public class CrudResource extends ResourceSupport {
 	private CrudModel model;

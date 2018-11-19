@@ -1,0 +1,2 @@
+curl "http://localhost:8080/api/cruds" -X POST -i -H "Content-Type:application/json" -d '{"id":3,"string":"sring_3"}'
+curl "http://localhost:8080/api/cruds?page=0&size=10&directions=ASC&directions=DESC&properties=id&properties=string" -X GET

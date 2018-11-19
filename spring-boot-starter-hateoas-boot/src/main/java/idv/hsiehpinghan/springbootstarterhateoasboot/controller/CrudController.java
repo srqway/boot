@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import idv.hsiehpinghan.springbootstarterhateoasboot.collector.ResourcesCollector;
 import idv.hsiehpinghan.springbootstarterhateoasboot.criteria.CrudCreateCriteria;
@@ -34,6 +33,8 @@ import idv.hsiehpinghan.springbootstarterhateoasboot.resource.CrudResource;
 import idv.hsiehpinghan.springbootstarterhateoasboot.resources.CrudResources;
 import idv.hsiehpinghan.springbootstarterhateoasboot.service.CrudService;
 import idv.hsiehpinghan.springbootstarterhateoasboot.utility.ConvertUtility;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @RestController
 @RequestMapping(value = { "/api/cruds" }, produces = { "application/hal+json" })
@@ -46,8 +47,7 @@ public class CrudController {
 	}
 
 	@PostMapping
-	public ResponseEntity<CrudResource> create(@RequestBody CrudCreateCriteria criteria,
-			UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<CrudResource> create(@RequestBody CrudCreateCriteria criteria) {
 		Integer id = criteria.getId();
 		String string = criteria.getString();
 		if (crudService.existsById(id) == true) {
@@ -55,9 +55,10 @@ public class CrudController {
 		}
 		CrudEntity entity = new CrudEntity(id, string);
 		crudService.save(entity);
+		CrudResource resource = ConvertUtility.toCrudResource(entity);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(uriComponentsBuilder.path("/api/cruds/{id}").buildAndExpand(id).toUri());
-		return new ResponseEntity<>(ConvertUtility.toCrudResource(entity), headers, HttpStatus.CREATED);
+		headers.setLocation(linkTo(CrudController.class).slash(resource).toUri());
+		return new ResponseEntity<>(resource, headers, HttpStatus.CREATED);
 	}
 
 	@GetMapping(value = "/{id}")
@@ -70,8 +71,7 @@ public class CrudController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CrudResource> update(@PathVariable("id") Integer id, @RequestBody CrudUpdateCriteria criteria,
-			UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<CrudResource> update(@PathVariable("id") Integer id, @RequestBody CrudUpdateCriteria criteria) {
 		Optional<CrudEntity> entityOption = crudService.getOne(id);
 		if (entityOption.isPresent() == false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -80,9 +80,10 @@ public class CrudController {
 		CrudEntity entity = entityOption.get();
 		entity.setString(string);
 		crudService.update(entity);
+		CrudResource resource = ConvertUtility.toCrudResource(entity);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(uriComponentsBuilder.path("/api/cruds/{id}").buildAndExpand(id).toUri());
-		return new ResponseEntity<>(ConvertUtility.toCrudResource(entity), headers, HttpStatus.OK);
+		headers.setLocation(linkTo(CrudController.class).slash(resource).toUri());
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/{id}")
@@ -139,7 +140,7 @@ public class CrudController {
 	}
 
 	private String generatePageUri(Pageable page) {
-		return UriComponentsBuilder.fromUriString("/api/cruds").query("page={page}&size={size}")
+		return linkTo(CrudController.class).toUriComponentsBuilder().query("page={page}&size={size}")
 				.buildAndExpand(page.getPageNumber(), page.getPageSize()).toUriString();
 	}
 

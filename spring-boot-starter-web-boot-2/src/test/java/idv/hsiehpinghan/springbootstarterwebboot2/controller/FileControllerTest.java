@@ -37,7 +37,9 @@ public class FileControllerTest {
 
 	@Test
 	public void test00_init() throws Exception {
-		service.delete(FILE_NAME);
+		if (service.existsAndReadable(FILE_NAME) == true) {
+			service.delete(FILE_NAME);
+		}
 	}
 
 	@Test

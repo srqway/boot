@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import idv.hsiehpinghan.springbootstarterwebboot2.criteria.FileStoreCriteria;
 import idv.hsiehpinghan.springbootstarterwebboot2.service.FileService;
 
 @RestController
@@ -28,8 +28,9 @@ public class FileController {
 	}
 
 	@PostMapping(value = "/")
-	public ResponseEntity<?> store(@RequestParam("file") MultipartFile file, UriComponentsBuilder uriComponentsBuilder)
+	public ResponseEntity<?> store(FileStoreCriteria criteria, UriComponentsBuilder uriComponentsBuilder)
 			throws Exception {
+		MultipartFile file = criteria.getFile();
 		String fileName = file.getOriginalFilename();
 		if (fileService.existsAndReadable(fileName) == true) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);

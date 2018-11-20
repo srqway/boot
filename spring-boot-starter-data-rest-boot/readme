@@ -1,23 +1,22 @@
 # get api info
-curl -X GET http://localhost:8080
-curl -X GET http://localhost:8080/profile/manyToManyBidirectionFromEntities
+curl -iv --raw -X GET http://localhost:8080
+curl -iv --raw -X GET http://localhost:8080/profile/manyToManyBidirectionFromEntities
 
 # create data
-curl -i -X POST -H "Content-Type:application/json" -d '{ "id" : 0, "name" : "from_0", "tos" : [ { "id" : 0, "name" : "to_0"}, { "id" : 1, "name" : "to_1"}, { "id" : 2, "name" : "to_2"} ] }' http://localhost:8080/manyToManyBidirectionFromEntities
-curl -i -X POST -H "Content-Type:application/json" -d '{ "id" : 1, "name" : "from_1", "tos" : [ { "id" : 0, "name" : "to_0"}, { "id" : 1, "name" : "to_1"}, { "id" : 2, "name" : "to_2"} ] }' http://localhost:8080/manyToManyBidirectionFromEntities
-curl -i -X POST -H "Content-Type:application/json" -d '{ "id" : 2, "name" : "from_2", "tos" : [ { "id" : 0, "name" : "to_0"}, { "id" : 1, "name" : "to_1"}, { "id" : 2, "name" : "to_2"} ] }' http://localhost:8080/manyToManyBidirectionFromEntities
+curl -iv --raw -X POST -H "Content-Type:application/json" -d '{ "id" : 0, "name" : "from_0", "tos" : [ { "id" : 0, "name" : "to_0"}, { "id" : 1, "name" : "to_1"}, { "id" : 2, "name" : "to_2"} ] }' http://localhost:8080/manyToManyBidirectionFromEntities
+curl -iv --raw -X POST -H "Content-Type:application/json" -d '{ "id" : 1, "name" : "from_1", "tos" : [ { "id" : 0, "name" : "to_0"}, { "id" : 1, "name" : "to_1"}, { "id" : 2, "name" : "to_2"} ] }' http://localhost:8080/manyToManyBidirectionFromEntities
+curl -iv --raw -X POST -H "Content-Type:application/json" -d '{ "id" : 2, "name" : "from_2", "tos" : [ { "id" : 0, "name" : "to_0"}, { "id" : 1, "name" : "to_1"}, { "id" : 2, "name" : "to_2"} ] }' http://localhost:8080/manyToManyBidirectionFromEntities
 
 # receive data
-curl -X GET http://localhost:8080/manyToManyBidirectionFromEntities
-curl -X GET http://localhost:8080/manyToManyBidirectionFromEntities/1
-curl -X GET http://localhost:8080/manyToManyBidirectionFromEntities/search
-curl -X GET http://localhost:8080/manyToManyBidirectionFromEntities/search/findByName?name=from_1
+curl -iv --raw -X GET http://localhost:8080/manyToManyBidirectionFromEntities
+curl -iv --raw -X GET http://localhost:8080/manyToManyBidirectionFromEntities/1
+curl -iv --raw -X GET http://localhost:8080/manyToManyBidirectionFromEntities/search
+curl -iv --raw -X GET http://localhost:8080/manyToManyBidirectionFromEntities/search/findByName?name=from_1
 
 # update
-curl -i -X PUT -H "Content-Type:application/json" -d '{ "age" : 0, "checked" : true }' http://localhost:8080/userEntities/hsiehpinghan_0
-curl -i -X PATCH -H "Content-Type:application/json" -d '{ "checked" : false }' http://localhost:8080/userEntities/hsiehpinghan_0
+curl -iv --raw -X PUT -H "Content-Type:application/json" -d '{ "name" : "from_100", "tos" : [ { "id" : 0, "name" : "to_0"}, { "id" : 1, "name" : "to_1"}, { "id" : 2, "name" : "to_2"} ] }' http://localhost:8080/manyToManyBidirectionFromEntities/1
+curl -iv --raw -X PATCH -H "Content-Type:application/json" -d '{ "name" : "from_1000" }' http://localhost:8080/manyToManyBidirectionFromEntities/1
 
 # delete
-curl -X DELETE http://localhost:8080/userEntities/hsiehpinghan_0
-
+curl -iv --raw -X DELETE http://localhost:8080/userEntities/hsiehpinghan_0
 

@@ -18,5 +18,5 @@ curl -iv --raw -X PUT -H "Content-Type:application/json" -d '{ "name" : "from_10
 curl -iv --raw -X PATCH -H "Content-Type:application/json" -d '{ "name" : "from_1000" }' http://localhost:8080/manyToManyBidirectionFromEntities/1
 
 # delete
-curl -iv --raw -X DELETE http://localhost:8080/userEntities/hsiehpinghan_0
+curl -iv --raw -X DELETE http://localhost:8080/manyToManyBidirectionFromEntities/1
 

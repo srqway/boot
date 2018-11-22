@@ -1,0 +1,69 @@
+# generate docker image
+su -
+cd /home/hsiehpinghan/git/boot/spring-cloud-starter-oauth2-boot/redis_token_store_authorization_server
+./mvnw install dockerfile:build
+
+# run and test (redis token store)
+systemctl start docker
+docker pull redis:5.0.1
+docker run --name my_redis -p 6379:6379 -itd redis:5.0.1
+
+docker run --name redis-token-store-authorization-server --link my_redis:my_redis -p 8080:8080 -t hsiehpinghan/spring-cloud-starter-oauth2-boot:1.0.0
+
+
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password=user&client_id=client_id&client_secret={noop}client_secret"
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password=user&client_id=client_id&client_secret={bcrypt}$2a$10$DXnWWN3vFi66dx1yrQ9I4O.u24weJQwT4XMSB6P/KseXh37pvBZ1q"
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password={bcrypt}$2a$10$.42nTXws3qMT22GgRBi1W.tD3bc3UaO0J2GgxniQKVnx0rxuFer5K&client_id=client_id&client_secret={bcrypt}$2a$10$T6s376BaNaK9oNclF41BS./OaacxW2TrNntkuCmeUWTGQAGUEHpMi"
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password={bcrypt}$2a$10$.42nTXws3qMT22GgRBi1W.tD3bc3UaO0J2GgxniQKVnx0rxuFer5K&client_id=client_id&client_secret={noop}client_secret"
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password={bcrypt}$2a$10$.42nTXws3qMT22GgRBi1W.tD3bc3UaO0J2GgxniQKVnx0rxuFer5K&client_id=client_id&client_secret={bcrypt}$2a$10$8NMtG6ga9t52Ir8NYGMtR.MIogMBBCFmRQA4./J5b7EAeOtIHbRP6"
+
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password={bcrypt}$2a$10$Bt9DpeIkDXxBXpUmpJFTxuZ0YiGb6Xjpw5sJPcvIpUWqialSvvRcK&client_id=client_id&client_secret={bcrypt}$2a$10$7ZzgFDr2ndxrkTnDnACh4uUKMXfLl.rIJ0Akbxe1kjmn3AZWtqiUu"
+
+
+curl -iv --raw  http://localhost:8080/oauth/token -d "grant_type=password&username=user&password=user&client_id=client_id&client_secret=client_secret"
+
+
+
+
+
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password=user&client_id=client_id&client_secret={bcrypt}$2a$10$UeRvX9xTd8K973bKsOGQPuRugQNdFghfd2sTyEzMvI1u7.9zs5jUy"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8084/api/userMethod
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=admin&password=admin&client_id=client_id&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8084/api/adminMethod
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=other&password=other&client_id=client_id&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8084/api/otherMethod
+
+curl http://localhost:8080/oauth/token -d "grant_type=client_credentials&client_id=client_id&client_secret=secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8084/api/otherMethod
+
+# open h2 console
+http://localhost:8080/h2/
+
+# install redis
+tar xvfz redis-3.2.11.tar.gz
+make / make MALLOC=libc
+make test / make test MALLOC=libc
+
+# start redis server
+redis-server --port 6379
+
+# shutdown redis server
+redis-cli SHUTDOWN
+
+# start redis client
+redis-cli -h 127.0.0.1 -p 6379
+
+# change database (0 ~ 16)
+SELECT 0
+
+# list all keys
+KEYS *

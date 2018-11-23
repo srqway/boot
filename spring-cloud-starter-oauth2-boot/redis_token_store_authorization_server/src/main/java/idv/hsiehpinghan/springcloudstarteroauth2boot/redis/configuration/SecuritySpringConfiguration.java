@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -33,20 +32,18 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 
 	@PostConstruct
 	public void postConstruct() {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String password = "{bcrypt}" + passwordEncoder.encode("user");
 		if (userService.findOne("user") == null) {
-			UserEntity user = new UserEntity("user", password, true, true, true, true,
+			UserEntity user = new UserEntity("user", passwordEncoder.encode("user"), true, true, true, true,
 					Arrays.asList(new RoleEntity("ROLE_USER", "user role name", null)));
 			userService.save(user);
 		}
 		if (userService.findOne("admin") == null) {
-			UserEntity admin = new UserEntity("admin", password, true, true, true, true,
+			UserEntity admin = new UserEntity("admin", passwordEncoder.encode("admin"), true, true, true, true,
 					Arrays.asList(new RoleEntity("ROLE_ADMIN", "admin role name", null)));
 			userService.save(admin);
 		}
 		if (userService.findOne("other") == null) {
-			UserEntity admin = new UserEntity("other", password, true, true, true, true,
+			UserEntity admin = new UserEntity("other", passwordEncoder.encode("other"), true, true, true, true,
 					Arrays.asList(new RoleEntity("ROLE_OTHER", "other role name", null)));
 			userService.save(admin);
 		}
@@ -69,7 +66,6 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-//		authenticationManagerBuilder.userDetailsService(userDetailsService);
 	}
 
 	@Override
@@ -80,13 +76,6 @@ public class SecuritySpringConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-//		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		
-		System.err.println(passwordEncoder.encode("user"));
-		System.err.println(passwordEncoder.encode("client_secret"));
-		
-		
-		return passwordEncoder;
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 }

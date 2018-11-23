@@ -1,9 +1,0 @@
-/home/hsiehpinghan/git/boot/spring-cloud-starter-oauth2-boot/redis_token_store_authorization_server/src/main/java/idv/hsiehpinghan/springcloudstarteroauth2boot/SpringCloudStarterOauth2BootApplication.java
-/home/hsiehpinghan/git/boot/spring-cloud-starter-oauth2-boot/redis_token_store_authorization_server/src/main/java/idv/hsiehpinghan/springcloudstarteroauth2boot/redis/entity/UserEntity.java
-/home/hsiehpinghan/git/boot/spring-cloud-starter-oauth2-boot/redis_token_store_authorization_server/src/main/java/idv/hsiehpinghan/springcloudstarteroauth2boot/redis/service/MyUserDetailsService.java
-/home/hsiehpinghan/git/boot/spring-cloud-starter-oauth2-boot/redis_token_store_authorization_server/src/main/java/idv/hsiehpinghan/springcloudstarteroauth2boot/redis/utility/ConvertUtility.java
-/home/hsiehpinghan/git/boot/spring-cloud-starter-oauth2-boot/redis_token_store_authorization_server/src/main/java/idv/hsiehpinghan/springcloudstarteroauth2boot/redis/entity/RoleEntity.java
-/home/hsiehpinghan/git/boot/spring-cloud-starter-oauth2-boot/redis_token_store_authorization_server/src/main/java/idv/hsiehpinghan/springcloudstarteroauth2boot/redis/configuration/AuthorizationServerSpringConfiguration.java
-/home/hsiehpinghan/git/boot/spring-cloud-starter-oauth2-boot/redis_token_store_authorization_server/src/main/java/idv/hsiehpinghan/springcloudstarteroauth2boot/redis/repository/UserRepository.java
-/home/hsiehpinghan/git/boot/spring-cloud-starter-oauth2-boot/redis_token_store_authorization_server/src/main/java/idv/hsiehpinghan/springcloudstarteroauth2boot/redis/configuration/SecuritySpringConfiguration.java
-/home/hsiehpinghan/git/boot/spring-cloud-starter-oauth2-boot/redis_token_store_authorization_server/src/main/java/idv/hsiehpinghan/springcloudstarteroauth2boot/redis/service/UserService.java

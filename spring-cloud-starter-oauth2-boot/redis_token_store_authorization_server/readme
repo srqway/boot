@@ -8,7 +8,7 @@ systemctl start docker
 docker pull redis:5.0.1
 docker run --name my_redis -p 6379:6379 -itd redis:5.0.1
 
-docker run --name redis-token-store-authorization-server --link my_redis:my_redis -p 8080:8080 -t hsiehpinghan/spring-cloud-starter-oauth2-boot:1.0.0
+docker run --name redis-token-store-authorization-server --link my_redis:my_redis -p 8080:8080 -t hsiehpinghan/redis_token_store_authorization_server:1.0.0
 
 curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password=user&client_id=client_id&client_secret=client_secret"
 

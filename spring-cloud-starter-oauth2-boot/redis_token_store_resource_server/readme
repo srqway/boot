@@ -1,0 +1,22 @@
+# generate docker image
+su -
+cd /home/hsiehpinghan/git/boot/spring-cloud-starter-oauth2-boot/redis_token_store_resource_server
+./mvnw install dockerfile:build
+
+
+# run and test (redis token store)
+docker run --name redis-token-store-authorization-server --link my_redis:my_redis -p 8080:8080 -t hsiehpinghan/redis_token_store_authorization_server:1.0.0
+docker run --name redis-token-store-resource-server --link redis-token-store-authorization-server:redis-token-store-authorization-server -p 8081:8081 -t hsiehpinghan/redis_token_store_resource_server:1.0.0
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=user&password=user&client_id=client_id&client_secret=client_secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/userMethod
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=admin&password=admin&client_id=client_id&client_secret=client_secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/adminMethod
+
+curl http://localhost:8080/oauth/token -d "grant_type=password&username=other&password=other&client_id=client_id&client_secret=client_secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/otherMethod
+
+curl http://localhost:8080/oauth/token -d "grant_type=client_credentials&client_id=client_id&client_secret=client_secret"
+curl -H "Authorization: Bearer <<access_token>>" http://localhost:8081/api/otherMethod
+

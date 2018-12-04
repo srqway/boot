@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -26,6 +27,19 @@ public class FileService {
 
 		try (InputStream inputStream = file.getInputStream()) {
 			Files.copy(inputStream, ROOT_PATH.resolve(fileName));
+		}
+	}
+
+	public void update(MultipartFile file) throws IOException {
+		String fileName = file.getOriginalFilename();
+		if (file.isEmpty()) {
+			throw new IOException(String.format("file(%) is empty !!!", fileName));
+		}
+		if (fileName.contains("..")) {
+			throw new IOException(String.format("fileName(%) with relative path !!!", fileName));
+		}
+		try (InputStream inputStream = file.getInputStream()) {
+			Files.copy(inputStream, ROOT_PATH.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 

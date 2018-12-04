@@ -1,6 +1,8 @@
 package idv.hsiehpinghan.springbootstarterwebboot2.controller;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.assertj.core.api.Assertions;
 import org.junit.FixMethodOrder;
@@ -16,6 +18,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
@@ -55,7 +58,13 @@ public class FileControllerTest {
 	}
 
 	@Test
-	public void test03_delete() throws Exception {
+	public void test03_update() throws Exception {
+		update_ok();
+		update_not_found();
+	}
+
+	@Test
+	public void test04_delete() throws Exception {
 		delete_not_found();
 		delete_no_content();
 	}
@@ -108,6 +117,28 @@ public class FileControllerTest {
 		ResponseEntity<Void> responseEntity = restTemplate.postForEntity(url, map, Void.class);
 		Assertions.assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.CONFLICT);
 		Assertions.assertThat(responseEntity.getBody()).isNull();
+	}
+
+	private void update_ok() throws URISyntaxException {
+		String url = String.format("http://localhost:%d/api/files/", port);
+		ClassPathResource resource = new ClassPathResource(FILE_NAME);
+		LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("file", resource);
+		RequestEntity<LinkedMultiValueMap<String, Object>> requestEntity = RequestEntity.put(new URI(url)).body(map);
+		ResponseEntity<Void> responseEntity = restTemplate.exchange(requestEntity, Void.class);
+		Assertions.assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+		Assertions.assertThat(responseEntity.getHeaders().get("Location"))
+				.contains(String.format("http://localhost:%d/api/files/%s", port, resource.getFilename()));
+	}
+
+	private void update_not_found() throws URISyntaxException {
+		String url = String.format("http://localhost:%d/api/files/", port);
+		ClassPathResource resource = new ClassPathResource("application-test.yml");
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("file", resource);
+		RequestEntity<MultiValueMap<String, Object>> requestEntity = RequestEntity.put(new URI(url)).body(map);
+		ResponseEntity<Void> responseEntity = restTemplate.exchange(requestEntity, Void.class);
+		Assertions.assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
 	}
 
 }

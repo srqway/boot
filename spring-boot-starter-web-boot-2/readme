@@ -1,0 +1,5 @@
+# actuator test
+curl -iv --raw -X GET "http://localhost:8080/actuator"
+curl -iv --raw -X GET "http://localhost:8080/actuator/health"
+curl -iv --raw -X GET "http://localhost:8080/actuator/info"
+

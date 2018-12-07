@@ -1,17 +1,32 @@
 package idv.hsiehpinghan.springrestdocsmockmvcboot.criteria;
 
-public class CrudCreateCriteria extends CrudCriteria {
+public class CrudCreateCriteria {
+	private Integer id;
+	private String string;
 
 	public CrudCreateCriteria() {
 	}
 
 	public CrudCreateCriteria(Integer id, String string) {
-		super(id, string);
+		super();
+		this.id = id;
+		this.string = string;
 	}
 
-	@Override
-	public String toString() {
-		return "CrudCreateCriteria [toString()=" + super.toString() + "]";
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getString() {
+		return string;
+	}
+
+	public void setString(String string) {
+		this.string = string;
 	}
 
 }

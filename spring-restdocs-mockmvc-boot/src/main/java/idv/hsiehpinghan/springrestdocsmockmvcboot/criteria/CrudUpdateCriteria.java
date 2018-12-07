@@ -1,17 +1,22 @@
 package idv.hsiehpinghan.springrestdocsmockmvcboot.criteria;
 
-public class CrudUpdateCriteria extends CrudCriteria {
+public class CrudUpdateCriteria {
+	private String string;
 
 	public CrudUpdateCriteria() {
 	}
 
-	public CrudUpdateCriteria(Integer id, String string) {
-		super(id, string);
+	public CrudUpdateCriteria(String string) {
+		super();
+		this.string = string;
 	}
 
-	@Override
-	public String toString() {
-		return "CrudUpdateCriteria [toString()=" + super.toString() + "]";
+	public String getString() {
+		return string;
+	}
+
+	public void setString(String string) {
+		this.string = string;
 	}
 
 }

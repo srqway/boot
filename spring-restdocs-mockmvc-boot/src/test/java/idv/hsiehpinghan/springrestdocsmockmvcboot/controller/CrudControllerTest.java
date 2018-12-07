@@ -1,17 +1,15 @@
 package idv.hsiehpinghan.springrestdocsmockmvcboot.controller;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,10 +17,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.hateoas.MediaTypes;
 //import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -30,12 +28,16 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import idv.hsiehpinghan.springrestdocsmockmvcboot.constant.Constant;
 import idv.hsiehpinghan.springrestdocsmockmvcboot.criteria.CrudCreateCriteria;
 
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class CrudControllerTest {
+	private static final Integer ID = 0;
+	private static final String STRING = "string_0";
+	
 	private MockMvc mockMvc;
 	@Rule
 	public final JUnitRestDocumentation jUnitRestDocumentation = new JUnitRestDocumentation(
@@ -75,7 +77,7 @@ public class CrudControllerTest {
 	@Before
 	public void before() {
 		// @formatter:off
-		this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
 				.apply(documentationConfiguration(jUnitRestDocumentation))
 //				.alwaysDo(
 //						document("{ClassName}/{method-name}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
@@ -85,24 +87,41 @@ public class CrudControllerTest {
 
 	@Test
 	public void create() throws Exception {
-		Integer id = 0;
-		String string = "string_0";
-		CrudCreateCriteria criteria = new CrudCreateCriteria(id, string);
+		CrudCreateCriteria criteria = new CrudCreateCriteria(ID, STRING);
 		// @formatter:off
 		mockMvc
 			.perform(
-				post("/crud/create")
+				post(Constant.CRUDS_PATH)
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(criteria))
 			)
-			.andExpect(status().isOk())
+			.andExpect(status().isCreated())
 			.andDo(
 				document(
 					"{ClassName}/{method-name}", 
 					requestFields(
 						fieldWithPath("id").description("The id of the input"),
 						fieldWithPath("string").description("The string of the input")
+		  	        )
+				)
+			);
+		// @formatter:on
+	}
+
+	@Test
+	public void readById() throws Exception {
+		// @formatter:off
+		mockMvc
+			.perform(
+				get(Constant.CRUDS_PATH + "/{id}", ID)
+			)
+			.andExpect(status().isOk())
+			.andDo(
+				document(
+					"{ClassName}/{method-name}", 
+					pathParameters(
+						parameterWithName("id").description("The id of the input")
 		  	        )
 				)
 			);

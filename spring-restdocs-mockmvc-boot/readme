@@ -8,3 +8,15 @@ org.springframework.restdocs.payload.PayloadDocumentation
 org.springframework.test.web.servlet.result.MockMvcResultMatchers
 org.springframework.restdocs.payload.PayloadDocumentation
 org.springframework.restdocs.request.RequestDocumentation
+org.springframework.hateoas.mvc.ControllerLinkBuilder
+
+## curl test
+# post
+curl -iv --raw -X POST -H "Content-Type:application/json" -d '{ "id" : 0, "string" : "string_0" }' http://localhost:8080/api/1.0/cruds
+curl -iv --raw -X GET -H "Content-Type:application/json" http://localhost:8080/api/1.0/cruds/0
+curl -iv --raw -X GET -H "Content-Type:application/json" http://localhost:8080/api/1.0/cruds
+curl -iv --raw -X PUT -H "Content-Type:application/json" -d '{ "string" : "string_A" }' http://localhost:8080/api/1.0/cruds/0
+curl -iv --raw -X DELETE -H "Content-Type:application/json" http://localhost:8080/api/1.0/cruds/0
+  
+  
+

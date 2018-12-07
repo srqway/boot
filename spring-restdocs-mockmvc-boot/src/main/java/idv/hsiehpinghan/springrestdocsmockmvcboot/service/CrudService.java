@@ -23,12 +23,12 @@ public class CrudService {
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public CrudEntity findOne(Integer id) {
-		return repository.findOne(id);
+		return repository.findById(id).orElse(null);
 	}
 
 	public void save(CrudEntity entity) {
 		Integer id = entity.getId();
-		CrudEntity oldEntity = repository.findOne(id);
+		CrudEntity oldEntity = repository.findById(id).orElse(null);
 		if (oldEntity != null) {
 			throw new RuntimeException(String.format("oldEntity(%s) exists !!!", oldEntity));
 		}
@@ -37,7 +37,7 @@ public class CrudService {
 
 	public void update(CrudEntity entity) {
 		Integer id = entity.getId();
-		CrudEntity oldEntity = repository.findOne(id);
+		CrudEntity oldEntity = repository.findById(id).orElse(null);
 		if (oldEntity == null) {
 			throw new RuntimeException(String.format("entity(%s) not exists !!!", entity));
 		}
@@ -45,10 +45,10 @@ public class CrudService {
 	}
 
 	public void delete(Integer id) {
-		CrudEntity oldEntity = repository.findOne(id);
+		CrudEntity oldEntity = repository.findById(id).orElse(null);
 		if (oldEntity == null) {
 			throw new RuntimeException(String.format("oldEntity(%s) not exists !!!", oldEntity));
 		}
-		repository.delete(id);
+		repository.deleteById(id);
 	}
 }

@@ -1,0 +1,10 @@
+# set static import (Window > Preferences > Java > Editor > Content Assist > Favorites > New Type)
+org.springframework.restdocs.headers.HeaderDocumentation
+org.springframework.restdocs.hypermedia.HypermediaDocumentation
+org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
+org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
+org.springframework.restdocs.operation.preprocess.Preprocessors
+org.springframework.restdocs.payload.PayloadDocumentation
+org.springframework.test.web.servlet.result.MockMvcResultMatchers
+org.springframework.restdocs.payload.PayloadDocumentation
+org.springframework.restdocs.request.RequestDocumentation

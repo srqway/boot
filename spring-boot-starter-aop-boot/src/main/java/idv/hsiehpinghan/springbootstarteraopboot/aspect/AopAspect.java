@@ -57,14 +57,15 @@ public class AopAspect {
 	}
 
 	@Around("controllerPointcut()")
-	public void controllerAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+	public Object controllerAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		LOGGER.info("controllerAround CLASS : " + proceedingJoinPoint.getSignature().getDeclaringTypeName());
 		LOGGER.info("controllerAround METHOD : " + proceedingJoinPoint.getSignature().getName());
 		LOGGER.info("controllerAround ARGS : " + Arrays.toString(proceedingJoinPoint.getArgs()));
 		long startTime = System.currentTimeMillis();
-		proceedingJoinPoint.proceed();
+		Object object = proceedingJoinPoint.proceed();
 		long endTime = System.currentTimeMillis();
 		LOGGER.info("controllerAround TIME USED : " + (endTime - startTime));
+		return object;
 	}
 
 }

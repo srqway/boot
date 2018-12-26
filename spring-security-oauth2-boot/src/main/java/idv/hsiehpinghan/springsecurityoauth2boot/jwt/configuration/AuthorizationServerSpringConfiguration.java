@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 
 import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
+import idv.hsiehpinghan.springsecurityoauth2boot.jwt.service.MyUserDetailsService;
 
 @Configuration
 @EnableAuthorizationServer
@@ -28,6 +29,8 @@ public class AuthorizationServerSpringConfiguration extends AuthorizationServerC
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private DefaultTokenServices tokenServices;
+	@Autowired
+	private MyUserDetailsService userDetailsService;
 
 	/**
 	 * Configure the non-security features of the Authorization Server endpoints,
@@ -35,7 +38,7 @@ public class AuthorizationServerSpringConfiguration extends AuthorizationServerC
 	 */
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.authenticationManager(this.authenticationManager).tokenServices(tokenServices);
+		endpoints.authenticationManager(this.authenticationManager).tokenServices(tokenServices).userDetailsService(userDetailsService);
 	}
 
 	/**

@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import idv.hsiehpinghan.springsecurityoauth2boot.constant.Constant;
+import idv.hsiehpinghan.springsecurityoauth2boot.redis.service.MyUserDetailsService;
 
 @Configuration
 @EnableAuthorizationServer
@@ -29,6 +30,8 @@ public class AuthorizationServerSpringConfiguration extends AuthorizationServerC
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private RedisConnectionFactory redisConnectionFactory;
+	@Autowired
+	private MyUserDetailsService userDetailsService;
 
 	/**
 	 * Configure the non-security features of the Authorization Server endpoints,
@@ -36,7 +39,8 @@ public class AuthorizationServerSpringConfiguration extends AuthorizationServerC
 	 */
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.tokenStore(new RedisTokenStore(redisConnectionFactory)).authenticationManager(authenticationManager);
+		endpoints.tokenStore(new RedisTokenStore(redisConnectionFactory)).authenticationManager(authenticationManager)
+				.userDetailsService(userDetailsService);
 	}
 
 	/**

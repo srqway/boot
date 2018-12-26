@@ -18,6 +18,8 @@ curl http://localhost:8080/oauth/token -d "grant_type=password&username=other&pa
 
 curl http://localhost:8080/oauth/token -d "grant_type=client_credentials&client_id=client_id&client_secret=client_secret"
 
+curl http://localhost:8080/oauth/token -d "grant_type=refresh_token&refresh_token=<<refresh_token>>&client_id=client_id&client_secret=client_secret"
+
 # open h2 console
 http://localhost:8080/h2/
 
